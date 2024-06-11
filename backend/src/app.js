@@ -19,7 +19,12 @@ app.use(cookieParser())
 app.get('/', (req, res) => {
     res.send(' Backend Working Successfully')
   })
-  
+
+//routes
+import userRouter from "./routes/user.routes.js"
+
+//routes declaration
+app.use("api/v1/users",userRouter)
 
 export {app}
 

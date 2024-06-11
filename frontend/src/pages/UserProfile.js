@@ -1,12 +1,11 @@
 import React from 'react'
 
-function App() {
+function UserProfile() {
   return (
     <div>
-      <h1>HomePage</h1>
+      Profile
     </div>
   )
 }
 
-export default App
-
+export default UserProfile

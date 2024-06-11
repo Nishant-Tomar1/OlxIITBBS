@@ -1,12 +1,11 @@
 import React from 'react'
 
-function App() {
+function HomePage() {
   return (
     <div>
-      <h1>HomePage</h1>
+      HomePage
     </div>
   )
 }
 
-export default App
-
+export default HomePage

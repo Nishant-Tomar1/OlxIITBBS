@@ -1,12 +1,11 @@
 import React from 'react'
 
-function App() {
+function Cart() {
   return (
     <div>
-      <h1>HomePage</h1>
+      User Cart
     </div>
   )
 }
 
-export default App
-
+export default Cart

@@ -1,12 +1,11 @@
 import React from 'react'
 
-function App() {
+function Loading() {
   return (
     <div>
-      <h1>HomePage</h1>
+      Loading....
     </div>
   )
 }
 
-export default App
-
+export default Loading
