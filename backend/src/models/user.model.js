@@ -1,4 +1,6 @@
 import mongoose, {Schema} from 'mongoose'
+import jwt from "jsonwebtoken";  //jwt is a bearer token
+import bcrypt from 'bcrypt';
 
 const userSchema = new Schema({
     username: {
@@ -28,7 +30,7 @@ const userSchema = new Schema({
         type: String, //cloudinary
         default: '',
     },
-    phoneNumber: {
+    contactNumber: {
         type: String,
         default: '',
     },
@@ -105,4 +107,4 @@ userSchema.methods.generateRefreshToken = function(){
     )
 };
 
-module.exports = mongoose.model('User', userSchema);
+export const User = mongoose.model('User', userSchema);
