@@ -13,6 +13,7 @@ import SignUp from "./pages/SignUp"
 import UserProfile from "./pages/UserProfile"
 import Product from "./pages/Product"
 import Profile from "./pages/Profile"
+import ForgotPassword from "./pages/ForgotPassword"
 
 import { useCookies } from "react-cookie"
 import { useLogin } from "./contexts/LoginContextProvider"
@@ -53,6 +54,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />}/>
+        <Route path="/forgotpassword" element={<ForgotPassword />}/>
         <Route path="/profile" element={<Profile />} />
         <Route path="/users/:userId" element = {<UserProfile />} />
         <Route path="/products/:productId" element = {<Product />}/>

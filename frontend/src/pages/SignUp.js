@@ -13,6 +13,8 @@ function SignUp() {
     contactNumber : "",
   })
 
+  const Navigate = useNavigate()
+
   const handlenewUserChange = (e)=>{
     setNewUser(prev => ({
       ...prev,
@@ -36,9 +38,19 @@ function SignUp() {
             headers: {
             'Content-Type': 'multipart/form-data'
         }})
-      console.log(res);
+      // console.log(res);
       if (res.data.statusCode === 200){
         alert("User Registered Successfully")
+        setNewUser(prev => ({
+          ...prev,
+          username : "",
+          email : "",
+          password : "",
+          fullName : "",
+          contactNumber : "",
+        }))
+        Navigate("/login")
+
       }
     } catch (error) {
       console.log(error);
@@ -48,7 +60,6 @@ function SignUp() {
 
   const {isLoggedIn, fullName } = useLogin()
 
-  const Navigate = useNavigate()
   const handleBtn = () => {
     Navigate("/")
   }

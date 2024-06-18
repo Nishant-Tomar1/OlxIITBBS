@@ -114,6 +114,61 @@ const verifyRefreshToken = asyncHandler(
     }
 )
 
+const verifyEmail = asyncHandler(
+    async (req,res)=>{
+        const {email : incomingEmail} = req.body
+
+        const user = await User.aggregate([
+            {
+                $match : {
+                    email : incomingEmail
+                }
+            }
+        ])
+
+        // console.log(user[0]);
+        if (user.length === 0){
+            throw new ApiError(500, "User with this Email doesn't exist")
+        }
+
+        return res
+        .status(200)
+        .json(
+            new ApiResponse(200,user[0]._id,"User Exists")
+        )
+    }
+)
+
+const changePasswordByCode = asyncHandler(
+    async (req,res)=>{
+
+        const { id , newPassword} = req.body
+
+        if(!id || !newPassword){
+            throw new ApiError(500, "Both Id and newPassword are required")
+        }
+
+        const user = await User.findById(id) 
+        // console.log(user);
+
+        if(!user){
+            throw new ApiError(500,"Invalid userId")
+        }
+
+        user.password = newPassword
+
+        await user.save({validateBeforeSave:false});
+
+        return res
+        .status(200)
+        .json(new ApiResponse(
+            200,
+            {},
+            "Password Changed Successfully"
+        ))
+    }
+)
+
 const registerUser = asyncHandler( 
     async (req,res) => {
     // get user details from frontend 
@@ -137,7 +192,7 @@ const registerUser = asyncHandler(
 
     // check for images, check for profilePicture
     const profilePictureLocalPath = req.files?.profilePicture[0].path;
-    console.log(profilePictureLocalPath);
+    // console.log(profilePictureLocalPath);
 
     if(!profilePictureLocalPath) {
         throw new ApiError(400, "profilePicture is required");
@@ -170,7 +225,7 @@ const registerUser = asyncHandler(
         throw new ApiError(500, "Something went wrong during user registration" )
     }
 
-    console.log("User Registered Successfully!!");
+    // console.log("User Registered Successfully!!");
 
     // return res
     return res.status(201).json(
@@ -441,7 +496,8 @@ export {
     registerUser,
     loginUser,
     logoutUser,
-    // refreshAccessToken,
+    verifyEmail,
+    changePasswordByCode,
     changeCurrentUserPassword,
     getCurrentUser,
     updateAccountDetails,

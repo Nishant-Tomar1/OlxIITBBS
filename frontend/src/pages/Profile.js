@@ -31,7 +31,7 @@ function Profile() {
 
     useEffect( ()=>{
         if(!cookies.accessToken){
-            return alert("Session Expired!! Refresh the page")
+            return alert("Session Expired!! Refresh the page or Login again")
         }
         fetchData()
     },[])

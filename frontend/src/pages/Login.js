@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios';
 import { useLogin } from '../contexts/LoginContextProvider';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,Link } from 'react-router-dom';
 import { Server } from '../Constants';
 
 function Login() {
@@ -38,8 +38,10 @@ function Login() {
         window.alert(`${response.data.message} \n Name :${response.data.data.user.fullName}`)
       }
 
+      // Navigate("/")
+
     } catch (error) {
-      alert(`Error : ${error.code}`)
+      alert(`Incorrect Username or Password`)
     }
   }
   
@@ -48,6 +50,7 @@ function Login() {
     e.preventDefault()
     await axios.post(`${Server}/users/logout`,{},{withCredentials : true});
     logout();
+    alert("User Logged Out Successfully")
   }
 
   const handleBtn = (e) => {
@@ -92,16 +95,19 @@ function Login() {
         value={user.password}
         /> <br />
 
+
         <button 
         type='submit'
-        className='bg-blue-600 px-3 py-2 rounded-lg'>
+        className='bg-blue-600 px-3 py-2 rounded-lg m-2'>
           Login
         </button>
-        <button className='bg-blue-600 px-3 py-2 rounded-lg m-2' onClick={handleLogout}> Logout</button>
+        <Link to="/forgotpassword" className='text-blue-600 underline m-2'>forgot password ?</Link>
 
       </form>
-      <div>
+      <div className='my-10'>
         <h1>UserLoggidIn : {isLoggedIn ? `Yes` :  "No"} <p>fullName :{fullName}</p></h1>
+       { isLoggedIn &&
+        <button className='bg-blue-600 px-3 py-2 rounded-lg m-2' onClick={handleLogout}> Logout</button>}
       </div>
 
 

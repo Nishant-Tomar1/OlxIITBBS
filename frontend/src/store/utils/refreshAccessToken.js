@@ -5,7 +5,7 @@ export const refreshAccessToken = async (func, loginCtx, refreshToken) => {
 
   const rtoken = refreshToken || loginCtx.refreshToken;
 
-  if (!rtoken) return alert("Please login again");
+  if (!rtoken) return console.log("Please login again");
 
   try {
     const resp = await axios.get(`${Server}/users/verify-refresh-token`, {
@@ -22,10 +22,10 @@ export const refreshAccessToken = async (func, loginCtx, refreshToken) => {
       func(resp.data.data.newAccessToken, resp.data.data.newRefreshToken);
       
     } else {
-      alert("Please login again");
+      console.log("Please login again");
     }
   } catch (err) {
     console.log(err);
-    alert("Please login again");
+    console.log("Please login again");
   }
 }

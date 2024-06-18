@@ -11,6 +11,8 @@ import {
     changeCurrentUserPassword,
     verifyToken,
     verifyRefreshToken,
+    verifyEmail,
+    changePasswordByCode,
  } 
  from '../controllers/user.controller.js';
 
@@ -28,9 +30,13 @@ router.route("/register").post(
 
 router.route("/login").post(loginUser);
 
+router.route("/verifyemail").post(verifyEmail);
+
 router.route("/verifytoken").get(verifyToken);
 
 router.route("/verify-refresh-token").get(verifyRefreshToken);
+
+router.route("/change-password-bycode").post(changePasswordByCode);
 
 
 //secured routes
