@@ -1,9 +1,12 @@
 import React from 'react'
+import { useParams } from 'react-router-dom'
 
 function UserProfile() {
+  const {userId} = useParams();
+
   return (
     <div>
-      Profile
+      UserProfile : {userId}
     </div>
   )
 }
