@@ -21,11 +21,9 @@ export const refreshAccessToken = async (func, loginCtx, refreshToken) => {
      
       func(resp.data.data.newAccessToken, resp.data.data.newRefreshToken);
       
-    } else {
-      console.log("Please login again");
-    }
+    } 
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     console.log("Please login again");
   }
 }

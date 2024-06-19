@@ -3,6 +3,7 @@ import { useLogin } from '../contexts/LoginContextProvider'
 import { useNavigate } from 'react-router-dom'
 import { Server } from '../Constants'
 import axios from 'axios'
+import { useAlert } from '../contexts/AlertContextProvider'
 
 function SignUp() {
   const [newUser , setNewUser] = useState({
@@ -14,6 +15,7 @@ function SignUp() {
   })
 
   const Navigate = useNavigate()
+  const alertCtx = useAlert()
 
   const handlenewUserChange = (e)=>{
     setNewUser(prev => ({
@@ -40,7 +42,7 @@ function SignUp() {
         }})
       // console.log(res);
       if (res.data.statusCode === 200){
-        alert("User Registered Successfully")
+        alertCtx.setToast("success", "User Registered Successfully")
         setNewUser(prev => ({
           ...prev,
           username : "",
@@ -54,7 +56,7 @@ function SignUp() {
       }
     } catch (error) {
       console.log(error);
-      alert("Something wrong happened")
+      alertCtx.error("error", "Something wrong happened")
     }
   }
 

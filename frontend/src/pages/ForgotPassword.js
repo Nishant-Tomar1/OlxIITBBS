@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Server } from '../Constants'
 import { useNavigate } from 'react-router-dom'
+import { useAlert } from '../contexts/AlertContextProvider'
 
 function ForgotPassword() {
     const [id, setId] = useState("")
@@ -16,6 +17,7 @@ function ForgotPassword() {
     const [newPassword, setNewPassword] = useState({P1:"", P2 : ""})
 
     const Navigate = useNavigate()
+    const alertCtx = useAlert()
 
     useEffect(() => {
         setActualCode(Math.floor((Math.random()*899990)) + 100000) 
@@ -33,36 +35,36 @@ function ForgotPassword() {
                 })
              
                 if (resp.data.statusCode === 200){
-                    alert("Verification code sent Successfully!")
+                    alertCtx.setToast("success","Verification code sent Successfully!")
                     setSteps(prev => ({...prev,1:false,2:true}))
                 }
             }
         } catch (error) {
             console.log(error);
-            alert("User with this email doesn't exist")
+            alertCtx.setToast("error","User with this email doesn't exist")
         }
     }
 
     const handleCodeSubmit = async() => {
         if (Number.parseInt(code) !== actualCode){
-            return alert("Wrong Verification Code")
+            return alertCtx.setToast("error","Wrong Verification Code")
         }
         setSteps(prev => ({...prev, 2 : false, 3: true}))
-        alert("Verification Successful")
+        alertCtx.setToast("success","Verification Successful")
     }
 
     const handlePasswordChange = async (e)=>{
         e.preventDefault();
         try {
             if (newPassword.P1 !== newPassword.P2){
-                return alert("Both passwords should match")
+                return alertCtx.setToast("warning","Both passwords should match")
             }
             const res = await axios.post(`${Server}/users/change-password-bycode`,{
                 "id" : id,
                 "newPassword" : newPassword.P1
             })
             if (res.data.statusCode === 200){
-                alert("Password Changed Successfully! Login again to continue")
+                alertCtx.setToast("success","Password Changed Successfully! \n Login again to continue")
                 Navigate("/login")
             }
             
@@ -76,23 +78,29 @@ function ForgotPassword() {
     <div className='mx-20'>
         {steps[1] && <div>
             <h1>Forgot Password </h1>
+            <form action="" onSubmit={handleClick}>
             <input type="email" placeholder='Enter Email' value={email} onChange={e=> setEmail(e.target.value)}/><br />
             <button className='bg-blue-600 p-2 rounded-xl' onClick={handleClick}> Get Code on Email</button>
+            </form>
             </div>
         }
         {steps[2] && <div>
                 <h1> Enter the Verification Code</h1>
+                <form action="" onSubmit={handleCodeSubmit}>
                 <input type="text" value={code} onChange={e => setCode(e.target.value)}/>
-                <button onClick={handleCodeSubmit} className='bg-blue-600 p-2 rounded-lg'>Submit</button>
+                <button type='submit' className='bg-blue-600 p-2 rounded-lg'>Submit</button>
+                </form>
             </div>
         }
         {steps[3] && <div className='mx-10'>
                 <h1 >Enter New Password</h1>
+                <form action="" onSubmit={handlePasswordChange}>
                 <label htmlFor="">New Password</label>
                 <input type="text" value={newPassword.P1} onChange={e => setNewPassword(prev => ({...prev, P1 : e.target.value}))} /> <br />
                 <label htmlFor="">Confirm New Password</label>
                 <input type="text" value={newPassword.P2} onChange={e=> setNewPassword(prev => ({...prev, P2 : e.target.value}))} /> <br />
-                <button onClick={handlePasswordChange} className='bg-blue-600 p-2 rounded-lg'>Submit</button>
+                <button type='submit' className='bg-blue-600 p-2 rounded-lg'>Submit</button>
+                </form>
 
             </div>
         }

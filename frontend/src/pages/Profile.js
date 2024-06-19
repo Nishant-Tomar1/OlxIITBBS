@@ -4,6 +4,7 @@ import axios from 'axios'
 // import { useLogin } from '../contexts/LoginContextProvider'
 import { useCookies } from 'react-cookie'
 import { useNavigate } from 'react-router-dom'
+import { useAlert } from '../contexts/AlertContextProvider'
 
 
 function Profile() {
@@ -15,6 +16,8 @@ function Profile() {
     })
 
     const [cookies] = useCookies(["accessToken", "refreshToken"])
+    const alertCtx  = useAlert()
+
     async function fetchData(){
         try {
             const res = (await axios.get(`${Server}/users/get-current-user`,{withCredentials : true})).data.data
@@ -31,10 +34,10 @@ function Profile() {
 
     useEffect( ()=>{
         if(!cookies.accessToken){
-            return alert("Session Expired!! Refresh the page or Login again")
+            return alertCtx.setToast("warning","Session Expired! \n Refresh the page or Login again")
         }
         fetchData()
-    },[cookies.accessToken])
+    },[cookies.accessToken, alertCtx])
 
   return (
     <div>

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useLogin } from '../contexts/LoginContextProvider';
 import { useNavigate,Link } from 'react-router-dom';
 import { Server } from '../Constants';
+import { useAlert } from '../contexts/AlertContextProvider';
 
 function Login() {
   const [user, SetUser] = useState({
@@ -11,6 +12,7 @@ function Login() {
     password : ""
   });
   const Navigate = useNavigate()
+  const alertCtx = useAlert()
 
   const {isLoggedIn, fullName,  login, logout } = useLogin();
   
@@ -25,6 +27,9 @@ function Login() {
   
   const handleLogin = async (e)=> {
     e.preventDefault();
+    if(user.username === "" && user.email === "" ){
+      return alertCtx.setToast("warning", "Enter either username or email")
+    }
 
     try {
       const response = await axios.post("http://localhost:8000/api/v1/users/login",user);
@@ -35,13 +40,11 @@ function Login() {
       }
       
       if (response.data.success){
-        window.alert(`${response.data.message} \n Name :${response.data.data.user.fullName}`)
+        alertCtx.setToast("success" ,`${response.data.message} `)
       }
 
-      // Navigate("/")
-
     } catch (error) {
-      alert(`Incorrect Username or Password`)
+      alertCtx.setToast("error",`Incorrect Username or Password`)
     }
   }
   
@@ -50,7 +53,7 @@ function Login() {
     e.preventDefault()
     await axios.post(`${Server}/users/logout`,{},{withCredentials : true});
     logout();
-    alert("User Logged Out Successfully")
+    alertCtx.setToast("success","User Logged Out Successfully")
   }
 
   const handleBtn = (e) => {
@@ -64,11 +67,11 @@ function Login() {
 
 
   return (
-    <div className='items-center justify-center gap-2 m-10'>
-      <h1 className='text-xl'>Login</h1>
+    <div className='items-center justify-center gap-2 '>
+      <h1 className='text-xl'>{isLoggedIn ? "Login Another Account" : "Login"}</h1>
       <form action="" onSubmit={handleLogin} >
 
-        <label htmlFor="">FullName : </label>
+        <label htmlFor="">Username : </label>
         <input 
         onChange={handleUserChange} 
         name='username'
@@ -88,6 +91,7 @@ function Login() {
 
         <label htmlFor="">Password :</label>
         <input 
+        required
         type="password" 
         name='password'
         placeholder='password'
