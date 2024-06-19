@@ -34,7 +34,7 @@ function Profile() {
             return alert("Session Expired!! Refresh the page or Login again")
         }
         fetchData()
-    },[])
+    },[cookies.accessToken])
 
   return (
     <div>

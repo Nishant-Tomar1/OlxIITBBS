@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Server } from '../Constants'
 import { useNavigate } from 'react-router-dom'
 
@@ -11,18 +11,31 @@ function ForgotPassword() {
         3 : false
     })
     const [code , setCode] = useState("")
+    const [actualCode, setActualCode] = useState()
     const [email, setEmail] = useState("")
     const [newPassword, setNewPassword] = useState({P1:"", P2 : ""})
 
     const Navigate = useNavigate()
 
+    useEffect(() => {
+        setActualCode(Math.floor((Math.random()*899990)) + 100000) 
+    },[])
+    
     const handleClick = async ()=>{
         try {
             const res = await axios.post(`${Server}/users/verifyemail`,{"email" : email})
             if (res.data.statusCode === 200){
                 setId(res.data.data)
-                alert("Email verified")
-                setSteps(prev => ({...prev,1:false,2:true}))
+                const resp = await axios.post(`${Server}/users/sendemail`,{
+                    "email" : email, 
+                    "subject":"Password Reset Code for OlxIITBBS", 
+                    "message": `Your One time Verification Code is ${actualCode}. Enter the Code in the website to create New Password.`
+                })
+             
+                if (resp.data.statusCode === 200){
+                    alert("Verification code sent Successfully!")
+                    setSteps(prev => ({...prev,1:false,2:true}))
+                }
             }
         } catch (error) {
             console.log(error);
@@ -30,15 +43,16 @@ function ForgotPassword() {
         }
     }
 
-    const handleCodeSubmit = async()=>{
-        if (code !== 123456){
+    const handleCodeSubmit = async() => {
+        if (Number.parseInt(code) !== actualCode){
             return alert("Wrong Verification Code")
         }
         setSteps(prev => ({...prev, 2 : false, 3: true}))
         alert("Verification Successful")
     }
 
-    const handlePasswordChange = async ()=>{
+    const handlePasswordChange = async (e)=>{
+        e.preventDefault();
         try {
             if (newPassword.P1 !== newPassword.P2){
                 return alert("Both passwords should match")
@@ -51,7 +65,6 @@ function ForgotPassword() {
                 alert("Password Changed Successfully! Login again to continue")
                 Navigate("/login")
             }
-            // console.log(res);
             
         } catch (error) {
             console.log(error);

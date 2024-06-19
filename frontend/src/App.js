@@ -46,7 +46,7 @@ function App() {
     }
 
     Verify(cookies.accessToken, cookies.refreshToken);
-  },[])
+  })
 
   const router = createBrowserRouter(
     createRoutesFromElements(

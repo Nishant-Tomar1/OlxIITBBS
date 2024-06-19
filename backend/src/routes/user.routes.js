@@ -15,6 +15,7 @@ import {
     changePasswordByCode,
  } 
  from '../controllers/user.controller.js';
+import { sendEmailHandler } from '../controllers/email.controller.js';
 
 const router = Router();
 
@@ -31,6 +32,8 @@ router.route("/register").post(
 router.route("/login").post(loginUser);
 
 router.route("/verifyemail").post(verifyEmail);
+
+router.route("/sendemail").post(sendEmailHandler);
 
 router.route("/verifytoken").get(verifyToken);
 
