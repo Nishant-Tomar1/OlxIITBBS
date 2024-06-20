@@ -7,12 +7,10 @@ export const loginContext = createContext({
     fullName : null,
     accessToken : null,
     refreshToken : null,
-    loading : false,
     login : () => {},
     logout : () => {},
     setAccessToken : () => {},
     setRefreshToken: () => {},
-    setLoading : () => {}
 })
 
 
@@ -22,7 +20,6 @@ function LoginContextProvider({children}){
     const [fullName , setFullName] = useState(null)
     const [accessToken, setAccessToken] = useState(null)
     const [refreshToken, setRefreshToken] = useState(null)
-    const [loading, setIsLoading] = useState(false)
 
     const loginHandler = (accessToken, refreshToken, fullName) => {
         setIsLoggedIn(true);
@@ -76,12 +73,10 @@ function LoginContextProvider({children}){
         fullName : fullName,
         accessToken : accessToken,
         refreshToken : refreshToken,
-        loading : loading,
         login : loginHandler,
         logout : logoutHandler,
         setAccessToken : setAccessTokenHandler,
         setRefreshToken : setRefreshTokenHandler,
-        setLoading : setIsLoading
     }
 
     return(

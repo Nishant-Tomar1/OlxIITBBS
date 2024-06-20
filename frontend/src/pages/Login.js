@@ -44,16 +44,22 @@ function Login() {
       }
 
     } catch (error) {
-      alertCtx.setToast("error",`Incorrect Username or Password`)
+      alertCtx.setToast("error",`Incorrect ${!user.username ? "Email"  : "Username"} or Password`)
     }
   }
   
 
   const handleLogout = async (e) =>{
     e.preventDefault()
-    await axios.post(`${Server}/users/logout`,{},{withCredentials : true});
-    logout();
-    alertCtx.setToast("success","User Logged Out Successfully")
+    try {
+      await axios.post(`${Server}/users/logout`,{},{withCredentials : true});
+      logout();
+      alertCtx.setToast("success","User Logged Out Successfully")
+      
+    } catch (error) {
+      console.log(error);
+      alertCtx.setToast("error","Cannot Logout User! Something went wrong")
+    }
   }
 
   const handleBtn = (e) => {

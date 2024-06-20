@@ -30,6 +30,9 @@ function App() {
   // to verify the token and refresh it if expired
   useEffect( () => {
     const Verify = async(accessToken, refreshToken) => {
+      if (!refreshToken && !accessToken){
+        return {/*l console.log("Login again") */}
+      }
       try {
         const token = accessToken;
         if(!token) return refreshAccessToken(Verify, loginCtx, refreshToken);
@@ -46,7 +49,7 @@ function App() {
     }
 
     Verify(cookies.accessToken, cookies.refreshToken);
-  })
+  },[cookies.accessToken, cookies.refreshToken])
 
   const router = createBrowserRouter(
     createRoutesFromElements(

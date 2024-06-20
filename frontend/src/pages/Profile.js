@@ -10,6 +10,7 @@ import { useAlert } from '../contexts/AlertContextProvider'
 function Profile() {
     const Navigate = useNavigate()
     const [user, setUser] = useState({
+        username : "",
         fullName : "",
         email : "",
         contactNumber : null
@@ -23,6 +24,7 @@ function Profile() {
             const res = (await axios.get(`${Server}/users/get-current-user`,{withCredentials : true})).data.data
             setUser( prev => ({
                 ...prev,
+                username : res.username,
                 fullName : res.fullName,
                 email : res.email,
                 contactNumber: res.contactNumber
@@ -42,6 +44,7 @@ function Profile() {
   return (
     <div>
       <h1 className='text-3xl'>Profile</h1>
+            <h2> Username : {user.username}</h2>
             <h2> Name : {user.fullName}</h2>
             <h2>Email : {user.email}</h2>
             <h2>Contact Number : {user.contactNumber}</h2>

@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { Server } from '../Constants'
 import { useNavigate } from 'react-router-dom'
 import { useAlert } from '../contexts/AlertContextProvider'
+import BtnLoader from "../components/loaders/BtnLoader"
+import { useLoading } from '../contexts/LoadingContextProvider'
 
 function ForgotPassword() {
     const [id, setId] = useState("")
@@ -18,34 +20,46 @@ function ForgotPassword() {
 
     const Navigate = useNavigate()
     const alertCtx = useAlert()
+    const loadingCtx = useLoading()
 
     useEffect(() => {
         setActualCode(Math.floor((Math.random()*899990)) + 100000) 
     },[])
     
-    const handleClick = async ()=>{
+    const handleClick = async (e)=>{
+        e.preventDefault()
+        loadingCtx.setLoading(true);
         try {
             const res = await axios.post(`${Server}/users/verifyemail`,{"email" : email})
+            // loadingCtx.setLoading(false)
+            
             if (res.data.statusCode === 200){
                 setId(res.data.data)
+                // loadingCtx.setLoading(false)
                 const resp = await axios.post(`${Server}/users/sendemail`,{
                     "email" : email, 
                     "subject":"Password Reset Code for OlxIITBBS", 
                     "message": `Your One time Verification Code is ${actualCode}. Enter the Code in the website to create New Password.`
                 })
-             
+                
                 if (resp.data.statusCode === 200){
+                    loadingCtx.setLoading(false);
                     alertCtx.setToast("success","Verification code sent Successfully!")
                     setSteps(prev => ({...prev,1:false,2:true}))
+                
                 }
             }
         } catch (error) {
+            // error.preventDefault()
+            loadingCtx.setLoading(false)
             console.log(error);
+            
             alertCtx.setToast("error","User with this email doesn't exist")
         }
     }
 
-    const handleCodeSubmit = async() => {
+    const handleCodeSubmit = async(e) => {
+        e.preventDefault()
         if (Number.parseInt(code) !== actualCode){
             return alertCtx.setToast("error","Wrong Verification Code")
         }
@@ -80,7 +94,9 @@ function ForgotPassword() {
             <h1>Forgot Password </h1>
             <form action="" onSubmit={handleClick}>
             <input type="email" placeholder='Enter Email' value={email} onChange={e=> setEmail(e.target.value)}/><br />
-            <button className='bg-blue-600 p-2 rounded-xl' onClick={handleClick}> Get Code on Email</button>
+            <button className='bg-blue-600 p-2 rounded-xl' onClick={handleClick}> Get Code on Email 
+                    {loadingCtx.loading && <BtnLoader />}    
+            </button>
             </form>
             </div>
         }

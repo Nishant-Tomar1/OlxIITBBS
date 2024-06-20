@@ -5,15 +5,18 @@ import App from './App';
 import { LoginContextProvider } from './contexts/LoginContextProvider';
 import { AlertContextProvider } from './contexts/AlertContextProvider';
 import { ThemeContextProvider } from './contexts/ThemeContextProvider';
+import { LoadingContextProvider } from './contexts/LoadingContextProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+  <LoadingContextProvider>
     <ThemeContextProvider>
-    <AlertContextProvider>
-         < LoginContextProvider>
-             <App />
+      <AlertContextProvider>
+        <LoginContextProvider>
+          <App />
         </LoginContextProvider>
-    </AlertContextProvider>
+      </AlertContextProvider>
     </ThemeContextProvider>
+  </LoadingContextProvider>
 );
 
