@@ -1,7 +1,7 @@
 import mongoose, {Schema}  from 'mongoose'
 
-const reviewSchema = new Schema({
-  reviewer: {
+const ratingSchema = new Schema({
+  evaluator : {
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: true,
@@ -10,9 +10,11 @@ const reviewSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Product',
   },
-  review : {
-    type: String,
+  rating : {
+    type: Number,
+    min : 1,
+    max : 5
   }
 },{timestamps : true});
 
-export const Review = mongoose.model('Review', reviewSchema);
+export const Rating = mongoose.model('Rating', ratingSchema);

@@ -1,7 +1,7 @@
 import mongoose, {Schema}  from 'mongoose'
 
-const reviewSchema = new Schema({
-  reviewer: {
+const wishSchema = new Schema({
+  wishedBy : {
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: true,
@@ -9,10 +9,8 @@ const reviewSchema = new Schema({
   product: {
     type: Schema.Types.ObjectId,
     ref: 'Product',
+    required : true
   },
-  review : {
-    type: String,
-  }
 },{timestamps : true});
 
-export const Review = mongoose.model('Review', reviewSchema);
+export const Wish = mongoose.model('Wish', wishSchema);

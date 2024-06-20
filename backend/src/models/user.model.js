@@ -46,18 +46,11 @@ const userSchema = new Schema({
             ref : "Product"
         }
     ],
-    ratings: [
+    wishList : [
         {
-            type: Number,
-            min: 1,
-            max: 5,
-        },
-    ],
-    reviews: [
-        {
-            reviewer: { type: Schema.Types.ObjectId, ref: 'User' },
-            review: String,
-        },
+            type : Schema.Types.ObjectId,
+            ref : "Wish"
+        }
     ],
     refreshToken : {
         type : String,

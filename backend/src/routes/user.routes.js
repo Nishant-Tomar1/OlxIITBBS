@@ -1,6 +1,7 @@
 import {Router} from 'express'
 import {upload} from "../middlewares/multer.middleware.js"
 import { verifyJWT } from '../middlewares/auth.middleware.js'
+
 import { 
     registerUser,
     loginUser,
@@ -13,6 +14,7 @@ import {
     verifyRefreshToken,
     verifyEmail,
     changePasswordByCode,
+    getUserByUsername,
  } 
  from '../controllers/user.controller.js';
 import { sendEmailHandler } from '../controllers/email.controller.js';
@@ -40,6 +42,8 @@ router.route("/verifytoken").get(verifyToken);
 router.route("/verify-refresh-token").get(verifyRefreshToken);
 
 router.route("/change-password-bycode").post(changePasswordByCode);
+
+router.route("/getuser/username/:username").get(getUserByUsername);
 
 
 //secured routes
