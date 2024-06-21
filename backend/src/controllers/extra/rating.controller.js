@@ -1,7 +1,7 @@
-import {Rating } from "../models/rating.model.js"
-import ApiError from "../utils/ApiError.js";
-import { ApiResponse } from "../utils/ApiResponse.js";
-import { asyncHandler } from "../utils/asyncHandler.js";
+import {Rating } from "../../models/extra/rating.model.js"
+import ApiError from "../../utils/ApiError.js";
+import { ApiResponse } from "../../utils/ApiResponse.js";
+import { asyncHandler } from "../../utils/asyncHandler.js";
 import mongoose from "mongoose";
 
 

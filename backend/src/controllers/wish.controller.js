@@ -1,13 +1,13 @@
 import { Wish } from "../models/wish.model.js"
+import { Product } from "../models/product.model.js";
 import ApiError from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import mongoose from "mongoose";
 
-
 const addWish = asyncHandler(
     async (req, res) => {
-        const { productId } = req.body
+        const { id : productId } = req.params
 
         if (!productId){
             throw new ApiError(400, "ProductId is required")
@@ -16,7 +16,7 @@ const addWish = asyncHandler(
         const prevWished = await Wish.aggregate([
             {
                 $match : {
-                    wisher : req.user._id,
+                    wishedBy : req.user._id,
                     product : new mongoose.Types.ObjectId(productId)
                 }
             }
@@ -33,7 +33,7 @@ const addWish = asyncHandler(
         })
 
         if (!wish){
-            throw new ApiError(500, "Somethig went wrong while adding product to wishlist")
+            throw new ApiError(500, "Something went wrong while adding product to wishlist")
         }
 
         return res
@@ -44,4 +44,37 @@ const addWish = asyncHandler(
     }
 )
 
-export { addWish }
+const deleteWish = asyncHandler(
+    async (req, res) => {
+        const { id : productId } = req.params;
+        
+        // console.log(productId, typeof(new mongoose.Types.ObjectId(productId)));
+
+        if (!productId){
+            throw new ApiError(500, "Product Id is required (in params)")
+        }
+
+        const product = await Product.findById((new mongoose.Types.ObjectId(productId)))
+
+        if (!product){
+            throw new ApiError(400, "Product doesn't exist in the database")
+        }
+
+        // console.log(product);
+
+        const success = await Wish.findOneAndDelete({
+            wishedBy : req.user._id,
+            product : new mongoose.Types.ObjectId(productId)
+        })
+
+        if(!success){
+            throw new ApiError(400, "Cannot remove! User doesn't have this product in wishlist")
+        }
+
+        return res
+        .status(204)
+        .json()
+    }
+)
+
+export { addWish, deleteWish }

@@ -56,7 +56,16 @@ const addProduct = asyncHandler(
         return res
         .status(201)
         .json(
-            new ApiResponse(200, product, "Product Added Successfully")
+            new ApiResponse(
+                200,
+                { 
+                    _id : product._id, 
+                    title : product.title, 
+                    category : product.category, 
+                    owner : product.owner
+                }, 
+                "Product Added Successfully"
+            )
         )
     }
 )
@@ -98,16 +107,47 @@ const deleteProduct = asyncHandler(
 )
 
 const getAllProducts = asyncHandler(
-    async (req, res) => {
+    async ( __ , res) => {
         const products = await Product.aggregate([
+            {
+                $match : {
+                    status : "active"
+                }
+            },
+            {
+                $lookup: {
+                    from:"wishes",
+                    localField:"_id",
+                    foreignField:"product",
+                    as:"productWishes"
+                }
+            },
+            {
+                $addFields : {
+                    wishedByPeople : {
+                        $size : "$productWishes"
+                    },
+                }
+            },
+            {
+              $project : {
+                productWishes : 0,
+                updatedAt : 0,
+                owner : 0,
+                extraImage : 0,
+                status : 0,
+                __v : 0
+              }  
+            },
             {
                 $group: {
                     _id : "$category",
                     products : {
-                         $push: "$$ROOT" ,
+                         $push: "$$ROOT",
                     },
+                
                 },
-            }
+            },
         ])
 
         if(!products){
@@ -137,36 +177,42 @@ const getProductbyId = asyncHandler(
                     _id : new mongoose.Types.ObjectId(productId),
                 }
             },
+            // {
+            //     $lookup: {
+            //         from:"ratings",
+            //         localField:"_id",
+            //         foreignField:"product",
+            //         as:"rating",
+            //         pipeline : [
+            //             {
+            //                 $group : {
+            //                     _id : "$product",
+            //                     avgRating : {
+            //                         $avg : "$value"
+            //                     }
+            //                 }
+            //             },
+            //         ]
+            //     }
+            // },
             {
                 $lookup: {
-                    from:"ratings",
+                    from:"wishes",
                     localField:"_id",
                     foreignField:"product",
-                    as:"rating",
-                    pipeline : [
-                        {
-                            $group : {
-                                _id : "$product",
-                                avgRating : {
-                                    $avg : "$value"
-                                }
-                            }
-                        },
-                    ]
-                }
-            },
-            {
-                $lookup: {
-                    from:"reviews",
-                    localField:"_id",
-                    foreignField:"product",
-                    as:"reviews"
+                    as:"productWishes"
                 }
             },
             {
                 $addFields : {
-                    ratings : "$ratings",
-                    reviews : "$reviews"
+                    wishedByPeople : {
+                        $size : "$productWishes"
+                    },
+                }
+            },
+            {
+                $project : {
+                    productWishes :0
                 }
             }
         ])
@@ -199,22 +245,37 @@ const getProductbyCategory = asyncHandler(
                     status : "active"
                 }
             },
+            // {
+            //     $lookup: {
+            //         from:"ratings",
+            //         localField:"_id",
+            //         foreignField:"product",
+            //         as: "rating" ,
+            //         pipeline : [
+            //             {
+            //                 $group : {
+            //                     _id : "$product",
+            //                     avgRating : {
+            //                         $avg : "$value"
+            //                     }
+            //                 }
+            //             },
+            //         ]
+            //     }
+            // },
             {
                 $lookup: {
-                    from:"ratings",
+                    from:"wishes",
                     localField:"_id",
                     foreignField:"product",
-                    as: "rating" ,
-                    pipeline : [
-                        {
-                            $group : {
-                                _id : "$product",
-                                avgRating : {
-                                    $avg : "$value"
-                                }
-                            }
-                        },
-                    ]
+                    as:"productWishes"
+                }
+            },
+            {
+                $addFields : {
+                    wishedByPeople : {
+                        $size : "$productWishes"
+                    },
                 }
             },
             {
@@ -224,6 +285,7 @@ const getProductbyCategory = asyncHandler(
                     createdAt : 0,
                     updatedAt : 0,
                     extraImage : 0,
+                    productWishes : 0,
                 }
             }
         ])
@@ -240,9 +302,6 @@ const getProductbyCategory = asyncHandler(
         )
     }
 )
-
-
-
 
 
 export {

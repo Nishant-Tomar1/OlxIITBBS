@@ -29,7 +29,7 @@ const productSchema = new Schema({
 	},
 	extraImage : {
 		type : String,
-		// default : "",
+		default : "",
 	},
 	owner : {
 		type: Schema.Types.ObjectId,

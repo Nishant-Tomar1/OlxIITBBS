@@ -447,7 +447,10 @@ const getCurrentUser = asyncHandler(
             // },
             {
                 $project : {
-                    password : 0
+                    password : 0,
+                    cart : 0,
+                    wishList : 0,
+                    refreshToken : 0
                 }
             }
         ])
