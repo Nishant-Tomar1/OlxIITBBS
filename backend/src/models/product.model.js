@@ -42,18 +42,18 @@ const productSchema = new Schema({
 	// 		ref : "Wish"
 	// 	}
 	// ],
-	ratings: [
-        {
-            type : Schema.Types.ObjectId,
-			ref : "Rating"
-        },
-    ],
-    reviews: [
-        {
-            type : Schema.Types.ObjectId, 
-			ref : "Review"
-        },
-    ],
+	// ratings: [
+    //     {
+    //         type : Schema.Types.ObjectId,
+	// 		ref : "Rating"
+    //     },
+    // ],
+    // reviews: [
+    //     {
+    //         type : Schema.Types.ObjectId, 
+	// 		ref : "Review"
+    //     },
+    // ],
 	status: {
 		type: String,
 		enum: ['active', 'sold'],

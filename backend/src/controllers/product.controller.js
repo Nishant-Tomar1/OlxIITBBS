@@ -4,6 +4,7 @@ import { User } from "../models/user.model.js";
 import ApiError from "../utils/ApiError.js";
 import { deleteFileFromCloudinary, uploadOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
+import mongoose from "mongoose";
 
 const addProduct = asyncHandler(
     async(req,res) => {
@@ -21,7 +22,7 @@ const addProduct = asyncHandler(
             throw new ApiError(400, "Owner given is not a valid user");
         }
 
-        const thumbNailLocalPath = req.files?.thumbNail[0].path;
+        const thumbNailLocalPath = req.files?.thumbNail ? req.files?.thumbNail[0].path : '';
 
         if (!thumbNailLocalPath){
             throw new ApiError(400, "Product ThumbNail is required!")
@@ -38,7 +39,7 @@ const addProduct = asyncHandler(
         }
 
         const product = await Product.create({
-            owner : owner,
+            owner : owner._id,
             title,
             description,
             price, 
@@ -89,10 +90,36 @@ const deleteProduct = asyncHandler(
         await Product.findByIdAndDelete(product._id);
 
         res
-        .status(200)
+        .status(204)
         .json(
             new ApiResponse(204, {}, "Product deleted Successfully")
         )
+    }
+)
+
+const getAllProducts = asyncHandler(
+    async (req, res) => {
+        const products = await Product.aggregate([
+            {
+                $group: {
+                    _id : "$category",
+                    products : {
+                         $push: "$$ROOT" ,
+                    },
+                },
+            }
+        ])
+
+        if(!products){
+            throw new ApiError(500, "Something went wrong while fetching products")
+        }
+
+        return res
+        .status(200)
+        .json(
+            new ApiResponse(200, products, "Products fetched succesfully")
+        )
+
     }
 )
 
@@ -104,16 +131,54 @@ const getProductbyId = asyncHandler(
             throw new ApiError(400, "Product id is required to get the product details")
         }
 
-        const product = await Product.findById(productId);
+        const product = await Product.aggregate([ //gives as list of objects
+            {
+                $match : {
+                    _id : new mongoose.Types.ObjectId(productId),
+                }
+            },
+            {
+                $lookup: {
+                    from:"ratings",
+                    localField:"_id",
+                    foreignField:"product",
+                    as:"rating",
+                    pipeline : [
+                        {
+                            $group : {
+                                _id : "$product",
+                                avgRating : {
+                                    $avg : "$value"
+                                }
+                            }
+                        },
+                    ]
+                }
+            },
+            {
+                $lookup: {
+                    from:"reviews",
+                    localField:"_id",
+                    foreignField:"product",
+                    as:"reviews"
+                }
+            },
+            {
+                $addFields : {
+                    ratings : "$ratings",
+                    reviews : "$reviews"
+                }
+            }
+        ])
 
-        if (!product){
+        if (product.length === 0 ){
             throw new ApiError (400,"Product with this Id doesn't exist")
         }
 
         return res
         .status(200)
         .json(
-            new ApiResponse(200, product , "Product fetched successfully")
+            new ApiResponse(200, product[0] , "Product fetched successfully")
         )
     }
 )
@@ -135,10 +200,27 @@ const getProductbyCategory = asyncHandler(
                 }
             },
             {
+                $lookup: {
+                    from:"ratings",
+                    localField:"_id",
+                    foreignField:"product",
+                    as: "rating" ,
+                    pipeline : [
+                        {
+                            $group : {
+                                _id : "$product",
+                                avgRating : {
+                                    $avg : "$value"
+                                }
+                            }
+                        },
+                    ]
+                }
+            },
+            {
                 $project : {
                     status : 0,
                     owner : 0,
-                    reviews : 0,
                     createdAt : 0,
                     updatedAt : 0,
                     extraImage : 0,
@@ -166,6 +248,7 @@ const getProductbyCategory = asyncHandler(
 export {
     addProduct,
     deleteProduct,
+    getAllProducts,
     getProductbyId,
     getProductbyCategory
 }

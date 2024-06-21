@@ -2,8 +2,10 @@ import { asyncHandler } from  "../utils/asyncHandler.js"
 import { ApiError } from "../utils/ApiError.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
 import { User } from "../models/user.model.js"
+import { Wish } from  "../models/wish.model.js"
 import { uploadOnCloudinary, deleteFileFromCloudinary } from  "../utils/cloudinary.js"
 import jwt from "jsonwebtoken"
+import mongoose from "mongoose"
 
 const generateAccessAndRefreshTokens = async (userId) => {
     try {
@@ -20,7 +22,7 @@ const generateAccessAndRefreshTokens = async (userId) => {
     }
 }
 
-const verifyToken = asyncHandler(
+const verifyAccessToken = asyncHandler(
     async (req, res) => {
         let accessToken;
         if (
@@ -360,32 +362,132 @@ const getUserByUsername = asyncHandler(
             throw new ApiError(500, "Username is required")
         }
 
-        const user = await User.findOne({
-            username
-        }).select("-password -refreshToken -updatedAt -cart -email -wishList")
+        const user = await User.aggregate([
+            {
+                $match : {
+                    username : username
+                }
+            },
+            {
+                $lookup : {
+                    from : "products",
+                    localField : "_id",
+                    foreignField : "owner",
+                    as : "productsAdded",
+                    pipeline : [
+                        {
+                            $project : {
+                                id : 1,
+                                title : 1,
+                                price :1,
+                                thumbNail : 1
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                $project : {
+                    password : 0,
+                    refreshToken : 0,
+                    updatedAt : 0,
+                    cart : 0,
+                    email : 0,
+                    wishList : 0
+                }
+            }
+        ])
 
-        if (!user){
+        if (user.length === 0){
             throw new ApiError(400, "User with this username doesn't exist")
         }
 
         return res
         .status(200)
         .json(
-            new ApiResponse(200, user, "User fetched successfully")
+            new ApiResponse(200, user[0], "User fetched successfully")
         ) 
     }
 )
 
 const getCurrentUser = asyncHandler(
     async(req,res) => {
+
+        const user = await User.aggregate([
+            {
+                $match : {
+                    _id : req.user._id
+                }
+            },
+            {
+                $lookup : {
+                    from : "products",
+                    localField : "_id",
+                    foreignField : "owner",
+                    as : "productsAdded",
+                    pipeline : [
+                        {
+                            $project : {
+                                id : 1,
+                                title : 1,
+                                price :1,
+                                thumbNail : 1
+                            }
+                        }
+                    ]
+                }
+            },
+            // {
+            //     $lookup : {
+            //         from : "wishes",
+            //         localField : "_id",
+            //         foreignField : "wishedBy",
+            //         as : "wishList",
+            //     }
+            // },
+            {
+                $project : {
+                    password : 0
+                }
+            }
+        ])
+
+        if (user.length === 0){
+            throw new ApiError(500, "Something went wrong")
+        }
+
         return res
         .status(200)
         .json(
             new ApiResponse(
             200,
-            req.user,
+            user[0],
             "Current User fetched Successfully"
         ));
+    }
+)
+
+const getCurrentUserWishlist = asyncHandler(
+    async (req, res) => {
+        
+        const wishList = await Wish.aggregate([
+            {
+                $match : {
+                    wishedBy : req.user._id
+                }
+            },
+        ])
+
+        if (!wishList){
+            throw new ApiError(500, "Something went wrong while getting wishList")
+        }
+
+        return res
+        .status(200)
+        .json(
+            new ApiResponse(200, wishList, "WishList fetched Successfully")
+        )
+
     }
 )
 
@@ -472,8 +574,9 @@ export {
     changeCurrentUserPassword,
     getUserByUsername,
     getCurrentUser,
+    getCurrentUserWishlist,
     updateAccountDetails,
     updateUserProfilePicture,
-    verifyToken,
+    verifyAccessToken,
     verifyRefreshToken
 }

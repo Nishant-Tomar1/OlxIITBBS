@@ -36,7 +36,8 @@ function Profile() {
 
     useEffect( ()=>{
         if(!cookies.accessToken){
-            return alertCtx.setToast("warning","Session Expired! \n Refresh the page or Login again")
+            // alertCtx.setToast("warning","Login to access profile")
+            Navigate('/login')
         }
         fetchData()
     },[cookies.accessToken, alertCtx])

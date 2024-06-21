@@ -1,5 +1,8 @@
 ----- OlxIITBBS Website -----
-	Primary Features :
+
+API Documentation : https://documenter.getpostman.com/view/30488668/2sA3XV9fEi
+
+Primary Features :
 		1. User Authentication and Verification using email.
 		2. Buy and Sell old items.
 		3. Add products to wishlist and buy them later.
@@ -8,12 +11,12 @@
 		6. Advertise you product at minimum fee.
 		7. Search and filter products by category, price, usage time.
 
-	New Features coming up:
+New Features coming up:
 		1. Payment through the website itself.
 		2. Admin portal to control and supervise the working of the website.
 		3. Website Analytics (for admin only).
 
 ----DEVELOPMENT----
-Tech-Stack Used : MERN (MongoDB, ExpressJs, React and NodeJs).
-Other Tools Used : TailwindCSS, Bootstrap.
-Developer : Nishant Tomar
+> Tech-Stack Used : MERN (MongoDB, ExpressJs, React and NodeJs).
+> Other Tools Used : TailwindCSS, Bootstrap.
+> Developer : Nishant Tomar

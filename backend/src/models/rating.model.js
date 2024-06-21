@@ -10,7 +10,7 @@ const ratingSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Product',
   },
-  rating : {
+  value : {
     type: Number,
     min : 1,
     max : 5

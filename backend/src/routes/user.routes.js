@@ -10,11 +10,12 @@ import {
     updateUserProfilePicture,
     updateAccountDetails,
     changeCurrentUserPassword,
-    verifyToken,
+    verifyAccessToken,
     verifyRefreshToken,
     verifyEmail,
     changePasswordByCode,
     getUserByUsername,
+    getCurrentUserWishlist,
  } 
  from '../controllers/user.controller.js';
 import { sendEmailHandler } from '../controllers/email.controller.js';
@@ -37,7 +38,7 @@ router.route("/verifyemail").post(verifyEmail);
 
 router.route("/sendemail").post(sendEmailHandler);
 
-router.route("/verifytoken").get(verifyToken);
+router.route("/verifytoken").get(verifyAccessToken);
 
 router.route("/verify-refresh-token").get(verifyRefreshToken);
 
@@ -49,13 +50,15 @@ router.route("/getuser/username/:username").get(getUserByUsername);
 //secured routes
 router.route('/logout').post( verifyJWT, logoutUser )
 
-router.route("/get-current-user").get(verifyJWT, getCurrentUser)
+router.route("/get-current-user").get( verifyJWT, getCurrentUser )
 
-router.route("/update-user-account-details").patch(verifyJWT, updateAccountDetails)
+router.route("/currentuser-wishlist").get( verifyJWT, getCurrentUserWishlist );
 
-router.route("/change-current-user-password").post(verifyJWT, changeCurrentUserPassword)
+router.route("/update-user-account-details").patch( verifyJWT, updateAccountDetails )
 
-router.route("/update-user-profile-picture").patch(verifyJWT, upload.single('profilePicture'), updateUserProfilePicture);
+router.route("/change-current-user-password").post( verifyJWT, changeCurrentUserPassword )
+
+router.route("/update-user-profile-picture").patch( verifyJWT, upload.single('profilePicture'), updateUserProfilePicture );
 
 
 
