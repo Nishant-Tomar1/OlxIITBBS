@@ -20,7 +20,7 @@ const sendEmailHandler = asyncHandler(
 
         const mailOptions = {
             from : process.env.SMTP_MAIL,
-            to : email,
+            to : email.toLowerCase(),
             subject : subject,
             text : message
         }

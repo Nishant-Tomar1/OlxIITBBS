@@ -4,6 +4,7 @@ import { createContext } from "react";
 
 export const loginContext = createContext({
     isLoggedIn : false,
+    userId : "",
     fullName : null,
     accessToken : null,
     refreshToken : null,
@@ -18,11 +19,13 @@ function LoginContextProvider({children}){
     const [, setCookie] = useCookies(["accessToken : nothing", "refreshToken :  nothing"])
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [fullName , setFullName] = useState(null)
-    const [accessToken, setAccessToken] = useState(null)
+    const [userId , setUserId] = useState(null)
+    const [accessToken, setAccessToken] = useState()
     const [refreshToken, setRefreshToken] = useState(null)
 
-    const loginHandler = (accessToken, refreshToken, fullName) => {
+    const loginHandler = (accessToken, refreshToken, id ,  fullName) => {
         setIsLoggedIn(true);
+        setUserId(id);
         setFullName(fullName);
         setAccessTokenHandler(accessToken);
         setRefreshTokenHandler(refreshToken);
@@ -31,6 +34,7 @@ function LoginContextProvider({children}){
     const logoutHandler = () => {
         setIsLoggedIn(false);
         setFullName(null);
+        setUserId(null)
         setCookie(
             "accessToken",
             null,
@@ -70,6 +74,7 @@ function LoginContextProvider({children}){
 
     const context = {
         isLoggedIn : isLoggedIn,
+        userId : userId,
         fullName : fullName,
         accessToken : accessToken,
         refreshToken : refreshToken,

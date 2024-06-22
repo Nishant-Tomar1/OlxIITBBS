@@ -85,7 +85,7 @@ const deleteProduct = asyncHandler(
             throw new ApiError(400, "Product with this id doesn't exist")
         }
 
-        if (toString(product.ownerId) !== toString(req.user._id)){
+        if (toString(product.owner) !== toString(req.user._id)){
             // console.log(product.ownerId, req.user._id);
             throw new ApiError(500,"User is not authorized to delete this product")
         }
@@ -99,7 +99,7 @@ const deleteProduct = asyncHandler(
         await Product.findByIdAndDelete(product._id);
 
         res
-        .status(204)
+        .status(200)
         .json(
             new ApiResponse(204, {}, "Product deleted Successfully")
         )

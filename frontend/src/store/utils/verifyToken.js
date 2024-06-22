@@ -10,11 +10,11 @@ export const verifyToken = async (accessToken) => {
           }); 
           // console.log(response.data);
           if (response?.data.statusCode === 200) {
-             return{ isLoggedIn : true , fullName : response.data.data.fullName }
+             return{ isLoggedIn : true , fullName : response.data.data.fullName, id : response.data.data._id }
           }
 
         } catch (error) {
           console.log("Something went wrong while verifying accesstoken",error);
-          return { isLoggedin: false, fullName: null };
+          return { isLoggedin: false, fullName: null, id : null };
         }   
 }

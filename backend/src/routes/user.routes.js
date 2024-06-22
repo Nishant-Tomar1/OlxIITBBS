@@ -16,8 +16,9 @@ import {
     changePasswordByCode,
     getUserByUsername,
     getCurrentUserWishlist,
- } 
- from '../controllers/user.controller.js';
+    deleteUser,
+} 
+from '../controllers/user.controller.js';
 import { sendEmailHandler } from '../controllers/email.controller.js';
 
 const router = Router();
@@ -59,6 +60,8 @@ router.route("/update-user-account-details").patch( verifyJWT, updateAccountDeta
 router.route("/change-current-user-password").post( verifyJWT, changeCurrentUserPassword )
 
 router.route("/update-user-profile-picture").patch( verifyJWT, upload.single('profilePicture'), updateUserProfilePicture );
+
+router.route("/deleteuser").delete(verifyJWT , deleteUser)
 
 
 

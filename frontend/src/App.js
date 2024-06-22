@@ -19,6 +19,7 @@ import { useCookies } from "react-cookie"
 import { useLogin } from "./contexts/LoginContextProvider"
 import {verifyToken} from "./store/utils/verifyToken"
 import { refreshAccessToken } from "./store/utils/refreshAccessToken"
+import Chatpage from "./pages/Chatpage"
 
 
 
@@ -38,9 +39,11 @@ function App() {
         if(!token) return refreshAccessToken(Verify, loginCtx, refreshToken);
 
         const response = await verifyToken(token);
+        // console.log("here",response);
         if (response?.isLoggedIn === true) {
-          loginCtx.login(token, refreshToken, response.fullName);
+          loginCtx.login(token, refreshToken, response.id , response.fullName);
         }
+        // console.log(loginCtx);
 
       } catch (error) {
         console.log(error);
@@ -49,12 +52,14 @@ function App() {
     }
 
     Verify(cookies.accessToken, cookies.refreshToken);
+    
   },[cookies.accessToken, cookies.refreshToken])
 
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<Layout />}>
         <Route path="/" element={<HomePage />} />
+        <Route path="/chats/:senderId/:receiverId" element={<Chatpage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />}/>
         <Route path="/forgotpassword" element={<ForgotPassword />}/>

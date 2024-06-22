@@ -2,6 +2,7 @@ import { asyncHandler } from  "../utils/asyncHandler.js"
 import { ApiError } from "../utils/ApiError.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
 import { User } from "../models/user.model.js"
+import { Product } from "../models/product.model.js"
 import { Wish } from  "../models/wish.model.js"
 import { uploadOnCloudinary, deleteFileFromCloudinary } from  "../utils/cloudinary.js"
 import jwt from "jsonwebtoken"
@@ -123,7 +124,7 @@ const verifyEmail = asyncHandler(
         const user = await User.aggregate([
             {
                 $match : {
-                    email : incomingEmail
+                    email : incomingEmail.toLowerCase()
                 }
             }
         ])
@@ -431,7 +432,8 @@ const getCurrentUser = asyncHandler(
                                 id : 1,
                                 title : 1,
                                 price :1,
-                                thumbNail : 1
+                                thumbNail : 1,
+                                status : 1
                             }
                         }
                     ]
@@ -568,6 +570,50 @@ const updateUserProfilePicture = asyncHandler(
     }
 )
 
+const deleteUser = asyncHandler(
+    async(req, res) => {
+
+        const productDeletion = await Product.deleteMany({
+            owner : req.user.id
+        })
+
+        const wishListDeletion = await Wish.deleteMany({
+            wishedBy : req.user.id
+        })
+
+        if (!productDeletion || !wishListDeletion){
+            throw new ApiError(500, "Something went wrong while deleting user data(products and wishlist)")
+        }
+
+        const user = await User.findById(req.user._id);
+ 
+        if (!user) { 
+            throw new ApiError(500, "Something went wrong (user not found in database)")
+        }
+
+        await deleteFileFromCloudinary(user.profilePicture)
+
+        const userDeletion = await User.findByIdAndDelete(req.user._id)
+
+        if (!userDeletion){
+            throw new ApiError(500, "Something went wrong while deleting user profile")
+        }
+
+        const options = {
+            httpOnly : true,
+            secure : true
+        }
+
+        return res
+        .status(200)
+        .clearCookie("accessToken", options)
+        .clearCookie("refreshToken", options)
+        .json( 
+            new ApiResponse(204, {}, "User deleted successfully")
+        )
+    }
+)
+
 export {
     registerUser,
     loginUser,
@@ -581,5 +627,6 @@ export {
     updateAccountDetails,
     updateUserProfilePicture,
     verifyAccessToken,
-    verifyRefreshToken
+    verifyRefreshToken,
+    deleteUser
 }

@@ -30,14 +30,14 @@ function ForgotPassword() {
         e.preventDefault()
         loadingCtx.setLoading(true);
         try {
-            const res = await axios.post(`${Server}/users/verifyemail`,{"email" : email})
+            const res = await axios.post(`${Server}/users/verifyemail`,{"email" : email.toLowerCase()})
             // loadingCtx.setLoading(false)
             
             if (res.data.statusCode === 200){
                 setId(res.data.data)
                 // loadingCtx.setLoading(false)
                 const resp = await axios.post(`${Server}/users/sendemail`,{
-                    "email" : email, 
+                    "email" : email.toLowerCase() , 
                     "subject":"Password Reset Code for OlxIITBBS", 
                     "message": `Your One time Verification Code is ${actualCode}. Enter the Code in the website to create New Password.`
                 })
