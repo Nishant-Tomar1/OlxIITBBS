@@ -1,4 +1,4 @@
-
+8
 # OlxIITBBS
 
 Welcome to OlxIITBBS, your one-stop solution for buying and selling pre-owned items within the IIT BBS community.
@@ -43,7 +43,7 @@ For detailed API documentation, please visit our [PostMan API Documentation](htt
   npm install
 ```
 
-#### Create a '.env' file in the server directory and add your environment variables:
+#### Create a '.env' file in the backend directory and add your environment variables:
 
 ```bash
   PORT = your_port
