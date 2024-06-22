@@ -1,4 +1,4 @@
-8
+
 # OlxIITBBS
 
 Welcome to OlxIITBBS, your one-stop solution for buying and selling pre-owned items within the IIT BBS community.
@@ -34,7 +34,7 @@ For detailed API documentation, please visit our [PostMan API Documentation](htt
   cd OlxIITBBS
 ```
 
-#### Install dependencies for both server and client:
+#### Install dependencies for both backend and frontend:
 
 ```bash
   cd backend
