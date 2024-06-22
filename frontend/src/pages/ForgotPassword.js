@@ -2,9 +2,9 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Server } from '../Constants'
 import { useNavigate } from 'react-router-dom'
-import { useAlert } from '../contexts/AlertContextProvider'
+import { useAlert } from '../store/contexts/AlertContextProvider'
 import BtnLoader from "../components/loaders/BtnLoader"
-import { useLoading } from '../contexts/LoadingContextProvider'
+import { useLoading } from '../store/contexts/LoadingContextProvider'
 
 function ForgotPassword() {
     const [id, setId] = useState("")

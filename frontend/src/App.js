@@ -16,7 +16,7 @@ import Profile from "./pages/Profile"
 import ForgotPassword from "./pages/ForgotPassword"
 
 import { useCookies } from "react-cookie"
-import { useLogin } from "./contexts/LoginContextProvider"
+import { useLogin } from "./store/contexts/LoginContextProvider"
 import {verifyToken} from "./store/utils/verifyToken"
 import { refreshAccessToken } from "./store/utils/refreshAccessToken"
 import Chatpage from "./pages/Chatpage"
@@ -53,7 +53,7 @@ function App() {
 
     Verify(cookies.accessToken, cookies.refreshToken);
     
-  },[cookies.accessToken, cookies.refreshToken])
+  },[])
 
   const router = createBrowserRouter(
     createRoutesFromElements(

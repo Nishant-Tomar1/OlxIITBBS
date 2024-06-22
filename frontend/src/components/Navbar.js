@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useTheme } from "../contexts/ThemeContextProvider";
+import { useTheme } from "../store/contexts/ThemeContextProvider";
 
 
 

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useAlert } from "../contexts/AlertContextProvider";
+import { useAlert } from "../store/contexts/AlertContextProvider";
 
 function Alert() {
   const alertCtx = useAlert();

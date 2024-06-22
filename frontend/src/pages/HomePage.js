@@ -1,8 +1,8 @@
 import React from 'react'
-import { useLogin } from '../contexts/LoginContextProvider'
+import { useLogin } from '../store/contexts/LoginContextProvider'
 import { useNavigate } from 'react-router-dom'
 // import { useAlert } from '../contexts/AlertContextProvider'
-import { useLoading } from '../contexts/LoadingContextProvider'
+import { useLoading } from '../store/contexts/LoadingContextProvider'
 import BtnLoader from '../components/loaders/BtnLoader'
 
 function HomePage() {

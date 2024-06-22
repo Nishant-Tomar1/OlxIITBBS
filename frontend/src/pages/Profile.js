@@ -4,7 +4,7 @@ import axios from 'axios'
 // import { useLogin } from '../contexts/LoginContextProvider'
 import { useCookies } from 'react-cookie'
 import { useNavigate } from 'react-router-dom'
-import { useAlert } from '../contexts/AlertContextProvider'
+import { useAlert } from '../store/contexts/AlertContextProvider'
 
 
 function Profile() {
@@ -42,7 +42,7 @@ function Profile() {
             Navigate('/login')
         }
         fetchData()
-    },[cookies.accessToken, alertCtx])
+    },[cookies.accessToken, alertCtx, Navigate])
 
   return (
     <div>

@@ -34,24 +34,6 @@ const userSchema = new Schema({
         type: String,
         default: '',
     },
-    productsAdded : [
-        {
-            type : Schema.Types.ObjectId,
-            ref : "Product"
-        }
-    ],
-    cart : [
-        {
-            type : Schema.Types.ObjectId,
-            ref : "Product"
-        }
-    ],
-    wishList : [
-        {
-            type : Schema.Types.ObjectId,
-            ref : "Wish"
-        }
-    ],
     refreshToken : {
         type : String,
     }

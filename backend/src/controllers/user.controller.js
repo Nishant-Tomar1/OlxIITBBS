@@ -112,7 +112,7 @@ const verifyRefreshToken = asyncHandler(
                 )
             )
         } catch (error) {
-            throw new ApiError(401 , error?.message || "Invalid refresh token ")
+            throw new ApiError(401 ,  "Invalid refresh token ")
         }
     }
 )
@@ -451,7 +451,6 @@ const getCurrentUser = asyncHandler(
                 $project : {
                     password : 0,
                     cart : 0,
-                    wishList : 0,
                     refreshToken : 0
                 }
             }

@@ -1,6 +1,6 @@
 import React,{useEffect}from 'react'
-import { useAlert } from '../contexts/AlertContextProvider';
-import { useTheme } from '../contexts/ThemeContextProvider';
+import { useAlert } from '../store/contexts/AlertContextProvider';
+import { useTheme } from '../store/contexts/ThemeContextProvider';
 
 function Toast() {
     const alertCtx = useAlert();

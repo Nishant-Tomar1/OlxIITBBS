@@ -36,12 +36,19 @@ const productSchema = new Schema({
 		ref: 'User',
 		required: [true, "Owner is not provided"],
 	},
-	// wish : [
-	// 	{
-	// 		type: Schema.Types.ObjectId,
-	// 		ref : "Wish"
-	// 	}
-	// ],
+	status: {
+		type: String,
+		enum: ['active', 'sold'],
+		default: 'active',
+	},
+	isFeatured : {
+		type : Boolean,
+		default : false
+	},
+	isAdvertised : {
+		type : Boolean,
+		default : false
+	}
 	// ratings: [
     //     {
     //         type : Schema.Types.ObjectId,
@@ -54,11 +61,6 @@ const productSchema = new Schema({
 	// 		ref : "Review"
     //     },
     // ],
-	status: {
-		type: String,
-		enum: ['active', 'sold'],
-		default: 'active',
-	}
 },{timestamps : true});
 
 export const Product =  mongoose.model('Product', productSchema);

@@ -4,6 +4,6 @@ import { getAllMessagesBetweenTwoUsers } from "../controllers/message.controller
 
 const router = Router()
 
-router.route('/getmessages/:user1Id/:user2Id').get( verifyJWT, getAllMessagesBetweenTwoUsers )
+router.route('/getmessages/:user1Id/:user2Id').get( verifyJWT,  getAllMessagesBetweenTwoUsers )
 
 export default router;

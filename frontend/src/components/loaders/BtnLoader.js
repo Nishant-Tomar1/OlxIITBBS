@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useLoading } from '../../contexts/LoadingContextProvider'
+import { useLoading } from '../../store/contexts/LoadingContextProvider'
 
 function BtnLoader() {
     const loadingCtx = useLoading()

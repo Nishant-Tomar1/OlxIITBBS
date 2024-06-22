@@ -21,7 +21,7 @@ app.use(cookieParser())
 app.use(bodyParser.json())
 
 app.get('/', ( __, res) => {
-    res.send(' Backend Working Successfully')
+    res.send('Working Successfully')
   })
 
 //routes

@@ -2,10 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import { LoginContextProvider } from './contexts/LoginContextProvider';
-import { AlertContextProvider } from './contexts/AlertContextProvider';
-import { ThemeContextProvider } from './contexts/ThemeContextProvider';
-import { LoadingContextProvider } from './contexts/LoadingContextProvider';
+import { LoginContextProvider } from './store/contexts/LoginContextProvider';
+import { AlertContextProvider } from './store/contexts/AlertContextProvider';
+import { ThemeContextProvider } from './store/contexts/ThemeContextProvider';
+import { LoadingContextProvider } from './store/contexts/LoadingContextProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

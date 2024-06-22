@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { useLogin } from '../contexts/LoginContextProvider'
+import { useLogin } from '../store/contexts/LoginContextProvider'
 import { useNavigate } from 'react-router-dom'
 import { Server } from '../Constants'
 import axios from 'axios'
-import { useAlert } from '../contexts/AlertContextProvider'
+import { useAlert } from '../store/contexts/AlertContextProvider'
 
 function SignUp() {
   const [newUser , setNewUser] = useState({
