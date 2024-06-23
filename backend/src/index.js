@@ -9,18 +9,6 @@ dotenv.config({
     path : '/.env'
 })
 
-app.use((req, res, next) => {
-    const corsWhitelist = [
-        'http://localhostt:3000',
-        'http://localhostt:3001',
-    ];
-    if (corsWhitelist.indexOf(req.headers.origin) !== -1) {
-        res.header('Access-Control-Allow-Origin', req.headers.origin);
-        res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    }
-    next();
-});
-
 const server = http.createServer(app)
 const io = new socketIo(server, {
     cors : {
@@ -31,12 +19,24 @@ const io = new socketIo(server, {
 
 io.on("connection", (socket) => {
     // console.log(`A new User connected ${socket.id}`);
+
+    socket.on('joinRoom', ({ user1, user2 }) => {
+        const roomName = [user1, user2].sort().join('_'); 
+        socket.join(roomName);
+        // console.log(`${socket.id} joined room: ${roomName}`);
+      });
+
     socket.on('sendMessage', async (message) => {
+        const roomName = [message.sender, message.receiver].sort().join('_');
+        // console.log("HAHAHA",roomName);
+        
+
         try {
             // console.log(message);
             const newMessage = new Message(message)
             await newMessage.save()
-            io.emit( 'receiveMessage' , newMessage )
+
+            io.to(roomName).emit( `receiveMessage` , newMessage )
 
         } catch (error) {
             console.log("Error sending message", error);   

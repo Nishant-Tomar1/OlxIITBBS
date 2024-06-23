@@ -22,4 +22,4 @@ function LoadingContextProvider({children}){
 
 const useLoading = () => useContext(loadingContext) 
 
-export  {useLoading, LoadingContextProvider};
+export  { useLoading, LoadingContextProvider};

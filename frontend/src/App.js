@@ -59,7 +59,7 @@ function App() {
     createRoutesFromElements(
       <Route path="/" element={<Layout />}>
         <Route path="/" element={<HomePage />} />
-        <Route path="/chats/:senderId/:receiverId" element={<Chatpage />} />
+        <Route path="/chats/:user1/:user2" element={<Chatpage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />}/>
         <Route path="/forgotpassword" element={<ForgotPassword />}/>

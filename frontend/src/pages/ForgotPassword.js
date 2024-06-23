@@ -93,9 +93,9 @@ function ForgotPassword() {
         {steps[1] && <div>
             <h1>Forgot Password </h1>
             <form action="" onSubmit={handleClick}>
-            <input type="email" placeholder='Enter Email' value={email} onChange={e=> setEmail(e.target.value)}/><br />
-            <button className='bg-blue-600 p-2 rounded-xl' onClick={handleClick}> Get Code on Email 
-                    {loadingCtx.loading && <BtnLoader />}    
+            <input type="email" required placeholder='Enter Email' value={email} onChange={e=> setEmail(e.target.value)}/><br />
+            <button className='bg-blue-600 p-2 rounded-xl min-w-[200px]' type='submit'> 
+                    {loadingCtx.loading ? <BtnLoader /> : "Get Code on Email" }    
             </button>
             </form>
             </div>

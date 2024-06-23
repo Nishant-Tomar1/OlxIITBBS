@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { useLogin } from '../store/contexts/LoginContextProvider'
+import { useLoading } from '../store/contexts/LoadingContextProvider'
 import { useNavigate } from 'react-router-dom'
 import { Server } from '../Constants'
+import BtnLoader from "../components/loaders/BtnLoader"
 import axios from 'axios'
 import { useAlert } from '../store/contexts/AlertContextProvider'
 
@@ -16,6 +18,7 @@ function SignUp() {
 
   const Navigate = useNavigate()
   const alertCtx = useAlert()
+  const loadingCtx = useLoading()
 
   const handlenewUserChange = (e)=>{
     setNewUser(prev => ({
@@ -25,6 +28,7 @@ function SignUp() {
   }
 
   const handleSubmit = async (e)=>{
+    loadingCtx.setLoading(true)
     const fileInput = document.getElementById("profilePicture")
     const file = fileInput.files[0]
     e.preventDefault()
@@ -42,6 +46,7 @@ function SignUp() {
         }})
       // console.log(res);
       if (res.data.statusCode === 200){
+        loadingCtx.setLoading(false)
         alertCtx.setToast("success", "User Registered Successfully")
         setNewUser(prev => ({
           ...prev,
@@ -55,8 +60,12 @@ function SignUp() {
 
       }
     } catch (error) {
-      console.log(error);
-      alertCtx.error("error", "Something wrong happened")
+      console.log(error.response.data.message);
+      setTimeout(() => {
+        
+        loadingCtx.setLoading(false)
+        alertCtx.setToast("error", "User with this email or username already exists")
+      }, 1000);
     }
   }
 
@@ -75,29 +84,29 @@ function SignUp() {
     <h1 className='mt-10 text-2xl mb-2'>SignUp</h1>
     <form action="" onSubmit={handleSubmit} >
         <label htmlFor="">Username : </label> 
-        <input type="text" value={newUser.username} name='username' onChange={handlenewUserChange}/>
+        <input type="text" value={newUser.username} name='username' required onChange={handlenewUserChange}/>
         <br />
 
         <label htmlFor="">Email : </label> 
-        <input type="email" value={newUser.email} name='email' onChange={handlenewUserChange}/>
+        <input type="email" value={newUser.email} name='email' required onChange={handlenewUserChange}/>
         <br />
 
         <label htmlFor="">Full Name : </label> 
-        <input type="text" value={newUser.fullName} name='fullName' onChange={handlenewUserChange}/>
+        <input type="text" value={newUser.fullName} name='fullName' required onChange={handlenewUserChange}/>
         <br />
 
         <label htmlFor="">Password : </label> 
-        <input type="password" value={newUser.password} name='password' onChange={handlenewUserChange}/>
+        <input type="password" value={newUser.password} name='password' required onChange={handlenewUserChange}/>
         <br />
 
         <label htmlFor="">Contact Number : </label> 
-        <input type="tel" value={newUser.contactNumber} name='contactNumber' pattern="[0-9]{10}" onChange={handlenewUserChange}/>
+        <input type="tel" value={newUser.contactNumber} name='contactNumber' required pattern="[0-9]{10}" onChange={handlenewUserChange}/>
         <br />
 
         <label htmlFor="">Profile Picture : </label> 
-        <input type="file" id='profilePicture' accept="image/*"/>
+        <input type="file" id='profilePicture' required accept="image/*"/>
 
-        <button type='submit' className='bg-blue-600 rounded-lg p-2'>SignUp</button>
+        <button type='submit' className='bg-blue-600 rounded-lg p-2 min-w-[200px]'> { loadingCtx.loading ? <BtnLoader /> : "SignUp"} </button>
         </form>
     </div>
 

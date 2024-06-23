@@ -7,7 +7,7 @@ import { useLogin } from "../store/contexts/LoginContextProvider"
 const socket = io.connect(ServerBase)
 // console.log(socket);
 
-function Chat({senderId, receiverId}) { 
+function Chat({user1, user2}) { 
     const [content, setContent] = useState("")
     const [messages, setMessages] = useState([])
 
@@ -15,10 +15,11 @@ function Chat({senderId, receiverId}) {
     // console.log(loginCtx.userId);
 
     useEffect(() => {
-        // console.log(senderId, receiverId);
+        socket.emit('joinRoom', { user1, user2 });
+       
         const fetchMessages = async () => {
             try {
-                const res = await axios.get(`${Server}/messages/getmessages/${senderId}/${receiverId}`, {withCredentials : true})
+                const res = await axios.get(`${Server}/messages/getmessages/${user1}/${user2}`, {withCredentials : true})
                 setMessages(res.data.data);
                 // console.log(res.data.data);
             } catch (error) {
@@ -27,19 +28,20 @@ function Chat({senderId, receiverId}) {
         }
         fetchMessages();
 
-        socket.on('receiveMessage', (message) => {
-            // console.log("received");
-          setMessages(prev => ([...prev, message]))
+        socket.on(`receiveMessage`, (message) => {
+            // console.log("received",message.content);
+            setMessages(prev => ([...prev, message]))
         })
 
         return () => {
-          socket.off('receiveMessage')
+          socket.off(`receiveMessage`)
         }
         
-    },[senderId, receiverId])
+    },[user1, user2])
 
-    const sendMessage = () => {
-      const message = {sender : loginCtx.userId , receiver : ( (loginCtx.userId === senderId) ? receiverId : senderId), content : content};
+    const sendMessage = (e) => {
+      e.preventDefault()
+      const message = {sender : loginCtx.userId , receiver : ( (loginCtx.userId === user1) ? user2 : user1), content : content};
       socket.emit('sendMessage', message);
       setContent("")
     }
@@ -61,6 +63,7 @@ function Chat({senderId, receiverId}) {
         ))}
       </div>
       <div className="flex">
+        <form action="" onSubmit={sendMessage} className='flex w-full'>
         <input
           type="text"
           value={content}
@@ -69,11 +72,12 @@ function Chat({senderId, receiverId}) {
           className="flex-grow p-2 border border-gray-300 rounded-l-lg focus:outline-none"
         />
         <button
-          onClick={sendMessage}
+          type='submit'
           className="p-2 bg-blue-500 text-white rounded-r-lg hover:bg-blue-600 focus:outline-none"
         >
           Send
         </button>
+        </form>
       </div>
     </div>
   )
