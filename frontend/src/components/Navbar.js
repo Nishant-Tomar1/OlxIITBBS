@@ -1,15 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useTheme } from "../store/contexts/ThemeContextProvider";
-
-
 
 function Navbar() {
   const [nav, setNav] = useState("hidden")
-  const themeMode = useTheme()
-  // document.addEventListener("click", () => { setNav("hidden") })
+  
   return (
-    <div className={`${themeMode.theme}`}>
       <nav className="bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
 
@@ -165,7 +160,6 @@ function Navbar() {
           </div>
         </div>
       </nav>
-    </div>
   );
 }
 
