@@ -38,7 +38,7 @@ function Navbar() {
                         </button>
                         <Link
                             to="/"
-                            className="flex self-center text-3xl font-bold dark:text-white font-[Montserrat]"
+                            className="flex self-center text-2xl lg:text-3xl font-bold dark:text-white font-[Montserrat]"
                         >
                             OlxIITBBS
                         </Link>
@@ -170,6 +170,7 @@ function Navbar() {
                                                     loadingCtx.setLoading(
                                                         false
                                                     );
+                                                    setDrop(false)
                                                 }, 1000);
                                             }}
                                         >
