@@ -6,6 +6,7 @@ export const loginContext = createContext({
     isLoggedIn : false,
     userId : "",
     fullName : null,
+    profilePicture : null,
     accessToken : null,
     refreshToken : null,
     login : () => {},
@@ -20,13 +21,15 @@ function LoginContextProvider({children}){
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [fullName , setFullName] = useState(null)
     const [userId , setUserId] = useState(null)
-    const [accessToken, setAccessToken] = useState()
+    const [profilePicture, setProfilePicture] = useState(null)
+    const [accessToken, setAccessToken] = useState(null)
     const [refreshToken, setRefreshToken] = useState(null)
 
-    const loginHandler = (accessToken, refreshToken, id ,  fullName) => {
+    const loginHandler = (accessToken, refreshToken, id ,  fullName, profilePicture) => {
         setIsLoggedIn(true);
         setUserId(id);
         setFullName(fullName);
+        setProfilePicture(profilePicture)
         setAccessTokenHandler(accessToken);
         setRefreshTokenHandler(refreshToken);
     }
@@ -35,6 +38,7 @@ function LoginContextProvider({children}){
         setIsLoggedIn(false);
         setFullName(null);
         setUserId(null)
+        setProfilePicture(null)
         setCookie(
             "accessToken",
             null,
@@ -76,6 +80,7 @@ function LoginContextProvider({children}){
         isLoggedIn : isLoggedIn,
         userId : userId,
         fullName : fullName,
+        profilePicture : profilePicture,
         accessToken : accessToken,
         refreshToken : refreshToken,
         login : loginHandler,

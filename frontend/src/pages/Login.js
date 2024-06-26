@@ -6,6 +6,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { Server } from "../Constants";
 import { useAlert } from "../store/contexts/AlertContextProvider";
 import BtnLoader from "../components/loaders/BtnLoader";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 function Login() {
     const [user, SetUser] = useState({
@@ -13,11 +14,11 @@ function Login() {
         email: "",
         password: "",
     });
+    const [showpassword, setShowPassword]  = useState(false)
     const Navigate = useNavigate();
+    const loginCtx = useLogin()
     const alertCtx = useAlert();
     const loadingCtx = useLoading();
-
-    const { isLoggedIn, fullName, login, logout } = useLogin();
 
     const handleUserChange = (e) => {
         const { name, value } = e.target;
@@ -36,17 +37,18 @@ function Login() {
                 "Enter either username or email"
             );
         }
+        if (user.password ==="") return alertCtx.setToast("warning", "Password is Required")
 
         try {
             loadingCtx.setLoading(true);
             const response = await axios.post(
-                "http://localhost:8000/api/v1/users/login",
+                `${Server}/users/login`,
                 user
             );
             const user2 = response.data.data.user;
 
             if (user2) {
-                login(
+                loginCtx.login(
                     response.data.data.accessToken,
                     response.data.data.refreshToken,
                     String(user2._id),
@@ -57,6 +59,7 @@ function Login() {
             if (response.data.success) {
                 loadingCtx.setLoading(false);
                 alertCtx.setToast("success", `${response.data.message} `);
+                Navigate("/")
             }
         } catch (error) {
             loadingCtx.setLoading(false);
@@ -67,129 +70,39 @@ function Login() {
         }
     };
 
-    const handleLogout = async (e) => {
-        e.preventDefault();
-        loadingCtx.setLoading(true);
-        try {
-            await axios.post(
-                `${Server}/users/logout`,
-                {},
-                { withCredentials: true }
-            );
-            setTimeout(() => {
-                logout();
-                alertCtx.setToast("success", "User Logged Out Successfully");
-                loadingCtx.setLoading(false);
-            }, 1000);
-        } catch (error) {
-            console.log(error);
-            loadingCtx.setLoading(false);
-            alertCtx.setToast(
-                "error",
-                "Cannot Logout User! Something went wrong"
-            );
-        }
-    };
-
-    const handleBtn = (e) => {
-        e.target.name === "go home" ? Navigate("/") : Navigate("/signup");
-    };
-
-    const handleProfile = (e) => {
-        e.preventDefault();
-        Navigate("/profile");
-    };
-
+    
     return (
-        <div className="flex flex-col items-center justify-center dark:text-white dark:bg-gray-700 w-full ">
-            <h1 className="text-xl">
-                {isLoggedIn ? "Login Another Account" : "Login"}
-            </h1>
-            <form action="" onSubmit={handleLogin}>
-                <label htmlFor="">Username : </label>
-                <input
-                    onChange={handleUserChange}
-                    className="dark:bg-gray-700 rounded-lg"
-                    name="username"
-                    type="text"
-                    placeholder="username"
-                    value={user.username}
-                />
-                <br />
-                <label htmlFor="">Email : </label>
-                <input
-                    type="text"
-                    name="email"
-                    className="dark:bg-gray-700 rounded-lg"
-                    placeholder="email"
-                    onChange={handleUserChange}
-                    value={user.email}
-                />
-                <br />
-                <label htmlFor="">Password :</label>
-                <input
-                    required
-                    className="dark:bg-gray-700 rounded-lg"
-                    type="password"
-                    name="password"
-                    placeholder="password"
-                    onChange={handleUserChange}
-                    value={user.password}
-                />{" "}
-                <br />
-                <button
-                    type="submit"
-                    className="bg-blue-600 px-3 py-2 rounded-lg m-2 min-w-[100px]"
-                >
-                    {loadingCtx.loading ? <BtnLoader /> : "Login"}
-                </button>
-                <Link
-                    to="/forgotpassword"
-                    className="text-blue-600 underline m-2"
-                >
-                    forgot password ?
-                </Link>
-            </form>
-            <div className="my-10">
-                <h1>
-                    UserLoggidIn : {isLoggedIn ? `Yes` : "No"}{" "}
-                    <p>fullName :{fullName}</p>
-                </h1>
-                {isLoggedIn && (
-                    <button
-                        className="bg-blue-600 px-3 py-2 rounded-lg m-2 min-w-[100px]"
-                        onClick={handleLogout}
-                    >
-                        {" "}
-                        {loadingCtx.loading ? <BtnLoader /> : "Logout"}
-                    </button>
-                )}
-            </div>
-
-            <div>
-                <button
-                    className=" bg-blue-600 p-3 m-2 rounded-xl"
-                    name="go home"
-                    onClick={handleBtn}
-                >
-                    Home
-                </button>
-                <button
-                    className=" bg-blue-600 p-3 m-2 rounded-xl"
-                    name="signup"
-                    onClick={handleBtn}
-                >
-                    Signup
-                </button>
-                <button
-                    className=" bg-blue-600 p-3 m-2 rounded-xl"
-                    name="profile"
-                    onClick={handleProfile}
-                >
-                    Profile
-                </button>
+        <>
+        
+        <div  className="flex flex-col w-full items-center pt-6 bg-gray-100 dark:bg-[#191919] dark:text-white min-h-[90vh]">
+            <h1 className="text-3xl lg:text-4xl font-bold font-[Montserrat] pb-5">Login</h1>
+        <form className=" mx-auto w-11/12 md:w-1/2 lg:w-1/3" onSubmit={handleLogin}>
+        <div className="mb-5">
+            <label name="username" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">Username</label>
+            <input type="text" name="username" autoComplete="off" className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-[#232323] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-white-500 dark:focus:border-white-500 " placeholder="Enter Username" value={user.username} onChange={handleUserChange}/>
+        </div>
+        <div className="text-center font-medium">OR</div>
+        <div className="mb-5">
+            <label name="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">Email</label>
+            <input type="email" name="email" placeholder="Enter your email" autoComplete="off" className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-[#202020] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500 " value={user.email} onChange={handleUserChange}/>
+        </div>
+        <div className="mb-2">
+            <label name="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">Password</label>
+            <div className="flex rounded-lg ">
+            <input type={showpassword ? "text" : "password"} autoComplete="off" name="password" className="w-10/12 shadow-md bg-gray-50 border border-gray-300 border-r-0 text-gray-900 text-md rounded-l-lg focus:ring-0 focus:border-gray-400 block p-2.5 dark:bg-[#202020] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white  "  placeholder="Enter Password" value={user.password} onChange={handleUserChange}/>
+            <div onClick={()=>{setShowPassword(!showpassword)}} target="none" className="flex w-1/6 text-xl items-center justify-center bg-gray-50 border border-gray-300 rounded-r-lg shadow-md  border-l-0 shadow-l-0 text-gray-800 dark:bg-[#202020] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white ">{showpassword ?<FaEye/> : <FaEyeSlash/>  }</div>
             </div>
         </div>
+        <div className="flex items-between justify-between mb-5">
+            <Link to="/forgotpassword" className=" text-sm text-cyan-600  dark:text-teal-300">Forgot password ?</Link>
+        </div>
+            <button type="submit" className="w-full shadow-lg text-white bg-cyan-500 hover:bg-cyan-600  font-medium rounded-lg text-md px-5 py-2.5 text-center dark:bg-teal-500 dark:hover:bg-teal-600 ">{ loadingCtx.loading ? <BtnLoader /> : "Login" }</button>
+        </form>
+            <Link to="/signup" className="w-full text-center mt-3 text-sm md:text-lg">Don't have an account? Signup</Link>
+        </div>
+
+        </>
+        
     );
 }
 

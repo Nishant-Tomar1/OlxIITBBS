@@ -53,7 +53,7 @@ function Chat({ user1, user2 }) {
     };
 
     return (
-        <div className="flex flex-col h-full max-w-lg mx-auto p-4 bg-white shadow-lg rounded-lg ">
+        <div className="flex flex-col h-full max-w-lg mx-auto p-4 bg-white shadow-lg rounded-lg py-40">
             <div className="flex-grow overflow-y-auto p-4 mb-4 border border-gray-300 rounded-lg">
                 {messages.map((message, index) => (
                     <div

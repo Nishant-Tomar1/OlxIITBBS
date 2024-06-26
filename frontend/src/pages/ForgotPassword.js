@@ -89,7 +89,7 @@ function ForgotPassword() {
     }
 
   return (
-    <div className='mx-20'>
+    <div className='mx-20 py-20'>
         {steps[1] && <div>
             <h1>Forgot Password </h1>
             <form action="" onSubmit={handleClick}>

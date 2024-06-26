@@ -23,7 +23,7 @@ function HomePage() {
   }
 
   return (
-    <div className='dark:text-white dark:bg-gray-700 w-full'>
+    <div className='dark:text-white dark:bg-gray-700 w-full pt-20'>
       HomePage <br /> User LoggedIn :  {isLoggedIn ? "yes ," : "No"} {fullName}
       <button className=" bg-blue-600 p-3 m-2 rounded-xl" name="go home" onClick={handleBtn}>Login Page</button>
       <button className=" bg-blue-600 p-3 m-2 rounded-xl" name="go home" onClick={handleAlert}>Testing</button>  

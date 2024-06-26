@@ -1,166 +1,204 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { TbSunHigh, TbMoonFilled } from "react-icons/tb";
+import { FaUserCircle } from "react-icons/fa";
+import { FaUserLarge } from "react-icons/fa6";
+import { BsList } from "react-icons/bs";
+import { VscListSelection } from "react-icons/vsc";
+import { IoSearchSharp } from "react-icons/io5";
+import { useTheme } from "../store/contexts/ThemeContextProvider";
+import { useLogin } from "../store/contexts/LoginContextProvider";
+import { MdOutlineKeyboardArrowUp } from "react-icons/md";
+import { useLoading } from "../store/contexts/LoadingContextProvider";
+import BtnLoader from "./loaders/BtnLoader";
 
 function Navbar() {
-  const [nav, setNav] = useState("hidden")
-  
-  return (
-      <nav className="bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
-        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    const [nav, setNav] = useState("hidden");
+    const [drop, setDrop] = useState(false);
+    const themeCtx = useTheme();
+    const loginCtx = useLogin();
+    const loadingCtx = useLoading();
 
-          <Link href="#"
-            className="flex items-center space-x-3 rtl:space-x-reverse"
-          >
-            {/* <img
-              src="https://flowbite.com/docs/images/logo.svg"
-              className="h-8"
-              alt="OlxIITBBS Logo"
-            /> */}
-            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-              OlxIITBBS
-            </span>
-          </Link>
+    return (
+        <>
+            <nav className="bg-white border-gray-200 dark:bg-[#111112] dark:border-gray-400 lg:dark:border-b w-full lg:sticky top-0 lg:border-b-gray-700 lg:border-b">
+                <div className="mx-2 lg:mx-[3vw] flex flex-wrap items-center justify-between py-3 px-2 md:py-3">
+                    <div className="flex items-center space-x-3 rtl:space-x-reverse">
+                        <button
+                            onClick={() => {
+                                themeCtx.toggleTheme();
+                            }}
+                            className="text-2xl font-bold block py-2 px-1 md:border-0 md:p-0 dark:text-white"
+                        >
+                            {themeCtx.theme === "light" ? (
+                                <TbSunHigh />
+                            ) : (
+                                <TbMoonFilled />
+                            )}
+                        </button>
+                        <Link
+                            to="/"
+                            className="flex self-center text-3xl font-bold dark:text-white font-[Montserrat]"
+                        >
+                            OlxIITBBS
+                        </Link>
+                    </div>
 
-          <button
-            id = "triggerEl"
-            data-collapse-toggle="navbar-dropdown"
-            type="button"
-            onClick={()=> {nav === "hidden" ?  setNav("") : setNav("hidden")}}
-            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-            aria-controls="navbar-dropdown"
-            aria-expanded="false"
-          >
-            <span className="sr-only">Open main menu</span>
-            <svg
-              className="w-5 h-5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 17 14"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M1 1h15M1 7h15M1 13h15"
-              />
-            </svg>
-          </button>
+                    <div className="hidden lg:flex w-6/12 xl:w-7/12 items-center justify-start  bg-white dark:bg-[#111112] text-black dark:text-white">
+                        <input
+                            placeholder="Search for Products"
+                            className="shadow-md  px-4 md:px-6 bg-gray-100 dark:bg-gray-300 text-black w-5/6 xl:w-11/12  rounded-l-xl h-10  focus:outline-none focus:border focus:border-gray-700 dark:focus:border-yellow-300"
+                        />
+                        <button className="shadow-md  flex justify-center items-center w-1/6 xl:w-1/12  bg-red-500 hover:bg-red-600 h-10 text-2xl text-white rounded-r-xl">
+                            {" "}
+                            <IoSearchSharp />{" "}
+                        </button>
+                    </div>
 
-          <div
-            className={`w-full ${nav} md:block md:w-auto `}
-            id="navbar-dropdown "
-          >
-            <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-              <li>
-                <Link
-                  href="#"
-                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                  aria-current="page"
-                >
-                  Home
-                </Link>
-              </li>
-
-              {/* <li>
-                <button
-                  id="dropdownNavbarLink"
-                  data-dropdown-toggle="dropdownNavbar"
-                  className="flex items-center justify-between w-full py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
-                >
-                  Dropdown{" "}
-                  <svg
-                    className="w-2.5 h-2.5 ms-2.5"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 10 6"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="m1 1 4 4 4-4"
-                    />
-                  </svg>
-                </button>
-
-                <div
-                  id="dropdownNavbar"
-                  className="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
-                >
-                  <ul
-                    className="py-2 text-sm text-gray-700 dark:text-gray-400"
-                    aria-labelledby="dropdownLargeButton"
-                  >
-                    <li>
-                      <a
-                        href="#"
-                        className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                      >
-                        Dashboard
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                      >
-                        Settings
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                      >
-                        Earnings
-                      </a>
-                    </li>
-                  </ul>
-                  <div className="py-1">
-                    <a
-                      href="#"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                    <button
+                        onClick={() => {
+                            nav === "hidden" ? setNav("") : setNav("hidden");
+                        }}
+                        className="inline-flex items-center p-2  w-14 h-10 justify-center text-sm text-gray-600 dark:text-white rounded-xl lg:hidden transition duration-300 ease-in-out"
                     >
-                      Sign out
-                    </a>
-                  </div>
+                        {nav === "hidden" ? (
+                            <div className="transition duration-300 ease-in-out text-4xl font-bold">
+                                <BsList />
+                            </div>
+                        ) : (
+                            <div className="transition duration-300 ease-in-out text-4xl font-bold">
+                                <VscListSelection />
+                            </div>
+                        )}
+                    </button>
+
+                    <div className={`w-full ${nav} lg:flex lg:w-auto `}>
+                        <ul className="flex gap-1 items-center flex-col font-medium p-4 lg:p-0 mt-2  rounded-2xl bg-gray-100 md:space-x-8 rtl:space-x-reverse lg:flex-row lg:mt-0 lg:bg-white dark:bg-[#111112] dark:rounded-none dark:border-t lg:dark:border-none dark:border-white">
+                            <div
+                                onClick={() => {
+                                    setDrop(!drop);
+                                }}
+                            >
+                                {loginCtx.isLoggedIn ? (
+                                    <button className="flex gap-2 justify-center items-center text-xl text-black dark:text-white">
+                                        {loginCtx.profilePicture ? (
+                                            <img
+                                                className="w-8 h-8 rounded-full bg-sticky"
+                                                src={`${loginCtx.profilePicture}`}
+                                                alt="avatar"
+                                            />
+                                        ) : (
+                                            <FaUserCircle />
+                                        )}
+                                        {loginCtx.fullName.split(" ")[0]
+                                            .length > 10
+                                            ? "Welcome"
+                                            : loginCtx.fullName.split(" ")[0]}
+                                        {drop ? (
+                                            <MdOutlineKeyboardArrowUp />
+                                        ) : (
+                                            <svg
+                                                className="w-2.5 h-2.5 me-1 ms-2"
+                                                aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                viewBox="0 0 10 6"
+                                            >
+                                                <path
+                                                    stroke="currentColor"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth="2"
+                                                    d="m1 1 4 4 4-4"
+                                                />
+                                            </svg>
+                                        )}
+                                    </button>
+                                    
+                                ) : (
+                                    <Link
+                                        to="/login"
+                                        className="flex gap-2 justify-center font-medium items-center text-xl text-gray-700  dark:text-white"
+                                    >
+                                        {" "}
+                                        <FaUserLarge />
+                                        Login{" "}
+                                    </Link>
+                                )}
+                            </div>
+                            {drop && loginCtx.isLoggedIn && (
+                                <div
+                                    id="dropdownDivider"
+                                    className="z-1000 w-4/5 mt-2 text-center lg:absolute lg:rounded-md right-10 top-12 lg:border bg-gray-50 divide-y divide-gray-100 rounded-xl shadow-xl lg:rouded-lg lg:w-40 md:w-1/2 dark:bg-gray-700 dark:border-gray-600 dark:border "
+                                >
+                                    <ul
+                                        className="py-2 text-md font-medium text-gray-700 dark:text-gray-200"
+                                        aria-labelledby="dropdownDividerButton"
+                                    >
+                                        <li>
+                                            <Link
+                                                to="/profile"
+                                                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                            >
+                                                Profile
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link
+                                                to="/wishlist"
+                                                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                            >
+                                                Wishlist
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link
+                                                to="/"
+                                                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                            >
+                                                Add Product
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                    <div className=" bg-red-600 rounded-b-md">
+                                        <button
+                                            className="text-center px-4 py-2 text-md font-semibold text-white  dark:text-gray-200 dark:hover:text-white"
+                                            onClick={() => {
+                                                loadingCtx.setLoading(true);
+                                                setTimeout(() => {
+                                                    loginCtx.logout();
+                                                    loadingCtx.setLoading(
+                                                        false
+                                                    );
+                                                }, 1000);
+                                            }}
+                                        >
+                                            {loadingCtx.loading ? (
+                                                <BtnLoader />
+                                            ) : (
+                                                "Logout"
+                                            )}
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                        </ul>
+                    </div>
                 </div>
-              </li> */}
+            </nav>
 
-              <li>
-                <Link
-                  href="#"
-                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >
-                  Services
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#"
-                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >
-                  Pricing
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#"
-                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >
-                  Contact
-                </Link>
-              </li>
-            </ul>
-
-          </div>
-        </div>
-      </nav>
-  );
+            <div className="flex lg:hidden  items-center justify-start w-full sticky top-0 py-2 px-4 bg-white dark:bg-[#111112] ">
+                <input
+                    placeholder="Search for Products"
+                    className=" shadow-md px-4 md:px-6 bg-gray-100 dark:bg-gray-100 w-5/6 md:w-11/12 rounded-l-2xl h-11  focus:outline-none focus:border focus:border-gray-700 dark:focus:border-white"
+                />
+                <button className="shadow-md flex justify-center items-center w-1/6 md:w-1/12 bg-red-500 hover:bg-red-600 h-11 text-2xl text-white rounded-r-2xl">
+                    {" "}
+                    <IoSearchSharp />{" "}
+                </button>
+            </div>
+        </>
+    );
 }
 
 export default Navbar;

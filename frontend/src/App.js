@@ -41,7 +41,7 @@ function App() {
         const response = await verifyToken(token);
         // console.log("here",response);
         if (response?.isLoggedIn === true) {
-          loginCtx.login(token, refreshToken, response.id , response.fullName);
+          loginCtx.login(token, refreshToken, response.id , response.fullName, response.profilePicture);
         }
         // console.log(loginCtx);
 
@@ -53,10 +53,10 @@ function App() {
 
     Verify(cookies.accessToken, cookies.refreshToken);
     
-  },[])
+  },[loginCtx])
 
   const router = createBrowserRouter(
-    createRoutesFromElements(
+    createRoutesFromElements(   
       <Route path="/" element={<Layout />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/chats/:user1/:user2" element={<Chatpage />} />
@@ -66,7 +66,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/users/:userId" element = {<UserProfile />} />
         <Route path="/products/:productId" element = {<Product />}/>
-      </Route>
+      </Route>   
     )
   )
 
