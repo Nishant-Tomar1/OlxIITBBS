@@ -52,7 +52,8 @@ function Login() {
                     response.data.data.accessToken,
                     response.data.data.refreshToken,
                     String(user2._id),
-                    user2.fullName
+                    user2.fullName,
+                    user2.profilePicture
                 );
             }
 

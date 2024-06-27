@@ -106,50 +106,51 @@ const deleteProduct = asyncHandler(
     }
 )
 
-const getAllProducts = asyncHandler(
-    async ( __ , res) => {
+const getProducts = asyncHandler(
+    async ( req , res) => {
+        const { category, page, limit} = req.query;
+        // console.log(category, page,limit);
+        const skip = (page-1)*limit;
+        const query = category ? {$match : {status : "active", category : String(category)}}  : {$match:{status:"active"}};
+        // console.log(query);
         const products = await Product.aggregate([
-            {
-                $match : {
-                    status : "active"
-                }
-            },
-            {
-                $lookup: {
-                    from:"wishes",
-                    localField:"_id",
-                    foreignField:"product",
-                    as:"productWishes"
-                }
-            },
-            {
-                $addFields : {
-                    wishedByPeople : {
-                        $size : "$productWishes"
-                    },
-                }
-            },
-            {
-              $project : {
-                productWishes : 0,
-                updatedAt : 0,
-                owner : 0,
-                extraImage : 0,
-                status : 0,
-                __v : 0
-              }  
-            },
-            {
-                $group: {
-                    _id : "$category",
-                    products : {
-                         $push: "$$ROOT",
-                    },
-                
+                query,
+                {
+                    $lookup: {
+                        from:"wishes",
+                        localField:"_id",
+                        foreignField:"product",
+                        as:"productWishes"
+                    }
                 },
-            },
-        ])
-
+                {
+                    $addFields : {
+                        wishedByPeople : {
+                            $size : "$productWishes"
+                        },
+                    }
+                },
+                {
+                  $project : {
+                    productWishes : 0,
+                    updatedAt : 0,
+                    owner : 0,
+                    extraImage : 0,
+                    status : 0,
+                    __v : 0
+                  }  
+                },
+                // {
+                //     $group: {
+                //         _id : "$category",
+                //         products : {
+                //              $push: "$$ROOT",
+                //         },
+                    
+                //     },
+                // },
+            ]).skip(Number(skip)).limit(Number(limit))
+        
         if(!products){
             throw new ApiError(500, "Something went wrong while fetching products")
         }
@@ -229,85 +230,85 @@ const getProductbyId = asyncHandler(
     }
 )
 
-const getProductbyCategory = asyncHandler(
-    async (req, res) => {
-        const {category} = req.params
+// const getProductbyCategory = asyncHandler(
+//     async (req, res) => {
+//         const {category, page, limit} = req.query
+//         const skip = (page-1)*limit;
+//         console.log(category);
+//         if (!category){
+//             throw new ApiError(500, "Product Category is required")
+//         }
 
-        // console.log(category);
-        if (!category){
-            throw new ApiError(500, "Product Category is required")
-        }
-
-        const productList = await Product.aggregate([
-            {
-                $match : {
-                    category : category,
-                    status : "active"
-                }
-            },
-            // {
-            //     $lookup: {
-            //         from:"ratings",
-            //         localField:"_id",
-            //         foreignField:"product",
-            //         as: "rating" ,
-            //         pipeline : [
-            //             {
-            //                 $group : {
-            //                     _id : "$product",
-            //                     avgRating : {
-            //                         $avg : "$value"
-            //                     }
-            //                 }
-            //             },
-            //         ]
-            //     }
-            // },
-            {
-                $lookup: {
-                    from:"wishes",
-                    localField:"_id",
-                    foreignField:"product",
-                    as:"productWishes"
-                }
-            },
-            {
-                $addFields : {
-                    wishedByPeople : {
-                        $size : "$productWishes"
-                    },
-                }
-            },
-            {
-                $project : {
-                    status : 0,
-                    owner : 0,
-                    createdAt : 0,
-                    updatedAt : 0,
-                    extraImage : 0,
-                    productWishes : 0,
-                }
-            }
-        ])
+//         const productList = await Product.aggregate([
+//             {
+//                 $match : {
+//                     category : category,
+//                     status : "active"
+//                 }
+//             },
+//             // {
+//             //     $lookup: {
+//             //         from:"ratings",
+//             //         localField:"_id",
+//             //         foreignField:"product",
+//             //         as: "rating" ,
+//             //         pipeline : [
+//             //             {
+//             //                 $group : {
+//             //                     _id : "$product",
+//             //                     avgRating : {
+//             //                         $avg : "$value"
+//             //                     }
+//             //                 }
+//             //             },
+//             //         ]
+//             //     }
+//             // },
+//             {
+//                 $lookup: {
+//                     from:"wishes",
+//                     localField:"_id",
+//                     foreignField:"product",
+//                     as:"productWishes"
+//                 }
+//             },
+//             {
+//                 $addFields : {
+//                     wishedByPeople : {
+//                         $size : "$productWishes"
+//                     },
+//                 }
+//             },
+//             {
+//                 $project : {
+//                     status : 0,
+//                     owner : 0,
+//                     createdAt : 0,
+//                     updatedAt : 0,
+//                     extraImage : 0,
+//                     productWishes : 0,
+//                 }
+//             }
+//         ]).skip(Number(skip)).limit(Number(limit))
         
 
-        if (!productList?.length){
-            throw new ApiError(400, "Given Category has no products")
-        }
+//         if (!productList?.length){
+//             throw new ApiError(400, "Given Category has no products")
+//         }
 
-        return res
-        .status(200)
-        .json(
-            new ApiResponse(200, productList, "Products fetched Successfully")
-        )
-    }
-)
+//         return res
+//         .status(200)
+//         .json(
+//             new ApiResponse(200, productList, "Products fetched Successfully")
+//         )
+//     }
+// )
 
 
 export {
     addProduct,
     deleteProduct,
-    getAllProducts,
+    getProducts,
     getProductbyId,
-    getProductbyCategory
+    // getProductbyCategory
 }

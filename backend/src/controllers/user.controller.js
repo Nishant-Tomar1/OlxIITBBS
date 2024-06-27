@@ -480,6 +480,11 @@ const getCurrentUserWishlist = asyncHandler(
                     wishedBy : req.user._id
                 }
             },
+            {
+                $project : {
+                    product:1
+                }
+            }
         ])
 
         if (!wishList){

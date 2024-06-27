@@ -1,16 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { TbSunHigh, TbMoonFilled } from "react-icons/tb";
-import { FaUserCircle } from "react-icons/fa";
+import { FaUserCircle, FaArrowUp } from "react-icons/fa";
 import { FaUserLarge } from "react-icons/fa6";
 import { BsList } from "react-icons/bs";
 import { VscListSelection } from "react-icons/vsc";
 import { IoSearchSharp } from "react-icons/io5";
 import { useTheme } from "../store/contexts/ThemeContextProvider";
 import { useLogin } from "../store/contexts/LoginContextProvider";
+import { useAlert } from "../store/contexts/AlertContextProvider"
 import { MdOutlineKeyboardArrowUp } from "react-icons/md";
 import { useLoading } from "../store/contexts/LoadingContextProvider";
 import BtnLoader from "./loaders/BtnLoader";
+import { Server } from "../Constants";
+import axios from "axios";
 
 function Navbar() {
     const [nav, setNav] = useState("hidden");
@@ -18,15 +21,34 @@ function Navbar() {
     const themeCtx = useTheme();
     const loginCtx = useLogin();
     const loadingCtx = useLoading();
+    const alertCtx = useAlert()
+
+    useEffect(()=>{
+        setDrop(false)
+    },[loginCtx])
+
+    const handleLogout = async (e) => {
+        e.preventDefault();
+        loadingCtx.setLoading(true);
+        setTimeout(async() => {
+            // setDrop(false)
+            await axios.post(`${Server}/users/logout`,{},{withCredentials:true})
+            loginCtx.logout();
+            alertCtx.setToast("success", "User Logged Out Successfully")
+            loadingCtx.setLoading(false);
+        },800)
+    }
 
     return (
         <>
-            <nav className="bg-white border-gray-200 dark:bg-[#111112] dark:border-gray-400 lg:dark:border-b w-full lg:sticky top-0 lg:border-b-gray-700 lg:border-b">
+            <nav className="bg-white border-gray-200 dark:bg-[#111112] dark:border-gray-400 lg:dark:border-b w-full lg:sticky top-0 lg:border-b shadow-md">
+                <div  className="flex justify-center items-center fixed bottom-4 right-3 rounded-3xl bg-gray-200 dark:bg-red-500 dark:text-white shadow-md text-xl p-3 " onClick={() => window.scrollTo(0,0)}>  <button > <FaArrowUp /> </button></div>
                 <div className="mx-2 lg:mx-[3vw] flex flex-wrap items-center justify-between py-3 px-2 md:py-3">
                     <div className="flex items-center space-x-3 rtl:space-x-reverse">
                         <button
                             onClick={() => {
                                 themeCtx.toggleTheme();
+                               
                             }}
                             className="text-2xl font-bold block py-2 px-1 md:border-0 md:p-0 dark:text-white"
                         >
@@ -44,7 +66,7 @@ function Navbar() {
                         </Link>
                     </div>
 
-                    <div className="hidden lg:flex w-6/12 xl:w-7/12 items-center justify-start  bg-white dark:bg-[#111112] text-black dark:text-white">
+                    <div  className="hidden lg:flex w-6/12 xl:w-7/12 items-center justify-start  bg-white dark:bg-[#111112] text-black dark:text-white">
                         <input
                             placeholder="Search for Products"
                             className="shadow-md  px-4 md:px-6 bg-gray-100 dark:bg-gray-300 text-black w-5/6 xl:w-11/12  rounded-l-xl h-10  focus:outline-none focus:border focus:border-gray-700 dark:focus:border-yellow-300"
@@ -126,7 +148,7 @@ function Navbar() {
                                     </Link>
                                 )}
                             </div>
-                            {drop && loginCtx.isLoggedIn && (
+                            {(drop && loginCtx.isLoggedIn) && (
                                 <div
                                     id="dropdownDivider"
                                     className="z-1000 w-4/5 mt-2 text-center lg:absolute lg:rounded-md right-10 top-12 lg:border bg-gray-50 divide-y divide-gray-100 rounded-xl shadow-xl lg:rouded-lg lg:w-40 md:w-1/2 dark:bg-gray-700 dark:border-gray-600 dark:border "
@@ -163,16 +185,7 @@ function Navbar() {
                                     <div className=" bg-red-600 rounded-b-md">
                                         <button
                                             className="text-center px-4 py-2 text-md font-semibold text-white  dark:text-gray-200 dark:hover:text-white"
-                                            onClick={() => {
-                                                loadingCtx.setLoading(true);
-                                                setTimeout(() => {
-                                                    loginCtx.logout();
-                                                    loadingCtx.setLoading(
-                                                        false
-                                                    );
-                                                    setDrop(false)
-                                                }, 1000);
-                                            }}
+                                            onClick={handleLogout}
                                         >
                                             {loadingCtx.loading ? (
                                                 <BtnLoader />
@@ -182,7 +195,7 @@ function Navbar() {
                                         </button>
                                     </div>
                                 </div>
-                            )}
+                            ) }
                         </ul>
                     </div>
                 </div>

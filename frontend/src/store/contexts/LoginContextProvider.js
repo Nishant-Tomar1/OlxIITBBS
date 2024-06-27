@@ -39,6 +39,8 @@ function LoginContextProvider({children}){
         setFullName(null);
         setUserId(null)
         setProfilePicture(null)
+        setAccessToken(null)
+        setRefreshToken(null)
         setCookie(
             "accessToken",
             null,

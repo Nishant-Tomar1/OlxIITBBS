@@ -10,7 +10,6 @@ function LoadingContextProvider({children}){
 
     const setLoadingHandler = (option) => { 
         setLoading(option)
-        // console.log(option , loading);
     }
 
     return(

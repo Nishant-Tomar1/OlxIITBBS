@@ -6,6 +6,7 @@
 *{
     font-family: "outfit";  
     font-weight: 300;
+    scroll-behavior: smooth;
 }
 
 ::-webkit-scrollbar {
