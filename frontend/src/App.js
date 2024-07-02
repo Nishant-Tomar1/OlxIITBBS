@@ -20,6 +20,7 @@ import { useLogin } from "./store/contexts/LoginContextProvider"
 import {verifyToken} from "./store/utils/verifyToken"
 import { refreshAccessToken } from "./store/utils/refreshAccessToken"
 import Chatpage from "./pages/Chatpage"
+import WishList from "./pages/WishList"
 
 
 
@@ -64,6 +65,7 @@ function App() {
         <Route path="/signup" element={<SignUp />}/>
         <Route path="/forgotpassword" element={<ForgotPassword />}/>
         <Route path="/profile" element={<Profile />} />
+        <Route path="/wishlist" element={<WishList />} />
         <Route path="/users/:userId" element = {<UserProfile />} />
         <Route path="/products/:productId" element = {<Product />}/>
         <Route path="/products/categories/:category" element = {<HomePage />} />

@@ -14,7 +14,7 @@ const images = require.context("../assets/images",true);
 
 function HomePage() {
 	const [page, setPage] = useState(1);
-	const [limit, setLimit] = useState(2);
+	const [limit, setLimit] = useState(4);
 	const [products, setProducts] = useState([])
 	const [userWishList, setUserWishList] = useState([])
 	const imageList = images.keys().map((key)=> images(key))
@@ -155,7 +155,7 @@ function HomePage() {
 					</div>
 				</div>
 
-				<div className="flex justify-center items-center font-semibold">
+				<div className="flex justify-center items-center font-semibold text-gray-700 dark:text-white pb-8">
 					<button onClick={handleShowMore}> {  "Show More..."}</button>
 				</div>
 

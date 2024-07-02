@@ -44,7 +44,7 @@ function ForgotPassword() {
                 const resp = await axios.post(`${Server}/users/sendemail`,{
                     "email" : email.toLowerCase() , 
                     "subject":"Password Reset Code for OlxIITBBS", 
-                    "message": `Your One time Verification Code is ${actualCode}. Enter the Code in the website to create New Password.`
+                    "message": `${actualCode} is your password reset Code. Enter the Code in the website to create New Password.`
                 })
                 
                 if (resp.data.statusCode === 200){

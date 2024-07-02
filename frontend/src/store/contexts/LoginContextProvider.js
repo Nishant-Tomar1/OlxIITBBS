@@ -25,7 +25,7 @@ function LoginContextProvider({children}){
     const [accessToken, setAccessToken] = useState(null)
     const [refreshToken, setRefreshToken] = useState(null)
 
-    const loginHandler = (accessToken, refreshToken, id ,  fullName, profilePicture) => {
+    const loginHandler = (accessToken, refreshToken, id ,  fullName , profilePicture) => {
         setIsLoggedIn(true);
         setUserId(id);
         setFullName(fullName);

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { TbSunHigh, TbMoonFilled } from "react-icons/tb";
 import { FaUserCircle, FaArrowUp } from "react-icons/fa";
 import { FaUserLarge } from "react-icons/fa6";
@@ -22,6 +22,7 @@ function Navbar() {
     const loginCtx = useLogin();
     const loadingCtx = useLoading();
     const alertCtx = useAlert()
+    const Navigate = useNavigate()
 
     useEffect(()=>{
         setDrop(false)
@@ -69,9 +70,9 @@ function Navbar() {
                     <div  className="hidden lg:flex w-6/12 xl:w-7/12 items-center justify-start  bg-white dark:bg-[#111112] text-black dark:text-white">
                         <input
                             placeholder="Search for Products"
-                            className="shadow-md  px-4 md:px-6 bg-gray-100 dark:bg-gray-300 text-black w-5/6 xl:w-11/12  rounded-l-xl h-10  focus:outline-none focus:border focus:border-gray-700 dark:focus:border-yellow-300"
+                            className="shadow-md  px-4 md:px-6 bg-gray-100 dark:bg-gray-700 dark:placeholder:text-gray-400 dark:text-gray-100 text-black w-5/6 xl:w-11/12  rounded-l-full h-10  focus:outline-none focus:border focus:border-gray-500 dark:focus:border-gray-300"
                         />
-                        <button className="shadow-md  flex justify-center items-center w-1/6 xl:w-1/12  bg-red-500 hover:bg-red-600 h-10 text-2xl text-white rounded-r-xl">
+                        <button className="shadow-md  flex justify-center items-center w-1/6 xl:w-1/12  bg-red-500 hover:bg-red-600 h-10 text-2xl text-white rounded-r-full">
                             {" "}
                             <IoSearchSharp />{" "}
                         </button>
@@ -151,35 +152,35 @@ function Navbar() {
                             {(drop && loginCtx.isLoggedIn) && (
                                 <div
                                     id="dropdownDivider"
-                                    className="z-1000 w-4/5 mt-2 text-center lg:absolute lg:rounded-md right-10 top-12 lg:border bg-gray-50 divide-y divide-gray-100 rounded-xl shadow-xl lg:rouded-lg lg:w-40 md:w-1/2 dark:bg-gray-700 dark:border-gray-600 dark:border "
+                                    className="z-1000 w-4/5 mt-2 text-center lg:absolute lg:rounded-md right-10 top-12 lg:border bg-gray-50 divide-y divide-gray-100 rounded-xl shadow-xl lg:rouded-lg lg:w-40 md:w-1/2 dark:bg-[#151515] dark:border-gray-600 dark:border "
                                 >
                                     <ul
                                         className="py-2 text-md font-medium text-gray-700 dark:text-gray-200"
                                         aria-labelledby="dropdownDividerButton"
                                     >
                                         <li>
-                                            <Link
-                                                to="/profile"
-                                                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                            <button
+                                                onClick ={()=>{setDrop(false);Navigate("/profile")}}
+                                                className="text-center w-full block px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#282828] dark:hover:text-white"
                                             >
                                                 Profile
-                                            </Link>
+                                            </button>
                                         </li>
                                         <li>
-                                            <Link
-                                                to="/wishlist"
-                                                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                        <button
+                                                onClick ={()=>{setDrop(false);Navigate("/wishlist")}}
+                                                className="text-center w-full block px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#282828] dark:hover:text-white"
                                             >
-                                                Wishlist
-                                            </Link>
+                                                WishList
+                                            </button>
                                         </li>
                                         <li>
-                                            <Link
-                                                to="/"
-                                                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                            <button
+                                                onClick ={()=>{setDrop(false);Navigate("/")}}
+                                                className="text-center w-full block px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#282828] dark:hover:text-white"
                                             >
                                                 Add Product
-                                            </Link>
+                                            </button>
                                         </li>
                                     </ul>
                                     <div className=" bg-red-600 rounded-b-md">
