@@ -140,15 +140,11 @@ const getProducts = asyncHandler(
                     __v : 0
                   }  
                 },
-                // {
-                //     $group: {
-                //         _id : "$category",
-                //         products : {
-                //              $push: "$$ROOT",
-                //         },
-                    
-                //     },
-                // },
+                {
+                    $sort : {
+                        createdAt : -1
+                    }
+                }
             ]).skip(Number(skip)).limit(Number(limit))
         
         if(!products){
