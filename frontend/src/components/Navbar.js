@@ -106,7 +106,7 @@ function Navbar() {
                                     <button className="flex gap-2 justify-center items-center text-xl text-black dark:text-white">
                                         {loginCtx.profilePicture ? (
                                             <img
-                                                className="w-8 h-8 rounded-full bg-sticky"
+                                                className="w-8 h-8 rounded-full object-cover object-center"
                                                 src={`${loginCtx.profilePicture}`}
                                                 alt="avatar"
                                             />

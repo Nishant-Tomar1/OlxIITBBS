@@ -108,8 +108,8 @@ function Profile() {
             if (res.data.statusCode === 200){
                 loadingCtx.setLoading(false)
                 loginCtx.login(cookies.accessToken, cookies.refreshToken, res.data.data._id, res.data.data.fullName, res.data.data.profilePicture)
-                alertCtx.setToast("success","Profile Picture Updated Successfully")
                 setUpdateProfilePic(false)
+                alertCtx.setToast("success","Profile Picture Updated Successfully")
             }         
         } catch (error) {
             console.log(error);
@@ -122,9 +122,9 @@ function Profile() {
         
         <div className="flex w-full flex-col ">
             
-            <div className="bg-gray-100 dark:bg-[#191919] shadow-md flex flex-col w-full md:flex-row lg:py-12">
-                <div className="flex flex-col items-center justify-center p-4 md:pr-4 md:w-1/3 py-3 md:items-end">
-                    <img src={user.profilePicture} alt="Profile Picture" className="text-center w-52 h-52 md:w-64 lg:h-64 rounded-full my-4 object-cover object-center " />
+            <div className="bg-gray-100 dark:bg-[#191919] shadow-md flex flex-col w-full lg:flex-row justify-center lg:py-8">
+                <div className="flex flex-col items-center justify-center p-4 lg:pr-4 lg:w-1/3 py-3 lg:items-end">
+                    <img src={user.profilePicture} alt="Profile Picture" className="text-center w-52 h-52 lg:w-64 lg:h-64 rounded-full my-4 object-cover object-center " />
                     {!updateProfilePic && <div onClick={()=>{setUpdateProfilePic(true)}} className='cursor-pointer flex gap-2 text-md lg:text-xl font-medium items-center  text-gray-800 dark:text-white'><span className='text-2xl'><AiFillEdit/></span> Update Profile Picture</div>}
                     {updateProfilePic && <form onSubmit={handleUpdateUserProfilePic} className="mt-3">        
                         <input className="shadow-md block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-[#202020] dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="profilePicture" type="file" accept="image/*" />
@@ -133,9 +133,9 @@ function Profile() {
                     </form>}
                 </div>
 
-                <div  className="flex flex-col md:w-2/3 pt-5 pb-12 items-center justify-center dark:bg-[#191919] dark:text-white">
+                <div  className="flex flex-col lg:w-2/3 pt-5 pb-12 items-center justify-center dark:bg-[#191919] dark:text-white">
                     <h1 className="text-2xl lg:text-4xl font-bold font-[Raleway] pb-2">User Profile</h1>
-                    <form className=" mx-auto w-11/12 md:w-5/6 lg:w-2/3 " onSubmit={handleProfileUpdate}>
+                    <form className=" mx-auto w-11/12 md:w-5/6 lg:w-2/3" onSubmit={handleProfileUpdate}>
                         <div className="mb-3">
                             <label name="username" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">Username</label>
                             <input type="text" readOnly name="username" className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-0 focus:border-gray-300 block w-full p-2.5 dark:bg-[#202020] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-white-500 dark:focus:border-white-500 cursor-not-allowed" placeholder="Enter Username" value={user.username} onChange={handleUserChange} />

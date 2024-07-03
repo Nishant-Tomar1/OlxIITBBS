@@ -481,6 +481,26 @@ const getCurrentUserWishlist = asyncHandler(
                 }
             },
             {
+                $lookup : {
+                    from : "products",
+                    localField : "product",
+                    foreignField : "_id",
+                    as : "product",
+                    pipeline : [
+                        {
+                            $project : {
+                                owner : 0,
+                                isFeatured : 0,
+                                isAdvertised : 0,
+                                createdAt :0,
+                                updatedAt : 0,
+                                extraImage :0,
+                            }
+                        }
+                    ]
+                }
+            },
+            {
                 $project : {
                     product:1
                 }

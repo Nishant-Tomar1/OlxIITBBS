@@ -24,7 +24,7 @@ function HomePage() {
 	const alertCtx = useAlert()
 	const loadingCtx = useLoading()
 	const {category} = useParams()
-	const dummy = [1,2,3,4,5,6,7,8,9,10,11,12]
+	const dummy = [1,2,3,4,5,6,7,8]
 
 	useEffect(() => {
 		setProducts([])
@@ -43,7 +43,8 @@ function HomePage() {
 				if (loginCtx.isLoggedIn === true){
 					try {
 						const res2 = await axios.get(`${Server}/users/currentuser-wishlist`, {withCredentials : true});
-						setUserWishList(res2.data.data.map((wish) => wish.product))
+						// console.log(res2.data.data);
+						setUserWishList(res2.data.data.map((wish) => wish.product[0]._id))
 					} catch (error) {
 						console.log(error);
 					}
@@ -119,11 +120,11 @@ function HomePage() {
 				</div>
 
 				{/* Products */}
-				<div className="container mx-auto">
-					<div className="flex flex-wrap m-2 lg:m-4 justify-center items-center md:justify-start">
+				<div className="container">
+					<div className="flex flex-wrap m-2 xl:m-2 justify-center items-center md:justify-start">
 						{products.length > 0 ?
 						( products.map((product)=>(
-							<div  key={product._id} className="p-2 md:w-1/2 lg:w-1/4 h-full">
+							<div  key={product._id} className="p-2 md:w-1/2 xl:w-1/4 h-full">
 								<div className="w-full bg-gray-100 dark:bg-[#252525] rounded-2xl lg:rounded-lg overflow-hidden shadow-lg p-3 lg:p-2">
 									<img className="w-full md:h-40 lg:h-56  object-cover object-center rounded-md" src={`${product.thumbNail}`} alt="" />
 									
@@ -135,7 +136,7 @@ function HomePage() {
 												<h1 className="title-font
 												text-lg lg:text-lg font-bold text-green-500 mb-1">₹ {product.price}</h1>
 											</div>
-											<p className="mb-3 lg:text-sm font-normal h-14 overflow-y-auto">{product.description}  </p>
+											<p className="mb-3 lg:text-sm font-normal h-14 overflow-y-auto">{product.description.length > 80 ? (product.description.substr(0,80)+"...") : (product.description) }  </p>
 										</div>
 										<div className="flex items-center justify-between">
 											<Link to={`/products/${product._id}`} className="text-teal-400 font-medium inline-flex items-center md:mb-2 lg:mb-0 " >Show More

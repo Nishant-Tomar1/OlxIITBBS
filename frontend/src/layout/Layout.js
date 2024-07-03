@@ -9,12 +9,14 @@ import { useTheme } from '../store/contexts/ThemeContextProvider'
 function Layout() {
   const {theme} = useTheme()
   return (
-    <div className={`${theme} bg-gray-100 dark:bg-[#191919]`}>
+    <div className={`${theme}`}>
+      <div className=' bg-gray-100 dark:bg-[#191919] min-h-[100vh]'>
       <Navbar />
       {/* <Alert /> */}
       <Toast />
       <Outlet />
       <Footer />
+      </div>
     </div>
   )
 }
