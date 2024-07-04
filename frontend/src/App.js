@@ -22,6 +22,7 @@ import { refreshAccessToken } from "./store/utils/refreshAccessToken"
 import Chatpage from "./pages/Chatpage"
 import WishList from "./components/WishList"
 import AddProduct from "./components/AddProduct"
+import UpdatePassword from "./components/UpdatePassword"
 
 
 
@@ -68,6 +69,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/wishlist" element={<WishList />} />
         <Route path="/addproduct" element={<AddProduct />} />
+        <Route path="/updatepassword" element={<UpdatePassword/>} />
         <Route path="/users/:userId" element = {<UserProfile />} />
         <Route path="/products/:productId" element = {<Product />}/>
         <Route path="/products/categories/:category" element = {<HomePage />} />

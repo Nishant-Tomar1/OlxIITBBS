@@ -5,7 +5,8 @@ import { useNavigate, Link } from 'react-router-dom'
 import BtnLoader from './loaders/BtnLoader'
 import axios from 'axios'
 import { Server } from '../Constants'
-import { loginContext, useLogin } from '../store/contexts/LoginContextProvider'
+import { useLogin } from '../store/contexts/LoginContextProvider'
+import { useCookies } from 'react-cookie'
 
 function AddProduct() {
     const [newProduct , setNewProduct] = useState({
@@ -20,6 +21,7 @@ function AddProduct() {
     const loginCtx = useLogin()
     const alertCtx = useAlert()
     const loadingCtx = useLoading()
+    const [cookies] = useCookies(["accessToken", "refreshToken"])
 
     const handleNewProductChange = (e)=> {
         // console.log(e.target);
@@ -90,7 +92,9 @@ function AddProduct() {
     }
 
     useEffect(()=>{
-        if (!loginCtx.isLoggedIn) return Navigate("/")
+        if(!cookies.accessToken){
+            Navigate('/login')
+        }
         window.scrollTo(0,0)
     },[loginCtx.isLoggedIn])
 

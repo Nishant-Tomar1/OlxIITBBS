@@ -27,10 +27,10 @@ function HomePage() {
 	const dummy = [1,2,3,4,5,6,7,8]
 
 	useEffect(() => {
+		window.scrollTo(0,0)
 		setProducts([])
 		setPage(1)
 		fetchData();
-		window.scrollTo(0,0)
 		// console.log("rendering");
 	},[loginCtx.isLoggedIn, category]);
 

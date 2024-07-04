@@ -10,9 +10,9 @@ Welcome to OlxIITBBS, your one-stop solution for buying and selling pre-owned it
 - Seamlessly buy and sell old items.
 - Add products to your wishlist and purchase them later.
 - Communicate directly with the seller through live messaging (Using web sockets).
-<!-- - Advertise and feature your product for a minimal fee. -->
 - Easily search and filter products by category, price, and usage time.
 - Easily Toggle between light and dark themes according to your convenience.
+<!-- - Advertise and feature your product for a minimal fee. -->
 
 ### Upcoming Features
 - Admins can control and supervise the website's operations.

@@ -201,6 +201,9 @@ function Profile() {
                             <label name="contactNumber" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">Contact Number</label>
                             <input type="tel" pattern="[6-9]{1}[0-9]{9}" name="contactNumber" className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-[#202020] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-white-500 dark:focus:border-white-500 " placeholder="Enter Contact Number" value={user.contactNumber} onChange={handleUserChange} />
                         </div>
+                        <div className="flex items-between justify-between mb-5">
+                            <Link to="/updatepassword" className=" text-sm text-cyan-500  dark:text-teal-300">Update password </Link>
+                        </div>
                         <button type="submit" className="w-full shadow-lg mt-2 text-white bg-cyan-500 hover:bg-cyan-600  font-medium rounded-lg text-md px-5 py-2.5 text-center dark:bg-teal-500 dark:hover:bg-teal-600 ">{ loadingCtx.loading ? <BtnLoader /> : "Update Profile" }</button>
                     </form>
                 </div>
