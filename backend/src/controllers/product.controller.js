@@ -5,6 +5,7 @@ import ApiError from "../utils/ApiError.js";
 import { deleteFileFromCloudinary, uploadOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import mongoose from "mongoose";
+import { Wish } from "../models/wish.model.js";
 
 const addProduct = asyncHandler(
     async(req,res) => {
@@ -73,7 +74,7 @@ const addProduct = asyncHandler(
 const deleteProduct = asyncHandler(
     async (req, res) => {
         const {id : productId} = req.params
-        // console.log(productId);
+        // console.log(productId, typeof(productId));
 
         if (!productId){
             throw new ApiError(500, "Product id is required")
@@ -88,6 +89,14 @@ const deleteProduct = asyncHandler(
         if (toString(product.owner) !== toString(req.user._id)){
             // console.log(product.ownerId, req.user._id);
             throw new ApiError(500,"User is not authorized to delete this product")
+        }
+
+        const wishListDeletion = await Wish.deleteMany({
+            product : productId
+        })
+
+        if(!wishListDeletion){
+            throw new ApiError(500,"Something went wrong while deleting the product wishes")
         }
 
         await deleteFileFromCloudinary(product.thumbNail);
@@ -226,6 +235,38 @@ const getProductbyId = asyncHandler(
     }
 )
 
+const sellProduct = asyncHandler(
+    async (req, res) => {
+        const { id : productId } = req.params;
+        // console.log(productId, typeof(productId));
+        if (!productId){
+            throw new ApiError(500, "Product id is required")
+        }
+
+        await Product.findByIdAndUpdate(
+            productId,
+            {
+                $set : {
+                    status  : "sold"
+                }
+            },
+            {
+                new : true
+            })
+
+        const updatedProduct = await User.findById(productId).select("-createdAt -updatedAt -extraImage -owner")
+
+        // console.log(updatedProduct);
+        return res
+        .status(200)
+        .json(
+            new ApiResponse(
+            200,
+            updatedProduct,
+            "Product status updated to Sold"
+        ))
+    }
+)
 // const getProductbyCategory = asyncHandler(
 //     async (req, res) => {
 //         const {category, page, limit} = req.query
@@ -306,5 +347,5 @@ export {
     deleteProduct,
     getProducts,
     getProductbyId,
-    // getProductbyCategory
+    sellProduct
 }

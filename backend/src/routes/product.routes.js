@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
-import { addProduct, deleteProduct, getProducts, getProductbyId } from "../controllers/product.controller.js";
+import { addProduct, deleteProduct, getProducts, getProductbyId, sellProduct } from "../controllers/product.controller.js";
 import { addWish, deleteWish } from "../controllers/wish.controller.js";
 // import { addRating } from "../controllers/rating.controller.js";
 // import { addReview } from "../controllers/review.controller.js";
@@ -25,9 +25,9 @@ router.route('/addproduct').post(
 
 router.route("/getproducts").get( getProducts )
 
-router.route("/getproduct/:id").get(getProductbyId)
+router.route("/getproductbyId/:id").get(getProductbyId)
 
-// router.route("/getproducts").get(getProductsByCategory)
+router.route("/sellproduct/:id").patch(verifyJWT, sellProduct)
 
 router.route('/deleteproduct/:id').delete(verifyJWT, deleteProduct)
 

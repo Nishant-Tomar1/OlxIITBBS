@@ -47,6 +47,7 @@ function Navbar() {
                 <div className="mx-2 lg:mx-[3vw] flex flex-wrap items-center justify-between py-3 px-2 md:py-3">
                     <div className="flex items-center space-x-3 rtl:space-x-reverse">
                         <button
+                        title="Toggle Theme"
                             onClick={() => {
                                 themeCtx.toggleTheme();
                                
@@ -176,7 +177,7 @@ function Navbar() {
                                         </li>
                                         <li>
                                             <button
-                                                onClick ={()=>{setDrop(false);Navigate("/")}}
+                                                onClick ={()=>{setDrop(false);Navigate("/addproduct")}}
                                                 className="text-center w-full block px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#282828] dark:hover:text-white"
                                             >
                                                 Add Product

@@ -433,6 +433,7 @@ const getCurrentUser = asyncHandler(
                                 title : 1,
                                 price :1,
                                 thumbNail : 1,
+                                description :1,
                                 status : 1
                             }
                         }
@@ -526,6 +527,15 @@ const updateAccountDetails = asyncHandler(
 
         if (!fullName || !email || !contactNumber){
             throw new ApiError(401, "All fields are required (fullname and email)")
+        }
+
+        // check if user already exists with this email
+        const ExistedUser = await User.findOne({
+            email 
+        })
+
+        if (ExistedUser) {
+            if(ExistedUser.email===email) throw new ApiResponse(409,{}, "User with this email or username already exists");
         }
 
         await User.findByIdAndUpdate(

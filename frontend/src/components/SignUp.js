@@ -41,10 +41,13 @@ function SignUp() {
     if(newUser.password.length < 6 ){
       return alertCtx.setToast("warning", "Password must be at least 6 characters long")
     }
-    loadingCtx.setLoading(true)
     const fileInput = document.getElementById("profilePicture")
     const file = fileInput.files[0]
+    if (!file){
+      return alertCtx.setToast("warning", "Profile Picture is required!!")
+    }
     try {  
+      loadingCtx.setLoading(true)
       const formData = new FormData();
       formData.append('username', newUser.username)
       formData.append('email', newUser.email)

@@ -8,19 +8,20 @@ import {
 
 import Layout from "./layout/Layout"
 import HomePage from "./pages/HomePage"
-import Login from "./pages/Login"
-import SignUp from "./pages/SignUp"
+import Login from "./components/Login"
+import SignUp from "./components/SignUp"
 import UserProfile from "./pages/UserProfile"
-import Product from "./pages/Product"
+import Product from "./components/Product"
 import Profile from "./pages/Profile"
-import ForgotPassword from "./pages/ForgotPassword"
+import ForgotPassword from "./components/ForgotPassword"
 
 import { useCookies } from "react-cookie"
 import { useLogin } from "./store/contexts/LoginContextProvider"
 import {verifyToken} from "./store/utils/verifyToken"
 import { refreshAccessToken } from "./store/utils/refreshAccessToken"
 import Chatpage from "./pages/Chatpage"
-import WishList from "./pages/WishList"
+import WishList from "./components/WishList"
+import AddProduct from "./components/AddProduct"
 
 
 
@@ -66,6 +67,7 @@ function App() {
         <Route path="/forgotpassword" element={<ForgotPassword />}/>
         <Route path="/profile" element={<Profile />} />
         <Route path="/wishlist" element={<WishList />} />
+        <Route path="/addproduct" element={<AddProduct />} />
         <Route path="/users/:userId" element = {<UserProfile />} />
         <Route path="/products/:productId" element = {<Product />}/>
         <Route path="/products/categories/:category" element = {<HomePage />} />

@@ -7,22 +7,22 @@ import { Link } from "react-router-dom";
 import { FaHeart, FaRegHeart } from "react-icons/fa6";
 import { useLogin } from "../store/contexts/LoginContextProvider";
 import { useAlert } from "../store/contexts/AlertContextProvider";
-import { useLoading } from "../store/contexts/LoadingContextProvider";
-import BtnLoader from "../components/loaders/BtnLoader";
+// import { useLoading } from "../store/contexts/LoadingContextProvider";
+// import BtnLoader from "../components/loaders/BtnLoader";
 const images = require.context("../assets/images",true);
 
 
 function HomePage() {
 	const [page, setPage] = useState(1);
-	const [limit, setLimit] = useState(8);
 	const [products, setProducts] = useState([])
 	const [userWishList, setUserWishList] = useState([])
 	const imageList = images.keys().map((key)=> images(key))
+	const limit = 8;
 
 	const Navigate = useNavigate(); 
 	const loginCtx = useLogin();
 	const alertCtx = useAlert()
-	const loadingCtx = useLoading()
+	// const loadingCtx = useLoading()
 	const {category} = useParams()
 	const dummy = [1,2,3,4,5,6,7,8]
 
@@ -30,13 +30,14 @@ function HomePage() {
 		setProducts([])
 		setPage(1)
 		fetchData();
+		window.scrollTo(0,0)
 		// console.log("rendering");
 	},[loginCtx.isLoggedIn, category]);
 
 	const fetchData = async (pageIn) => {
 		try {
 			const res = await axios.get(`${Server}/products/getproducts?category=${category ? category : ""}&page=${pageIn ? pageIn : 1}&limit=${limit}`);
-			// console.log(res.data);
+			// console.log(res.data.data);
 			if (res.data.statusCode === 200 ){
 				if (products.length === 0) setProducts(res.data.data);
 				else if (products.length > 0) setProducts(prev => [...prev, ...res.data.data])
@@ -62,7 +63,7 @@ function HomePage() {
 		}
 		try {			
 			if (userWishList.includes(productId)){
-				setUserWishList(prev => prev.map((id) => ((id !== productId)?id : null)))
+				setUserWishList(prev => prev.map((id) => ((id !== productId) ? id : null)))
 				await axios.delete(`${Server}/products/deletewish/${productId}`,{withCredentials : true})
 				// console.log(res);
 			}
@@ -145,7 +146,7 @@ function HomePage() {
 												<path d="M12 5l7 7-7 7"></path>
 												</svg>
 											</Link>
-												<button onClick={()=>{handleWishChange(product._id)}} className="rounded-3xl flex justify-center text-red-500 items-center text-2xl ">
+												<button title={userWishList.includes(product._id) ?  "Remove from wishlist" : "Add to WishList"} onClick={()=>{handleWishChange(product._id)}} className="rounded-3xl flex justify-center text-red-500 items-center text-2xl ">
                                                 	{userWishList.includes(product._id) ? <FaHeart/> : <FaRegHeart />}
                                             	</button>
 										</div>
@@ -155,8 +156,8 @@ function HomePage() {
 						)))
 							:
 						( dummy.map(item => 
-						<div key={item} role="status" className="p-2 md:w-1/2 mb-6 lg:mb-0 lg:w-1/4 h-full w-5/6 animate-pulse">
-							<div className="flex items-center justify-center h-48 mb-4 bg-gray-300 rounded dark:bg-gray-700">
+						<div key={item} role="status" className="p-2 md:w-1/2 mb-6 lg:mb-0 lg:w-1/4 h-full w-5/6 animate-pulse mt-4">
+							<div className="flex items-center justify-center h-48 mb-4 bg-gray-300 rounded-xl dark:bg-gray-700">
 								<svg className="w-10 h-10 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
 									<path d="M14.066 0H7v5a2 2 0 0 1-2 2H0v11a1.97 1.97 0 0 0 1.934 2h12.132A1.97 1.97 0 0 0 16 18V2a1.97 1.97 0 0 0-1.934-2ZM10.5 6a1.5 1.5 0 1 1 0 2.999A1.5 1.5 0 0 1 10.5 6Zm2.221 10.515a1 1 0 0 1-.858.485h-8a1 1 0 0 1-.9-1.43L5.6 10.039a.978.978 0 0 1 .936-.57 1 1 0 0 1 .9.632l1.181 2.981.541-1a.945.945 0 0 1 .883-.522 1 1 0 0 1 .879.529l1.832 3.438a1 1 0 0 1-.031.988Z"/>
 									<path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z"/>
@@ -175,7 +176,7 @@ function HomePage() {
 									<div className="w-48 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
 								</div>
 							</div>
-							<span className="sr-only">Loading...</span>
+							{/* <span className="sr-only">Loading...</span> */}
 						</div>))}
 
 					</div>
