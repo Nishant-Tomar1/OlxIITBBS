@@ -8,8 +8,8 @@ import { useNavigate, Link } from 'react-router-dom'
 import { useAlert } from '../store/contexts/AlertContextProvider'
 import { useLoading } from '../store/contexts/LoadingContextProvider'
 import {useLogin } from "../store/contexts/LoginContextProvider"
-import { FaHeartCrack } from 'react-icons/fa6';
-import { MdDelete } from "react-icons/md";
+import {  MdDelete } from "react-icons/md";
+import { PiEmptyBold } from "react-icons/pi";
 // import { MdOutlineSell, MdSell } from "react-icons/md";
 
 
@@ -134,7 +134,7 @@ function Profile() {
     }
 
     const handleUpdateActiveStatus = async (id) =>{
-        const confirm = window.confirm("Are you Sure? The product will be removed forever from the feed ")
+        const confirm = window.confirm("Are you Sure? The product will be marked as sold and won't be visible to others from now.")
         if (!confirm) return
         try {
             const res = await axios.patch(`${Server}/products/sellproduct/${String(id)}`,{},{withCredentials:true})
@@ -152,7 +152,7 @@ function Profile() {
         const confirm = window.confirm("Do You really want to delete the product? All the product data will be removed")
         if (!confirm) return
         try {
-            alert(`${id}`)
+            // alert(`${id}`)
             const res = await axios.delete(`${Server}/products/deleteproduct/${String(id)}`,{withCredentials:true})
             // console.log(res);
             if (res.data.statusCode === 204){
@@ -189,16 +189,16 @@ function Profile() {
                         </div>
                         <div className="mb-3">
                             <label name="email"  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">Email</label>
-                            <input type="email" name="email" placeholder="Enter your email" className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-[#202020] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500 " value={user.email} onChange={handleUserChange} />
+                            <input type="email" name="email" autoComplete='off' placeholder="Enter your email" className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-[#202020] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500 " value={user.email} onChange={handleUserChange} />
                         </div>
                         <div className='grid grid-cols-12 gap-2'>
                             <div className="mb-3 col-span-6">
                                 <label name="firstName" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">First Name</label>
-                                <input type="text" name="firstName" className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-[#202020] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-white-500 dark:focus:border-white-500 " placeholder="Enter Firstname" value={user.firstName} onChange={handleUserChange} />
+                                <input type="text" name="firstName" autoComplete='off' className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-[#202020] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-white-500 dark:focus:border-white-500 " placeholder="Enter Firstname" value={user.firstName} onChange={handleUserChange} />
                             </div>
                             <div className="mb-3 col-span-6">
                                 <label name="lastName" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">Last Name</label>
-                                <input type="text" name="lastName" className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-[#202020] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-white-500 dark:focus:border-white-500 " placeholder="Enter Lastname" value={user.lastName} onChange={handleUserChange} />
+                                <input type="text" name="lastName" autoComplete='off' className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-[#202020] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-white-500 dark:focus:border-white-500 " placeholder="Enter Lastname" value={user.lastName} onChange={handleUserChange} />
                             </div>
                         </div>
                         <div className="mb-3">
@@ -269,7 +269,7 @@ function Profile() {
 								</div>
 							</div>
 						</div>)))
-                        : (<div className="flex flex-col lg:flex-row justify-center items-center w-full p-10 text-2xl lg:text-5xl gap-2"><span className="text-5xl"> <FaHeartCrack/></span>No Products added yet</div>)}
+                        : (<div className="flex flex-col lg:flex-row justify-center items-center w-full p-10 text-2xl lg:text-5xl gap-2"><span className="text-5xl"> <PiEmptyBold/></span>No Products added yet </div>)}
                 </div>
             </div>
             </div>

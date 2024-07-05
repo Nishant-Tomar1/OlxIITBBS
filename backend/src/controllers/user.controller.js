@@ -531,11 +531,12 @@ const updateAccountDetails = asyncHandler(
 
         // check if user already exists with this email
         const ExistedUser = await User.findOne({
-            email 
+            email : email
         })
 
-        if (ExistedUser) {
-            if(ExistedUser.email!==email) throw new ApiResponse(409,{}, "User with this email or username already exists");
+        // console.log(ExistedUser);
+        if (ExistedUser && (String(ExistedUser._id) !== String(req.user._id))) {
+            if(ExistedUser.email===email ) throw new ApiResponse(409,{}, "User with this email or username already exists");
         }
 
         await User.findByIdAndUpdate(

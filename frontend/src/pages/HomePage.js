@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { FaHeart, FaRegHeart } from "react-icons/fa6";
 import { useLogin } from "../store/contexts/LoginContextProvider";
 import { useAlert } from "../store/contexts/AlertContextProvider";
+import { useCookies } from "react-cookie";
 // import { useLoading } from "../store/contexts/LoadingContextProvider";
 // import BtnLoader from "../components/loaders/BtnLoader";
 const images = require.context("../assets/images",true);
@@ -22,12 +23,13 @@ function HomePage() {
 	const Navigate = useNavigate(); 
 	const loginCtx = useLogin();
 	const alertCtx = useAlert()
+	const [cookies] = useCookies(["accessToken", "refreshToken"])
 	// const loadingCtx = useLoading()
 	const {category} = useParams()
 	const dummy = [1,2,3,4,5,6,7,8]
 
 	useEffect(() => {
-		window.scrollTo(0,0)
+		
 		setProducts([])
 		setPage(1)
 		fetchData();
@@ -41,7 +43,7 @@ function HomePage() {
 			if (res.data.statusCode === 200 ){
 				if (products.length === 0) setProducts(res.data.data);
 				else if (products.length > 0) setProducts(prev => [...prev, ...res.data.data])
-				if (loginCtx.isLoggedIn === true){
+				if (cookies.accessToken){
 					try {
 						const res2 = await axios.get(`${Server}/users/currentuser-wishlist`, {withCredentials : true});
 						// console.log(res2.data.data);
@@ -125,9 +127,9 @@ function HomePage() {
 					<div className="flex flex-wrap m-2 xl:m-2 justify-center items-center md:justify-start">
 						{products.length > 0 ?
 						( products.map((product)=>(
-							<div  key={product._id} className="p-2 md:w-1/2 xl:w-1/4 h-full">
-								<div className="w-full bg-gray-100 dark:bg-[#252525] rounded-2xl lg:rounded-lg overflow-hidden shadow-lg p-3 lg:p-2">
-									<img className="w-full md:h-40 lg:h-56  object-cover object-center rounded-md" src={`${product.thumbNail}`} alt="" />
+							<div  key={product._id} className="p-2 w-full md:w-1/2 xl:w-1/4 h-full">
+								<div className="min-w-full bg-gray-100 dark:bg-[#252525] rounded-2xl lg:rounded-lg overflow-hidden shadow-lg p-3 lg:p-2">
+									<img className="max-h-72  w-full lg:h-56 object-cover object-center rounded-md" src={`${product.thumbNail}`} alt="" />
 									
 									<div className="py-2 lg:px-2 flex flex-col justify-between h-1/2 w-full">
 										<div className="flex flex-col">

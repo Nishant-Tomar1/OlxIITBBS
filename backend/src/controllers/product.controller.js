@@ -205,7 +205,41 @@ const getProductbyId = asyncHandler(
             }
         ])
 
-        const owner = await User.findById(product[0].owner).select("fullName profilePicture")
+        // const owner = await User.findById(product[0].owner).select("fullName profilePicture ")
+        const owner = await User.aggregate([
+            {
+                $match : {
+                    _id : product[0].owner
+                }
+            },
+            {
+                $lookup : {
+                    from : "products",
+                    localField : "_id",
+                    foreignField : "owner",
+                    as : "productsAdded",
+                    pipeline : [
+                        {
+                            $project : {
+                                id : 1,
+                                title : 1,
+                                price :1,
+                                thumbNail : 1,
+                                description :1,
+                                status : 1
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                $project : {               
+                    fullName :1,
+                    profilePicture :1,
+                    productsAdded:1
+                }
+            }
+        ])
 
         if (product.length === 0 ){
             throw new ApiError (400,"Product with this Id doesn't exist")
@@ -214,7 +248,7 @@ const getProductbyId = asyncHandler(
         return res
         .status(200)
         .json(
-            new ApiResponse(200, {product: product[0],owner :owner} , "Product fetched successfully")
+            new ApiResponse(200, {product: product[0],owner :owner[0]} , "Product fetched successfully")
         )
     }
 )

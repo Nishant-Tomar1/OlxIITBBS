@@ -108,7 +108,7 @@ function AddProduct() {
         </div>
         <div className="mb-3">
             <label name="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">Description</label>
-            <textarea type="text" name="description" maxLength="200" placeholder="Product description ( max 200 characters )" className="shadow-md bg-gray-50 border h-32 border-gray-300 text-gray-900 text-md rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-[#202020] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500 " value={newProduct.description} onChange={handleNewProductChange} />
+            <textarea type="text" name="description" maxLength="500" placeholder="Product description ( min 200 characters )" className="shadow-md bg-gray-50 border h-32 border-gray-300 text-gray-900 text-md rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-[#202020] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500 " value={newProduct.description} onChange={handleNewProductChange} />
         </div>
         <div className="mb-3">
             <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">Select Category:</label>
@@ -134,12 +134,12 @@ function AddProduct() {
         <div className="mb-3">        
           <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="file_input">Primary Image</label>
           <input className="shadow-md block w-full text-md text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-[#202020] dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="thumbNail" type="file" accept="image/*" />
-          <p className="mt-1 text-xs text-gray-500 dark:text-gray-300" id="file_input_help">PNG, JPG or JPEG.</p>
+          <p className="mt-1 text-xs text-gray-500 dark:text-gray-300" id="file_input_help">PNG, JPG or JPEG. (High resolution)</p>
         </div>
         <div className="mb-3">        
           <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="file_input">Secondary Image</label>
           <input className="shadow-md block w-full text-md text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-[#202020] dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="extraImage" type="file" accept="image/*" />
-          <p className="mt-1 text-xs text-gray-500 dark:text-gray-300" id="file_input_help">PNG, JPG or JPEG.</p>
+          <p className="mt-1 text-xs text-gray-500 dark:text-gray-300" id="file_input_help">PNG, JPG or JPEG. (High resolution)</p>
         </div>
         <button type="submit" className="w-full shadow-lg text-white bg-cyan-500 hover:bg-cyan-600  font-medium rounded-lg text-md px-5 py-2.5 text-center dark:bg-teal-500 dark:hover:bg-teal-600 ">{ loadingCtx.loading ? <BtnLoader /> : "Add Product" }</button>
         </form>

@@ -4,7 +4,7 @@ import { Server, ServerBase } from "../Constants";
 import io from "socket.io-client";
 import { useLogin } from "../store/contexts/LoginContextProvider";
 
-// const socket = io.connect(ServerBase);
+const socket = io.connect(ServerBase);
 // console.log(socket);
 
 function Chat({ user1, user2 }) {
@@ -14,47 +14,47 @@ function Chat({ user1, user2 }) {
     const loginCtx = useLogin();
     // console.log(loginCtx.userId);
 
-    // useEffect(() => {
-    //     socket.emit("joinRoom", { user1, user2 });
+    useEffect(() => {
+        socket.emit("joinRoom", { user1, user2 });
 
-    //     const fetchMessages = async () => {
-    //         try {
-    //             const res = await axios.get(
-    //                 `${Server}/messages/getmessages/${user1}/${user2}`,
-    //                 { withCredentials: true }
-    //             );
-    //             setMessages(res.data.data);
-    //             // console.log(res.data.data);
-    //         } catch (error) {
-    //             console.log("Failed to fetch messages", error);
-    //         }
-    //     };
-    //     fetchMessages();
+        const fetchMessages = async () => {
+            try {
+                const res = await axios.get(
+                    `${Server}/messages/getmessages/${user1}/${user2}`,
+                    { withCredentials: true }
+                );
+                setMessages(res.data.data);
+                // console.log(res.data.data);
+            } catch (error) {
+                console.log("Failed to fetch messages", error);
+            }
+        };
+        fetchMessages();
 
-    //     socket.on(`receiveMessage`, (message) => {
-    //         // console.log("received",message.content);
-    //         setMessages((prev) => [...prev, message]);
-    //     });
+        socket.on(`receiveMessage`, (message) => {
+            // console.log("received",message.content);
+            setMessages((prev) => [...prev, message]);
+        });
 
-    //     return () => {
-    //         socket.off(`receiveMessage`);
-    //     };
-    // }, [user1, user2]);
+        return () => {
+            socket.off(`receiveMessage`);
+        };
+    }, [user1, user2]);
 
-    // const sendMessage = (e) => {
-    //     e.preventDefault();
-    //     const message = {
-    //         sender: loginCtx.userId,
-    //         receiver: loginCtx.userId === user1 ? user2 : user1,
-    //         content: content,
-    //     };
-    //     socket.emit("sendMessage", message);
-    //     setContent("");
-    // };
+    const sendMessage = (e) => {
+        e.preventDefault();
+        const message = {
+            sender: loginCtx.userId,
+            receiver: loginCtx.userId === user1 ? user2 : user1,
+            content: content,
+        };
+        socket.emit("sendMessage", message);
+        setContent("");
+    };
 
     return (
         <div className="flex flex-col h-full max-w-lg mx-auto p-4 bg-white shadow-lg rounded-lg py-40">
-            {/* <div className="flex-grow overflow-y-auto p-4 mb-4 border border-gray-300 rounded-lg">
+            <div className="flex-grow overflow-y-auto p-4 mb-4 border border-gray-300 rounded-lg">
                 {messages.map((message, index) => (
                     <div
                         key={index}
@@ -90,7 +90,7 @@ function Chat({ user1, user2 }) {
                         Send
                     </button>
                 </form>
-            </div> */}
+            </div>
         </div>
     );
 }

@@ -44,9 +44,9 @@ function Navbar() {
 
     return (
         <>
-            <nav className="bg-white border-gray-200 dark:bg-[#111112] dark:border-gray-400 lg:dark:border-b w-full lg:sticky top-0 lg:border-b shadow-md z-10">
+            <nav className="bg-white border-gray-200 dark:bg-[#111112] dark:border-gray-400 lg:dark:border-b w-full lg:sticky top-0 lg:border-b shadow-md z-20">
                 <div  className="flex justify-center items-center fixed bottom-4 right-3 rounded-3xl bg-gray-200 dark:bg-red-500 dark:text-white shadow-md text-xl p-3 " onClick={() => window.scrollTo(0,0)}>  <button > <FaArrowUp /> </button></div>
-                <div className="mx-2 lg:mx-[3vw] flex flex-wrap items-center justify-between py-3 px-2 md:py-3">
+                <div className="mx-2 lg:mx-[3vw] flex flex-wrap items-center justify-between py-3 px-2 md:py-3 z-20">
                     <div className="flex items-center space-x-3 rtl:space-x-reverse">
                         <button
                         title="Toggle Theme"
@@ -163,10 +163,10 @@ function Navbar() {
                                     >
                                         <li>
                                             <button
-                                                onClick ={()=>{setDrop(false);Navigate("/profile")}}
+                                                onClick ={()=>{setDrop(false);Navigate("/myprofile")}}
                                                 className="text-center w-full block px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#282828] dark:hover:text-white"
                                             >
-                                                Profile
+                                                My Profile
                                             </button>
                                         </li>
                                         <li>
@@ -205,7 +205,7 @@ function Navbar() {
                 </div>
             </nav>
 
-            <div className="flex lg:hidden  items-center justify-start w-full sticky top-0 py-2 px-4 bg-white dark:bg-[#111112] ">
+            <div className="flex lg:hidden  items-center justify-start w-full sticky top-0 py-2 px-4 bg-white dark:bg-[#111112] z-20">
                 <input
                     placeholder="Search for Products"
                     className=" shadow-md px-4 md:px-6 bg-gray-100 dark:bg-gray-100 w-5/6 md:w-11/12 rounded-l-full h-11  focus:outline-none focus:border focus:border-gray-700 dark:focus:border-white"
