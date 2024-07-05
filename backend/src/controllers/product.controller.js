@@ -183,24 +183,6 @@ const getProductbyId = asyncHandler(
                     _id : new mongoose.Types.ObjectId(productId),
                 }
             },
-            // {
-            //     $lookup: {
-            //         from:"ratings",
-            //         localField:"_id",
-            //         foreignField:"product",
-            //         as:"rating",
-            //         pipeline : [
-            //             {
-            //                 $group : {
-            //                     _id : "$product",
-            //                     avgRating : {
-            //                         $avg : "$value"
-            //                     }
-            //                 }
-            //             },
-            //         ]
-            //     }
-            // },
             {
                 $lookup: {
                     from:"wishes",
@@ -223,6 +205,8 @@ const getProductbyId = asyncHandler(
             }
         ])
 
+        const owner = await User.findById(product[0].owner).select("fullName profilePicture")
+
         if (product.length === 0 ){
             throw new ApiError (400,"Product with this Id doesn't exist")
         }
@@ -230,7 +214,7 @@ const getProductbyId = asyncHandler(
         return res
         .status(200)
         .json(
-            new ApiResponse(200, product[0] , "Product fetched successfully")
+            new ApiResponse(200, {product: product[0],owner :owner} , "Product fetched successfully")
         )
     }
 )

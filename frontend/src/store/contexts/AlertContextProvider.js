@@ -1,27 +1,19 @@
 import { createContext, useContext, useState } from "react";
 
 export const alertContext = createContext({
-    alert : {
-        visible : false,
-        type : "", //[]
-        message : ""
-    },
+    confirm : false,
     toast : {
         visible : false,
         type : "",
         message : ""
     },
     unSetToast : () => {},
-    setAlert : () => {},
+    setConfirm : () => {},
     setToast : () => {}
 })
 
 function AlertContextProvider({children}){
-    const [alert, setAlert] = useState({
-        visible : false,
-        type : "",
-        message : ""
-    });
+    const [confirm, setConfirm] = useState(false)
 
     const [toast, setToast] = useState({
         visible : false,
@@ -33,25 +25,25 @@ function AlertContextProvider({children}){
         setToast(prev => ({...prev, visible : false, type : "", message : ""}))
     }
 
-    const setAlertHandler = ( alertType , alertMessage ) => {
-        setAlert(prev => ({...prev, visible : true , type : alertType, message : alertMessage}))
-        setTimeout(()=>{
-            setAlert(prev => ({...prev, visible : false, type : "", message : ""}))
-        },3000)
+    const setConfirmHandler = (value) => {
+        setConfirm(value)
+        return value
     }
 
     const setToastHandler = ( toastType , toastMessage ) => {
         setToast(prev => ({...prev, visible : true, type : toastType, message :toastMessage}))
-        setTimeout(()=>{
-            setToast(prev => ({...prev, visible : false, type : "", message : ""}))
-        },4000)
+        if (toastType !== "confirm" ){
+                setTimeout(()=>{
+                setToast(prev => ({...prev, visible : false, type : "", message : ""}))
+            },2000)
+        }
     }
 
     const context = {
-        alert : alert,
+        confirm : confirm,
         toast : toast,
+        setConfirm : setConfirmHandler,
         unSetToast : unSetToast,
-        setAlert : setAlertHandler,
         setToast : setToastHandler
     }
 

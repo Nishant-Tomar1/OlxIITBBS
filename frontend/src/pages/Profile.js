@@ -9,8 +9,8 @@ import { useAlert } from '../store/contexts/AlertContextProvider'
 import { useLoading } from '../store/contexts/LoadingContextProvider'
 import {useLogin } from "../store/contexts/LoginContextProvider"
 import { FaHeartCrack } from 'react-icons/fa6';
-import { AiOutlineDelete } from "react-icons/ai";
-import { MdOutlineSell, MdSell } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
+// import { MdOutlineSell, MdSell } from "react-icons/md";
 
 
 function Profile() {
@@ -36,14 +36,14 @@ function Profile() {
     async function fetchData(){
         try {
             const res = (await axios.get(`${Server}/users/get-current-user`,{withCredentials : true})).data.data
-            // console.log(res.productsAdded);
+            // console.log(res);
             if (res.productsAdded.length === 0) setProductListEmpty(true)
             else setProductList(res.productsAdded)
             setUser( prev => ({
                 ...prev,
                 username : res.username,
                 firstName : res.fullName.split(" ")[0],
-                lastName : res.fullName.split(" ")[1],
+                lastName : res.fullName.split(" ")[1] || "",
                 email : res.email,
                 contactNumber: res.contactNumber,
                 profilePicture : res.profilePicture
@@ -60,7 +60,7 @@ function Profile() {
         }
         fetchData()
         window.scrollTo(0,0)
-    },[cookies.accessToken, alertCtx, Navigate])
+    },[cookies.accessToken, Navigate])
 
     
     const handleUserChange = (e) => {
@@ -75,12 +75,14 @@ function Profile() {
             e.preventDefault();
             // console.log(user);
             const arr = ["email","firstName","contactNumber"]
-            arr.map((item) => {
+            for (let i=0;i<3;i++){
+                let item = arr[i];
                 // console.log(user[item]);
                 if (user[item] === ""){
-                    return alertCtx.setToast("warning",`${item} cannot be empty`)
+                    alertCtx.setToast("warning",`${item} cannot be empty`)
+                    return
                 }
-            })
+            }
             try {
                 loadingCtx.setLoading(true)
                 const res = await axios.patch(`${Server}/users/update-user-account-details`,{
@@ -88,6 +90,7 @@ function Profile() {
                     email : user.email.toLowerCase(),
                     contactNumber : user.contactNumber
                 }, {withCredentials : true})
+                // console.log(res);
                 if (res.data.statusCode === 200){
                     // console.log(res.data.data);
                     loadingCtx.setLoading(false);
@@ -130,7 +133,24 @@ function Profile() {
         }
     }
 
+    const handleUpdateActiveStatus = async (id) =>{
+        const confirm = window.confirm("Are you Sure? The product will be removed forever from the feed ")
+        if (!confirm) return
+        try {
+            const res = await axios.patch(`${Server}/products/sellproduct/${String(id)}`,{},{withCredentials:true})
+            if (res.data.statusCode === 200){       
+                setProductList(prev => prev.map((product) => ((product._id === id) ? ({...product,status:"sold"}) : product)))
+                alertCtx.setToast("success","Product status updated successfully")
+            }
+        } catch (error) {
+            console.log(error);
+            alertCtx.setToast("error","Server is not responding!")
+        }
+    }
+
     const handleProductDeletion = async(id) => {
+        const confirm = window.confirm("Do You really want to delete the product? All the product data will be removed")
+        if (!confirm) return
         try {
             alert(`${id}`)
             const res = await axios.delete(`${Server}/products/deleteproduct/${String(id)}`,{withCredentials:true})
@@ -146,28 +166,12 @@ function Profile() {
         }
     }
 
-    const handleUpdateActiveStatus = async (id) =>{
-        try {
-            // loadingCtx.setLoading(true)
-            const res = await axios.patch(`${Server}/products/sellproduct/${String(id)}`,{},{withCredentials:true})
-            // console.log(res);
-            if (res.data.statusCode === 200){
-                // loadingCtx.setLoading(false)
-                alertCtx.setToast("success","Product status updated successfully")
-            }
-        } catch (error) {
-            console.log(error);
-            alertCtx.setToast("error","Server is not responding!")
-            // loadingCtx.setLoading(false)
-        }
-    }
-    
     return (
         <div className="flex w-full flex-col ">
             
             <div className="bg-gray-100 dark:bg-[#191919] shadow-md flex flex-col w-full lg:flex-row justify-center lg:pt-8">
                 <div className="flex flex-col items-center justify-center p-4 lg:pr-4 lg:w-1/3 py-3 lg:items-end">
-                    <img src={user.profilePicture} alt="Profile Picture" className="text-center w-52 h-52 sm:w-64 sm:h-64 xl:w-72 xl:h-72 rounded-full my-4 object-cover object-center " />
+                    <img src={user.profilePicture} alt="Profile" className="text-center w-52 h-52 sm:w-64 sm:h-64 xl:w-72 xl:h-72 rounded-full my-4 object-cover object-center"/>
                     {!updateProfilePic && <div onClick={()=>{setUpdateProfilePic(true)}} className='cursor-pointer flex gap-2 text-md lg:text-xl font-medium items-center  text-gray-800 dark:text-white '><span className='text-2xl'><AiFillEdit/></span> Update Profile Picture</div>}
                     {updateProfilePic && <form onSubmit={handleUpdateUserProfilePic} className="mt-3">        
                         <input className="shadow-md block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-[#202020] dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="profilePicture" type="file" accept="image/*" />
@@ -229,7 +233,7 @@ function Profile() {
 											</div>
 											<p className="mb-3 lg:text-sm font-normal h-14 overflow-y-auto">{product.description.length > 80 ? (product.description.substr(0,80)+"...") : (product.description) } </p>
 										</div>
-										<div className="flex items-center justify-between">
+										<div className="flex items-center justify-between ">
 											<Link to={`/products/${product._id}`} className="text-teal-400 font-medium inline-flex items-center md:mb-2 lg:mb-0 " >Show More
 												<svg className="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
 												<path d="M5 12h14"></path>
@@ -238,7 +242,7 @@ function Profile() {
 											</Link>
 											<div className='flex gap-2'>
                                                 <button title={product.status === "active" ? 'Add product to sold' : 'Product is Sold'} onClick={() =>{ (product.status === "active" ? handleUpdateActiveStatus(product._id) : alertCtx.setToast("error","Product is already Sold!"))}} className={`text-md ${product.status === "active" ? "text-green-500" : "text-gray-400 dark:text-red-900"} font-bold`}>{product.status === "active" ? "Set Sold" : "Sold"}</button>
-                                                <button title='delete product' onClick={()=>{handleProductDeletion(product._id)}} className='text-2xl text-red-500'><AiOutlineDelete/> </button>
+                                                <button title='delete product' onClick={()=>{handleProductDeletion(product._id)}} className='text-2xl text-red-500'><MdDelete/> </button>
                                             </div>
 										</div>
 									</div>
