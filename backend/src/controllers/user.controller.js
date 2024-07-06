@@ -7,6 +7,7 @@ import { Wish } from  "../models/wish.model.js"
 import { uploadOnCloudinary, deleteFileFromCloudinary } from  "../utils/cloudinary.js"
 import jwt from "jsonwebtoken"
 import mongoose from "mongoose"
+import { Message } from "../models/message.model.js"
 
 const generateAccessAndRefreshTokens = async (userId) => {
     try {
@@ -355,18 +356,18 @@ const changeCurrentUserPassword = asyncHandler(
     }
 )
 
-const getUserByUsername = asyncHandler(
+const getUserById = asyncHandler(
     async(req, res) => {
-        const {username} = req.params;
+        const {id :userId} = req.params;
 
-        if(!username){
-            throw new ApiError(500, "Username is required")
+        if(!userId){
+            throw new ApiError(500, "UserId is required")
         }
 
         const user = await User.aggregate([
             {
                 $match : {
-                    username : username
+                    _id : new mongoose.Types.ObjectId(userId)
                 }
             },
             {
@@ -609,16 +610,22 @@ const deleteUser = asyncHandler(
     async(req, res) => {
 
         const productDeletion = await Product.deleteMany({
-            owner : req.user.id
+            owner : req.user._id
         })
 
         const wishListDeletion = await Wish.deleteMany({
-            wishedBy : req.user.id
+            wishedBy : req.user._id
         })
 
-        if (!productDeletion || !wishListDeletion){
+        const messageDeletion = await Message.deleteMany({
+            $or :[{sender : req.user._id}, {receiver : req.user._id }]
+        })
+
+        if (!productDeletion || !wishListDeletion || !messageDeletion){
             throw new ApiError(500, "Something went wrong while deleting user data(products and wishlist)")
         }
+
+        console.log(productDeletion, wishListDeletion, messageDeletion);
 
         const user = await User.findById(req.user._id);
  
@@ -656,7 +663,7 @@ export {
     verifyEmail,
     changePasswordByCode,
     changeCurrentUserPassword,
-    getUserByUsername,
+    getUserById,
     getCurrentUser,
     getCurrentUserWishlist,
     updateAccountDetails,

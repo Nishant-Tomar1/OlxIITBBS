@@ -10,6 +10,7 @@ dotenv.config({
 })
 
 const server = http.createServer(app)
+
 const io = new socketIo(server, {
     cors : {
         origin : process.env.CORS_ORIGIN,
@@ -18,7 +19,6 @@ const io = new socketIo(server, {
 })
 
 io.on("connection", (socket) => {
-    // console.log(`A new User connected ${socket.id}`);
 
     socket.on('joinRoom', ({ user1, user2 }) => {
         const roomName = [user1, user2].sort().join('_'); 
@@ -28,11 +28,8 @@ io.on("connection", (socket) => {
 
     socket.on('sendMessage', async (message) => {
         const roomName = [message.sender, message.receiver].sort().join('_');
-        // console.log("HAHAHA",roomName);
-        
 
         try {
-            // console.log(message);
             const newMessage = new Message(message)
             await newMessage.save()
 
@@ -43,9 +40,7 @@ io.on("connection", (socket) => {
         }
     })
 
-    socket.on('disconnect', () => {
-        // console.log("User disconnected");
-    })
+    socket.on('disconnect', () => {})
 })
 
 server.listen( 5000, () => {

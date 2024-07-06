@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { Server, ServerBase } from "../Constants";
 import io from "socket.io-client";
@@ -53,39 +53,53 @@ function Chat({ user1, user2 }) {
     };
 
     return (
-        <div className="flex flex-col h-full max-w-lg mx-auto p-4 bg-white shadow-lg rounded-lg py-40">
-            <div className="flex-grow overflow-y-auto p-4 mb-4 border border-gray-300 rounded-lg">
+        <div className="flex flex-col w-11/12 sm:w-8/12 lg:w-7/12 xl:w-1/2 2xl:w-1/3 mx-auto p-2 lg:p-3 bg-white dark:bg-[#202020] shadow-lg rounded-lg my-2 ">
+            <div  className="flex flex-col overflow-y-auto p-1 sm:p-2 mb-4 bg-gray-100 dark:bg-[#191919] max-h-[75vh] min-h-80 ">
                 {messages.map((message, index) => (
+                    <div key={index} className={`flex w-full ${
+                        message.sender === loginCtx.userId
+                                ? "justify-end "
+                                : "justify-start"
+                    }`}>
                     <div
-                        key={index}
-                        className={`mb-2 p-2 rounded-md ${
+                        className={`mb-2 max-w-[80%] md:max-w-[66%] p-2 px-3 rounded-xl ${
                             message.sender === loginCtx.userId
-                                ? "bg-blue-500 text-white self-end"
-                                : "bg-gray-200 self-start"
+                            ? "bg-cyan-500 dark:bg-teal-500 text-white rounded-tr-none"
+                            : "bg-gray-200 text-left rounded-tl-none"
                         }`}
-                    >
-                        <b>
+                    >   
+                    <span>
+                        <span className="font-bold">
                             {message.sender === loginCtx.userId
-                                ? "You"
-                                : "Them"}
+                                ? "You "
+                                : "Them "}
                             :
-                        </b>{" "}
-                        {message.content}
+                            
+                        </span>
+                        {" "}{message.content}
+                        </span>
+
+                        
+                    {/* <div className="text-right ms-2 text-[8px]">{[...message.timeStamp.split("T")[0].split("-")].reverse().join("-")}, {(String(message.timeStamp.split("T")[1].split(".")[0]).substring(0,3) > "12") ? (String(message.timeStamp.split("T")[1].split(".")[0]).substring(0,2)-"12" + String(message.timeStamp.split("T")[1].split(".")[0]).substring(2,5) + " pm" ) : (String(message.timeStamp.split("T")[1].split(".")[0]).substring(0,5)+ " am")}</div>
+                    </div> */}
+                    <div className="text-right ms-2 text-[8px]">{[...message.timeStamp.split("T")[0].split("-")].reverse().join("-")}, {(String(message.timeStamp.split("T")[1].split(".")[0]).substring(0,5))}</div>
+                    </div>
+                    
                     </div>
                 ))}
             </div>
-            <div className="flex">
+            <div className="flex w-full">
                 <form action="" onSubmit={sendMessage} className="flex w-full">
                     <input
                         type="text"
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
                         placeholder="Type a message"
-                        className="flex-grow p-2 border border-gray-300 rounded-l-lg focus:outline-none"
+                        className="flex p-2 w-4/5 lg:w-5/6 dark:bg-[#191919] dark:text-white focus:border-0 rounded-l-full focus:outline-0 ps-4"
                     />
                     <button
                         type="submit"
-                        className="p-2 bg-blue-500 text-white rounded-r-lg hover:bg-blue-600 focus:outline-none"
+                        className="px-1 mg:px-4 w-1/5 lg:w-1/6 bg-cyan-500 dark:bg-teal-500 dark:hover:bg-teal-600 text-white rounded-r-full hover:bg-cyan-600 focus:outline-none"
                     >
                         Send
                     </button>

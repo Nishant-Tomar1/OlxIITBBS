@@ -77,7 +77,7 @@ function Product() {
     return (
         <div className="container px-5 py-6 lg:py-16 mx-auto text-gray-700 dark:text-white">
             <div className="w-11/12 lg:w-4/5 mx-auto flex flex-wrap text-gray-700 dark:text-white">
-                <div className="lg:w-1/2 w-full lg:h-96 h-64 sm:h-80 object-cover object-center rounded-xl z-0">
+                <div className="lg:w-1/2 w-full lg:h-96 h-64 sm:h-80 object-cover object-center rounded-xl z-0 shadow-lg ">
                     {data.product.extraImage ? (
                         <Carousel>
                             <img src={`${data.product.thumbNail}`} alt="..." />
@@ -85,7 +85,7 @@ function Product() {
                         </Carousel>
                     ) : (
                         <img
-                            className=" w-full lg:h-96 h-64 sm:h-80 object-cover object-center rounded-xl z-0"
+                            className=" w-full lg:h-96 h-64 sm:h-80 object-cover object-center rounded-xl z-0 p-1"
                             src={`${data.product.thumbNail}`}
                         />
                     )}
@@ -94,11 +94,11 @@ function Product() {
                     <h2 className="text-sm title-font text-gray-500 tracking-wider">
                         {data.product.category}
                     </h2>
-                    <h1 className="text-xl lg:text-4xl title-font mb-1 font-[Raleway] font-extrabold text-black dark:text-teal-400">
+                    <h1 className="text-2xl lg:text-4xl title-font mb-1 font-[Raleway] font-extrabold text-black dark:text-teal-400">
                         {data.product.title}
                     </h1>
                     <div className='max-h-32 lg:min-h-32 overflow-y-auto'>
-                    <p className="font-normal text-lg text-gray-600 dark:text-gray-300">
+                    <p className="font-normal text-md lg:text-lg text-gray-600 dark:text-gray-300">
                         {data.product.description}
                     </p>
                     </div>
@@ -162,14 +162,14 @@ function Product() {
 
             {/* other products by owner */}
             <div className="container mt-10">
-               {<div className="w-full text-center font-bold font-[Raleway] text-2xl lg:text-3xl pt-5">Other Products by this Seller</div>}
+               {(data.owner?.productsAdded?.length > 1) &&(<div className="w-full text-center font-bold font-[Raleway] text-2xl lg:text-3xl pt-5">Other Products by this Seller</div>)}
                     <div className="flex flex-wrap m-2 xl:m-2 justify-center items-center w-full ">
                     { (data.owner.productsAdded) ?
 						( data.owner.productsAdded.map((product)=>(
                             
 							(product._id !== data.product._id)&& (<div  key={product._id} className="p-2 md:w-1/2 xl:w-1/4 h-full">
 								<div className="w-full bg-gray-100 dark:bg-[#252525] rounded-2xl lg:rounded-lg overflow-hidden shadow-lg p-3 lg:p-2">
-									<img className="w-full md:h-40 lg:h-56  object-cover object-center rounded-md" src={`${product.thumbNail}`} alt="" />
+									<img className="w-full md:h-40 lg:h-56  object-cover object-center rounded-md " src={`${product.thumbNail}`} alt="" />
 									
 									<div className="py-2 lg:px-2 flex flex-col justify-between h-1/2 w-full">
 										<div className="flex flex-col">
@@ -179,7 +179,7 @@ function Product() {
 												<h1 className="title-font
 												text-lg lg:text-lg font-bold text-green-500 mb-1">₹ {product.price}</h1>
 											</div>
-											<p className="mb-3 lg:text-sm font-normal h-14 overflow-y-auto">{product.description.length > 80 ? (product.description.substr(0,80)+"...") : (product.description) }  </p>
+											<p className="mb-3 lg:text-sm font-normal h-14 overflow-y-auto">{product.description.length > 65 ? (product.description.substr(0,65)+"...") : (product.description) }  </p>
 										</div>
 										<div className="flex items-center justify-between">
 											<Link to={`/products/${product._id}`} className="text-teal-400 font-medium inline-flex items-center md:mb-2 lg:mb-0 " >Show More
@@ -216,7 +216,8 @@ function Product() {
 								</div>
 							</div>
 							<span className="sr-only">Loading...</span>
-						</div>))}
+						</div>))
+                    }
                 </div>
             </div>
         </div>

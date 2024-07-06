@@ -8,7 +8,7 @@ function Chatpage() {
     const {user1, user2} = useParams()
     // console.log(user1 , user2);
     return (
-        <div className=' dark:bg-gray-700 w-full'>
+        <div className='w-full'>
             <Chat user1={user1} user2={user2} />
         </div>
     )

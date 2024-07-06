@@ -117,13 +117,25 @@ const deleteProduct = asyncHandler(
 
 const getProducts = asyncHandler(
     async ( req , res) => {
-        const { category, page, limit} = req.query;
+        const { category, search, page, limit} = req.query;
         // console.log(category, page,limit);
         const skip = (page-1)*limit;
-        const query = category ? {$match : {status : "active", category : String(category)}}  : {$match:{status:"active"}};
-        // console.log(query);
+        const query = {};
+
+        if(search){
+            query.title = { $regex: new RegExp(search, "i") }
+        }
+        if(category){
+            query.category = String(category)
+        }
+        query.status = "active"
+        // console.log("hii",query);
+        // const query = category ? {$match : {status : "active", category : String(category)}}  : {$match:{status:"active"}};
+
         const products = await Product.aggregate([
-                query,
+                {
+                    $match : query
+                },
                 {
                     $lookup: {
                         from:"wishes",

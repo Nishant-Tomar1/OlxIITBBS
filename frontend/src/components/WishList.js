@@ -20,6 +20,8 @@ function WishList() {
         try {
             const res = await axios.get(`${Server}/users/currentuser-wishlist`,{withCredentials:true})
             const data = res.data.data.map(wish => wish.product[0]);
+			const res2 = await axios.get(`${Server}/users/currentuser-wishlist`, {withCredentials : true});
+            setUserWishList(res2.data.data.map((wish) => wish.product[0]._id))
             // console.log(data);
             if (data.length === 0) setIsWishListEmpty(true);
             // console.log(res.data.data);
@@ -29,14 +31,8 @@ function WishList() {
         } catch (error) {
             console.log(error);
         }
-        try {
-            const res2 = await axios.get(`${Server}/users/currentuser-wishlist`, {withCredentials : true});
-            setUserWishList(res2.data.data.map((wish) => wish.product[0]._id))
-            // console.log(res2.data.data.map((wish) => wish.product[0]._id));
-        } catch (error) {
-            console.log(error);
-        }
     }
+	
     useEffect(() => {
         if (!cookies.accessToken){
             Navigate("/")
@@ -69,10 +65,10 @@ function WishList() {
                {!isWishListEmpty && <div className="w-full text-center font-bold font-[Raleway] text-2xl lg:text-3xl pt-5">User WishList</div>}
                     <div className="flex flex-wrap m-2 xl:m-2 justify-center items-center w-full ">
                     { !isWishListEmpty ? ((wishList.length > 0) ?
-						( wishList.map((product)=>(
-							<div  key={product._id} className="p-2 md:w-1/2 xl:w-1/4 h-full">
+						( wishList?.map((product)=>(
+							<div  key={product?._id} className="p-2 md:w-1/2 xl:w-1/4 h-full">
 								<div className="w-full bg-gray-100 dark:bg-[#252525] rounded-2xl lg:rounded-lg overflow-hidden shadow-lg p-3 lg:p-2">
-									<img className="w-full md:h-40 lg:h-56  object-cover object-center rounded-md" src={`${product.thumbNail}`} alt="" />
+									<img className="w-full md:h-40 lg:h-56  object-cover object-center rounded-md" src={`${product?.thumbNail}`} alt="" />
 									
 									<div className="py-2 lg:px-2 flex flex-col justify-between h-1/2 w-full">
 										<div className="flex flex-col">
@@ -82,7 +78,7 @@ function WishList() {
 												<h1 className="title-font
 												text-lg lg:text-lg font-bold text-green-500 mb-1">₹ {product.price}</h1>
 											</div>
-											<p className="mb-3 lg:text-sm font-normal h-14 overflow-y-auto">{product.description.length > 80 ? (product.description.substr(0,80)+"...") : (product.description) }  </p>
+											<p className="mb-3 lg:text-sm font-normal h-14 overflow-y-auto">{product.description.length > 65 ? (product.description.substr(0,65)+"...") : (product.description) }  </p>
 										</div>
 										<div className="flex items-center justify-between">
 											<Link to={`/products/${product._id}`} className="text-teal-400 font-medium inline-flex items-center md:mb-2 lg:mb-0 " >Show More

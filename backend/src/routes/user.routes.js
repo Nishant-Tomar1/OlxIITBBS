@@ -14,9 +14,9 @@ import {
     verifyRefreshToken,
     verifyEmail,
     changePasswordByCode,
-    getUserByUsername,
     getCurrentUserWishlist,
     deleteUser,
+    getUserById,
 } 
 from '../controllers/user.controller.js';
 import { sendEmailHandler } from '../controllers/email.controller.js';
@@ -45,7 +45,7 @@ router.route("/verify-refresh-token").get(verifyRefreshToken);
 
 router.route("/change-password-bycode").post(changePasswordByCode);
 
-router.route("/getuser/username/:username").get(getUserByUsername);
+router.route("/getuser/username/:id").get(getUserById);
 
 
 //secured routes

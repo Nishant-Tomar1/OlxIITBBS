@@ -38,8 +38,8 @@ function AddProduct() {
               return alertCtx.setToast("warning", `${key} is required!`)
             }
         }
-        if (newProduct.price < 50 || newProduct.price > 10000){
-            return alertCtx.setToast("warning", `Price must be between 50 to 10000`)
+        if (newProduct.price < 50 || newProduct.price > 50000){
+            return alertCtx.setToast("warning", `Price must be between 50 to 50000`)
         }
         if (newProduct.ageInMonths < 0 || newProduct.ageInMonths > 60){
             return alertCtx.setToast("warning", `Product Age must be between 0 to 60 months`)
@@ -82,6 +82,8 @@ function AddProduct() {
                     price : "",
                     ageInMonths : ""
                 }))
+                Navigate("/")
+                window.scrollTo(0,0)
             }
         } catch (error) {
             console.log(error);

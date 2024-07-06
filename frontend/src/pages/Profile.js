@@ -53,30 +53,22 @@ function Profile() {
         }
     }
 
-    useEffect( ()=>{
-        if(!cookies.accessToken){
-            // alertCtx.setToast("warning","Login to access profile")
-            Navigate('/login')
-        }
-        fetchData()
-        window.scrollTo(0,0)
-    },[cookies.accessToken, Navigate])
-
+    
     
     const handleUserChange = (e) => {
-            const { name, value } = e.target;
-            setUser(prevState => ({
+        const { name, value } = e.target;
+        setUser(prevState => ({
             ...prevState,
             [name]: value
         }));
     };
-
+    
     const handleProfileUpdate = async(e) =>{
-            e.preventDefault();
-            // console.log(user);
-            const arr = ["email","firstName","contactNumber"]
-            for (let i=0;i<3;i++){
-                let item = arr[i];
+        e.preventDefault();
+        // console.log(user);
+        const arr = ["email","firstName","contactNumber"]
+        for (let i=0;i<3;i++){
+            let item = arr[i];
                 // console.log(user[item]);
                 if (user[item] === ""){
                     alertCtx.setToast("warning",`${item} cannot be empty`)
@@ -106,70 +98,80 @@ function Profile() {
                 loadingCtx.setLoading(false)
             }
         }
-
-    const handleUpdateUserProfilePic = async(e) => {
-        e.preventDefault()
-        try {
-            loadingCtx.setLoading(true)
-            const fileInput = document.getElementById("profilePicture")
-            const file = fileInput.files[0]
-            // console.log(file);
-            const formData  = new FormData();
-            formData.append("profilePicture",file)
-            const res = await axios.patch(`${Server}/users/update-user-profile-picture`,formData, {withCredentials : true},{headers: {
-                'Content-Type': 'multipart/form-data'
-        }})
-            // console.log(res);
-            if (res.data.statusCode === 200){
+        
+        const handleUpdateUserProfilePic = async(e) => {
+            e.preventDefault()
+            try {
+                loadingCtx.setLoading(true)
+                const fileInput = document.getElementById("profilePicture")
+                const file = fileInput.files[0]
+                // console.log(file);
+                const formData  = new FormData();
+                formData.append("profilePicture",file)
+                const res = await axios.patch(`${Server}/users/update-user-profile-picture`,formData, {withCredentials : true},{headers: {
+                    'Content-Type': 'multipart/form-data'
+                }})
+                // console.log(res);
+                if (res.data.statusCode === 200){
+                    loadingCtx.setLoading(false)
+                    loginCtx.login(cookies.accessToken, cookies.refreshToken, res.data.data._id, res.data.data.fullName, res.data.data.profilePicture)
+                    setUpdateProfilePic(false)
+                    alertCtx.setToast("success","Profile Picture Updated Successfully")
+                }         
+            } catch (error) {
+                console.log(error);
                 loadingCtx.setLoading(false)
-                loginCtx.login(cookies.accessToken, cookies.refreshToken, res.data.data._id, res.data.data.fullName, res.data.data.profilePicture)
-                setUpdateProfilePic(false)
-                alertCtx.setToast("success","Profile Picture Updated Successfully")
-            }         
-        } catch (error) {
-            console.log(error);
-            loadingCtx.setLoading(false)
-            alertCtx.setToast("error","Something went wrong!!")
-        }
-    }
-
-    const handleUpdateActiveStatus = async (id) =>{
-        const confirm = window.confirm("Are you Sure? The product will be marked as sold and won't be visible to others from now.")
-        if (!confirm) return
-        try {
-            const res = await axios.patch(`${Server}/products/sellproduct/${String(id)}`,{},{withCredentials:true})
-            if (res.data.statusCode === 200){       
-                setProductList(prev => prev.map((product) => ((product._id === id) ? ({...product,status:"sold"}) : product)))
-                alertCtx.setToast("success","Product status updated successfully")
+                alertCtx.setToast("error","Something went wrong!!")
             }
-        } catch (error) {
-            console.log(error);
-            alertCtx.setToast("error","Server is not responding!")
         }
-    }
-
-    const handleProductDeletion = async(id) => {
-        const confirm = window.confirm("Do You really want to delete the product? All the product data will be removed")
-        if (!confirm) return
-        try {
-            // alert(`${id}`)
-            const res = await axios.delete(`${Server}/products/deleteproduct/${String(id)}`,{withCredentials:true})
-            // console.log(res);
-            if (res.data.statusCode === 204){
-                setProductList(prev => prev.filter(product => (product._id !== id) ))         
-                alertCtx.setToast("success","Product Deleted Successfully")
+        
+        const handleUpdateActiveStatus = async (id) =>{
+            const confirm = window.confirm("Are you Sure? The product will be marked as sold and won't be visible to others from now.")
+            if (!confirm) return
+            try {
+                const res = await axios.patch(`${Server}/products/sellproduct/${String(id)}`,{},{withCredentials:true})
+                if (res.data.statusCode === 200){       
+                    setProductList(prev => prev.map((product) => ((product._id === id) ? ({...product,status:"sold"}) : product)))
+                    alertCtx.setToast("success","Product status updated successfully")
+                }
+            } catch (error) {
+                console.log(error);
+                alertCtx.setToast("error","Server is not responding!")
             }
-            // console.log(productList.filter(product => product._id!==id));
-        } catch (error) {
-            alertCtx.setToast("error","Product could not be deleted!!");
-            console.log(error);
         }
-    }
+        
+        const handleProductDeletion = async(id) => {
+            const confirm = window.confirm("Do You really want to delete the product? All the product data will be removed")
+            if (!confirm) return
+            try {
+                // alert(`${id}`)
+                const res = await axios.delete(`${Server}/products/deleteproduct/${String(id)}`,{withCredentials:true})
+                // console.log(res);
+                if (res.data.statusCode === 204){
+                    setProductList(prev => prev.filter(product => (product._id !== id) ))         
+                    alertCtx.setToast("success","Product Deleted Successfully")
+                }
+                // console.log(productList.filter(product => product._id!==id));
+            } catch (error) {
+                alertCtx.setToast("error","Product could not be deleted!!");
+                console.log(error);
+            }
+        }
+        
+        useEffect( ()=>{
+            if(!cookies.accessToken){
+                // alertCtx.setToast("warning","Login to access profile")
+                Navigate('/login')
+            }
+            // alert("hiii")
+            fetchData()
+            window.scrollTo(0,0)
+        },[cookies.accessToken, Navigate, alertCtx])
 
     return (
         <div className="flex w-full flex-col ">
             
-            <div className="bg-gray-100 dark:bg-[#191919] shadow-md flex flex-col w-full lg:flex-row justify-center lg:pt-8">
+            <div className="bg-gray-100 dark:bg-[#191919] shadow-md flex flex-col w-full lg:flex-row justify-center lg:pt-3">
                 <div className="flex flex-col items-center justify-center p-4 lg:pr-4 lg:w-1/3 py-3 lg:items-end">
                     <img src={user.profilePicture} alt="Profile" className="text-center w-52 h-52 sm:w-64 sm:h-64 xl:w-72 xl:h-72 rounded-full my-4 object-cover object-center"/>
                     {!updateProfilePic && <div onClick={()=>{setUpdateProfilePic(true)}} className='cursor-pointer flex gap-2 text-md lg:text-xl font-medium items-center  text-gray-800 dark:text-white '><span className='text-2xl'><AiFillEdit/></span> Update Profile Picture</div>}
@@ -231,7 +233,7 @@ function Profile() {
 												<h1 className={`title-font
 												text-lg lg:text-lg font-bold ${product.status === "active" ? "text-green-500" : "text-gray-400 dark:text-red-900"} mb-1`}>₹ {product.price}</h1>
 											</div>
-											<p className="mb-3 lg:text-sm font-normal h-14 overflow-y-auto">{product.description.length > 80 ? (product.description.substr(0,80)+"...") : (product.description) } </p>
+											<p className="mb-3 lg:text-sm font-normal h-14 overflow-y-auto">{product.description.length > 65 ? (product.description.substr(0,65)+"...") : (product.description) } </p>
 										</div>
 										<div className="flex items-center justify-between ">
 											<Link to={`/products/${product._id}`} className="text-teal-400 font-medium inline-flex items-center md:mb-2 lg:mb-0 " >Show More

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLoading } from '../store/contexts/LoadingContextProvider'
 import { useNavigate } from 'react-router-dom'
 import { Server } from '../Constants'
@@ -22,6 +22,12 @@ function SignUp() {
   const Navigate = useNavigate()
   const alertCtx = useAlert()
   const loadingCtx = useLoading()
+
+  useEffect(()=>{
+    const fetchprevUserData = async() => {
+        
+    }
+  })
 
   const handleNewUserChange = (e)=> {
     setNewUser(prev => ({
