@@ -34,7 +34,7 @@ const getAllMessagesBetweenTwoUsers = asyncHandler(
                 },
                 {
                     $sort : {
-                        timeStamp : 1
+                        timeStamp : -1
                     }
                 }
             ])

@@ -20,6 +20,7 @@ import { useLogin } from "./store/contexts/LoginContextProvider"
 import {verifyToken} from "./store/utils/verifyToken"
 import { refreshAccessToken } from "./store/utils/refreshAccessToken"
 import Chatpage from "./pages/Chatpage"
+import ChatBox from "./components/ChatBox"
 import WishList from "./components/WishList"
 import AddProduct from "./components/AddProduct"
 import UpdatePassword from "./components/UpdatePassword"
@@ -62,7 +63,6 @@ function App() {
     createRoutesFromElements(   
       <Route path="/" element={<Layout />}>
         <Route path="/" element={<HomePage />} />
-        <Route path="/chats/:user1/:user2" element={<Chatpage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />}/>
         <Route path="/forgotpassword" element={<ForgotPassword />}/>
@@ -73,6 +73,8 @@ function App() {
         <Route path="/users/:userId" element = {<UserProfile />} />
         <Route path="/products/:productId" element = {<Product />}/>
         <Route path="/products/categories/:category" element = {<HomePage />} />
+        <Route path="/chats" element={<Chatpage/>}/>
+        <Route path="/chats/:user1/:user2" element={<ChatBox />} />
       </Route>   
     )
   )

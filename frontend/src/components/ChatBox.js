@@ -1,20 +1,24 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Server, ServerBase } from "../Constants";
 import io from "socket.io-client";
 import { useLogin } from "../store/contexts/LoginContextProvider";
+import { useNavigate, useParams } from 'react-router-dom'
 
 const socket = io.connect(ServerBase);
-// console.log(socket);
 
-function Chat({ user1, user2 }) {
+function ChatBox() {
     const [content, setContent] = useState("");
     const [messages, setMessages] = useState([]);
+    const {user1, user2} = useParams()
 
     const loginCtx = useLogin();
-    // console.log(loginCtx.userId);
+    const Navigate = useNavigate()
 
     useEffect(() => {
+        // if(!loginCtx.isLoggedIn){
+        //     Navigate("/")
+        // }
         socket.emit("joinRoom", { user1, user2 });
 
         const fetchMessages = async () => {
@@ -33,13 +37,13 @@ function Chat({ user1, user2 }) {
 
         socket.on(`receiveMessage`, (message) => {
             // console.log("received",message.content);
-            setMessages((prev) => [...prev, message]);
+            setMessages((prev) => [ message,...prev]);
         });
 
         return () => {
             socket.off(`receiveMessage`);
         };
-    }, [user1, user2]);
+    }, [user1, user2, loginCtx.isLoggedIn]);
 
     const sendMessage = (e) => {
         e.preventDefault();
@@ -54,7 +58,7 @@ function Chat({ user1, user2 }) {
 
     return (
         <div className="flex flex-col w-11/12 sm:w-8/12 lg:w-7/12 xl:w-1/2 2xl:w-1/3 mx-auto p-2 lg:p-3 bg-white dark:bg-[#202020] shadow-lg rounded-lg my-2 ">
-            <div  className="flex flex-col overflow-y-auto p-1 sm:p-2 mb-4 bg-gray-100 dark:bg-[#191919] max-h-[75vh] min-h-80 ">
+            <div  className="flex flex-col-reverse overflow-y-auto p-1 sm:p-2 mb-4 bg-gray-100 dark:bg-[#191919] max-h-[75vh] min-h-80 ">
                 {messages.map((message, index) => (
                     <div key={index} className={`flex w-full ${
                         message.sender === loginCtx.userId
@@ -109,4 +113,4 @@ function Chat({ user1, user2 }) {
     );
 }
 
-export default Chat;
+export default ChatBox;

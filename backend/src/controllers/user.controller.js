@@ -473,6 +473,52 @@ const getCurrentUser = asyncHandler(
     }
 )
 
+const getCurrentUserChats = asyncHandler(
+    async(req, res) => {
+        const chats = await Message.aggregate([
+            {
+                $match : {
+                    $or : [
+                        {sender : req.user._id},
+                        {receiver : req.user._id}
+                    ]
+                }
+            },
+            {
+                $project : {
+                    sender :1,
+                    receiver:1
+                }
+            }
+        ])
+
+        const users = []
+        chats.map((chat) => {
+            if(String(chat.sender) === String(req.user._id)){
+                if(!users.includes(String(chat.receiver))){
+                    users.push(String(chat.receiver));
+                };
+            } 
+            else{
+                if(!users.includes(String(chat.sender))){
+                    users.push(String(chat.sender));
+                };
+            }
+        })
+        let data = []
+        const userPromises = users.map(async (user) => {
+            return await User.findById(user).select("fullName profilePicture");
+        });
+        
+        data = await Promise.all(userPromises);
+        return res
+        .status(200)
+        .json(
+            new ApiResponse (200,data, "Chats fetched successfully")
+        )
+    }
+)
+
 const getCurrentUserWishlist = asyncHandler(
     async (req, res) => {
         
@@ -665,6 +711,7 @@ export {
     changeCurrentUserPassword,
     getUserById,
     getCurrentUser,
+    getCurrentUserChats,
     getCurrentUserWishlist,
     updateAccountDetails,
     updateUserProfilePicture,

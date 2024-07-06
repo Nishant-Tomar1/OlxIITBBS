@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import { useLoading } from '../store/contexts/LoadingContextProvider'
 import { useAlert } from '../store/contexts/AlertContextProvider'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import BtnLoader from './loaders/BtnLoader'
 import axios from 'axios'
 import { Server } from '../Constants'
@@ -105,12 +105,12 @@ function AddProduct() {
             <h1 className="text-2xl lg:text-4xl font-bold font-[Raleway] pb-2">Add Product</h1>
         <form className=" mx-auto w-11/12 md:w-7/12 lg:w-5/12" onSubmit={handleSubmit}>
         <div className="mb-3">
-            <label name="title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">Title</label>
+            <label name="title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">Product Title (2-3 words)</label>
             <input type="text" name="title" className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-[#202020] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-white-500 dark:focus:border-white-500 " placeholder="Product Title" value={newProduct.title} onChange={handleNewProductChange} />
         </div>
         <div className="mb-3">
-            <label name="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">Description</label>
-            <textarea type="text" name="description" maxLength="500" placeholder="Product description ( min 200 characters )" className="shadow-md bg-gray-50 border h-32 border-gray-300 text-gray-900 text-md rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-[#202020] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500 " value={newProduct.description} onChange={handleNewProductChange} />
+            <label name="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">Product Description</label>
+            <textarea type="text" name="description" maxLength="500" placeholder="Mention all details about the product ( min 200 characters )" className="shadow-md bg-gray-50 border h-32 border-gray-300 text-gray-900 text-md rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-[#202020] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500 " value={newProduct.description} onChange={handleNewProductChange} />
         </div>
         <div className="mb-3">
             <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">Select Category:</label>

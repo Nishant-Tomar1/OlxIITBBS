@@ -4,19 +4,15 @@ import React,{useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { Server } from "../Constants";
 import { Link } from "react-router-dom";
-import { FaHeart, FaRegHeart } from "react-icons/fa6";
+import { FaHeart, FaRegHeart ,FaHeartCrack } from "react-icons/fa6";
 import { useLogin } from "../store/contexts/LoginContextProvider";
 import { useAlert } from "../store/contexts/AlertContextProvider";
 import { useCookies } from "react-cookie";
 import { useSearch } from "../store/contexts/SearchContextProvider";
-import { useLoading } from "../store/contexts/LoadingContextProvider";
-// import { useLoading } from "../store/contexts/LoadingContextProvider";
-// import BtnLoader from "../components/loaders/BtnLoader";
 const images = require.context("../assets/images",true);
 
 
 function HomePage() {
-	const [search, setSearch] = useState("")
 	const [notfound, setNotfound] = useState(false)
 	const [page, setPage] = useState(1);
 	const [products, setProducts] = useState([])
@@ -27,7 +23,6 @@ function HomePage() {
 	const Navigate = useNavigate(); 
 	const loginCtx = useLogin();
 	const alertCtx = useAlert()
-	const loadingCtx = useLoading()
 	const [cookies] = useCookies(["accessToken", "refreshToken"])
 	const searchCtx = useSearch()
 	const {category} = useParams()
@@ -47,9 +42,9 @@ function HomePage() {
 			const res = await axios.get(`${Server}/products/getproducts?search=${searchCtx.search ? searchCtx.search : ""}&category=${category ? category : ""}&page=${pageIn ? pageIn : 1}&limit=${limit}`);
 			// console.log(res.data.data);
 			if (res.data.statusCode === 200 ){
-				if (res.data.data.length === 0) setNotfound(true)
-				else if (products.length === 0) setProducts(res.data.data);
+				if (products.length === 0) setProducts(res.data.data);
 				else if (products.length > 0) setProducts(prev => [...prev, ...res.data.data])
+				// if (res.data.data.length === 0) setNotfound(true)
 				if (cookies.accessToken){
 					try {
 						const res2 = await axios.get(`${Server}/users/currentuser-wishlist`, {withCredentials : true});
@@ -131,8 +126,8 @@ function HomePage() {
 
 				{/* Products */}
 				<div className="container">
-					{notfound && <div>Not found</div> }
-					{!notfound && <div className="flex flex-wrap m-2 xl:m-2 justify-center items-center md:justify-start">
+					{(notfound && searchCtx.search) && (<div className="flex flex-col lg:flex-row justify-center items-center w-full p-10 min-h-[60vh] text-2xl lg:text-5xl gap-2"><span className="text-5xl"> <FaHeartCrack/></span> No Products found!</div>)}
+					{<div className="flex flex-wrap m-2 xl:m-2 justify-center items-center md:justify-start">
 						{products.length > 0 ?
 						( products.map((product)=>(
 							 <div key={product._id} className="p-2 w-full md:w-1/2 xl:w-1/4 h-full">
@@ -188,7 +183,7 @@ function HomePage() {
 					</div>}
 				</div>
 
-				{(products.length>0) && <div className="flex justify-center items-center font-semibold text-gray-700 dark:text-white pb-8">
+				{(!searchCtx.search && (products.length>0)) && <div className="flex justify-center items-center font-semibold text-gray-700 dark:text-white pb-8">
 					<button onClick={handleShowMore}> {  "Show More..."}</button>
 				</div>}
 

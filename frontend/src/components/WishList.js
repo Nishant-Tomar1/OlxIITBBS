@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { FaHeart, FaRegHeart , FaHeartCrack} from "react-icons/fa6";
 import { useLogin } from "../store/contexts/LoginContextProvider";
+import { useAlert } from "../store/contexts/AlertContextProvider";
 
 function WishList() {
     const [wishList, setWishList] = useState([])
@@ -15,6 +16,7 @@ function WishList() {
     const loginCtx = useLogin()
     const [cookies] = useCookies(["accessToken", "refreshToken"])
     const Navigate = useNavigate()
+	// const alertCtx = useAlert()
 
     const fetchUserWishList = async() => {
         try {
@@ -47,6 +49,7 @@ function WishList() {
 				setUserWishList(prev => prev.map((id) => ((id !== productId)?id : null)))
 				await axios.delete(`${Server}/products/deletewish/${productId}`,{withCredentials : true})
 				// console.log(res);
+				// alertCtx.setToast("success","Product removed from Wishlist")
 			}
 			else {
 				setUserWishList(prev => ([...prev, productId]))

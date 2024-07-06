@@ -17,6 +17,7 @@ import {
     getCurrentUserWishlist,
     deleteUser,
     getUserById,
+    getCurrentUserChats,
 } 
 from '../controllers/user.controller.js';
 import { sendEmailHandler } from '../controllers/email.controller.js';
@@ -50,6 +51,8 @@ router.route("/getuser/username/:id").get(getUserById);
 
 //secured routes
 router.route('/logout').post( verifyJWT, logoutUser )
+
+router.route('/currentuser-chats').get(verifyJWT, getCurrentUserChats);
 
 router.route("/get-current-user").get( verifyJWT, getCurrentUser )
 

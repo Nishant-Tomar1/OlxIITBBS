@@ -50,6 +50,7 @@ function Navbar() {
 
     const handleSearch = (e) => {
         e.preventDefault()
+        Navigate("/")
         // console.log("hello",search);
         searchCtx.setSearch(search)
     }
