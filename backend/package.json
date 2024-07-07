@@ -4,6 +4,7 @@
   "description": "Server for OlxIITBBS website",
   "main": "index.js",
   "type": "module",
+  "proxy": "http://localhost:3000",
   "scripts": {
     "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js"
   },
