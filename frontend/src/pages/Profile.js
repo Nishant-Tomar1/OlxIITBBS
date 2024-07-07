@@ -24,6 +24,7 @@ function Profile() {
         email: '',
         contactNumber: '',
         profilePicture: '',
+        joined : '',
     });
     const dummy = [1,2,3,4]
     
@@ -46,7 +47,8 @@ function Profile() {
                 lastName : res.fullName.split(" ")[1] || "",
                 email : res.email,
                 contactNumber: res.contactNumber,
-                profilePicture : res.profilePicture
+                profilePicture : res.profilePicture,
+                joined : new Date(res.createdAt).toLocaleDateString("en-IN",{month:"long",day:"numeric",year:"numeric"})
         }))
         } catch (error) {
             console.log(error);
@@ -257,6 +259,21 @@ function Profile() {
                                 <label name="contactNumber" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">Contact Number</label>
                                 <input type="tel" pattern="[6-9]{1}[0-9]{9}" name="contactNumber" className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-[#202020] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-white-500 dark:focus:border-white-500 " placeholder="Enter Contact Number" value={user.contactNumber} onChange={handleUserChange} />
                             </div>
+                            <div className="mb-3">
+                                <label
+                                    name="Joined"
+                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200"
+                                >
+                                    Joined
+                                </label>
+                                <input
+                                    name="Joined"
+                                    className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg block w-full p-2.5 dark:bg-[#202020] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white cursor-not-allowed"
+                                    placeholder="Enter Contact Number"
+                                    value={user.joined}
+                                    readOnly
+                                />
+                            </div>
                             <div className="flex items-between justify-between mb-5">
                                 <Link to="/updatepassword" className=" text-sm text-cyan-500  dark:text-teal-300">Update password </Link>
                             </div>
@@ -270,9 +287,9 @@ function Profile() {
                         <div className="flex flex-wrap m-2 xl:m-2 justify-center items-center  w-full ">
                         { !isProductListEmpty ? ((productList.length > 0) ?
                             ( productList.map((product)=>(
-                                <div  key={product._id} className="p-2 md:w-1/2 xl:w-1/4 h-full">
-                                    <div className="w-full bg-gray-100 dark:bg-[#252525] rounded-2xl lg:rounded-lg overflow-hidden shadow-lg p-3 lg:p-2">
-                                        <img className="w-full md:h-40 lg:h-56  object-cover object-center rounded-md" src={`${product.thumbNail}`} alt="" />
+                                <div  key={product._id} className="p-2 my-1 md:my-0 w-11/12  md:w-1/2 xl:w-1/4 h-full">
+                                    <div className="min-w-full bg-gray-100 dark:bg-[#252525] rounded-2xl lg:rounded-lg overflow-hidden shadow-lg p-3 lg:p-2">
+                                        <img className="max-h-72  w-full lg:h-56 object-cover object-center rounded-md" src={`${product.thumbNail}`} alt="" />
                                         
                                         <div className="py-2 lg:px-2 flex flex-col justify-between h-1/2 w-full">
                                             <div className="flex flex-col">
@@ -303,7 +320,7 @@ function Profile() {
                                 :
                             ( dummy.map(item => 
                             <div key={item} role="status" className="p-2 md:w-1/2 lg:w-1/4 h-full w-5/6 animate-pulse">
-                                <div className="flex items-center justify-center h-48 mb-4 bg-gray-300 rounded dark:bg-gray-700">
+                                <div className="flex items-center justify-center h-64 md:h-48 mb-4 bg-gray-300 rounded dark:bg-gray-700">
                                     <svg className="w-10 h-10 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
                                         <path d="M14.066 0H7v5a2 2 0 0 1-2 2H0v11a1.97 1.97 0 0 0 1.934 2h12.132A1.97 1.97 0 0 0 16 18V2a1.97 1.97 0 0 0-1.934-2ZM10.5 6a1.5 1.5 0 1 1 0 2.999A1.5 1.5 0 0 1 10.5 6Zm2.221 10.515a1 1 0 0 1-.858.485h-8a1 1 0 0 1-.9-1.43L5.6 10.039a.978.978 0 0 1 .936-.57 1 1 0 0 1 .9.632l1.181 2.981.541-1a.945.945 0 0 1 .883-.522 1 1 0 0 1 .879.529l1.832 3.438a1 1 0 0 1-.031.988Z"/>
                                         <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z"/>

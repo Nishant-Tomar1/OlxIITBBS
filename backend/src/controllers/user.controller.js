@@ -380,9 +380,11 @@ const getUserById = asyncHandler(
                         {
                             $project : {
                                 id : 1,
+                                status : 1,
                                 title : 1,
                                 price :1,
-                                thumbNail : 1
+                                thumbNail : 1,
+                                description :1
                             }
                         }
                     ]
@@ -393,8 +395,6 @@ const getUserById = asyncHandler(
                     password : 0,
                     refreshToken : 0,
                     updatedAt : 0,
-                    cart : 0,
-                    email : 0,
                     wishList : 0,
                 }
             }

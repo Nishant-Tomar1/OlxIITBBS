@@ -34,17 +34,22 @@ function HomePage() {
 		setProducts([])
 		setPage(1)
 		fetchData();
-		console.log("rendering");
+		// console.log("rendering");
 	},[loginCtx.isLoggedIn, category, searchCtx.search]);
 
 	const fetchData = async (pageIn) => {
 		try {
 			if(searchCtx.search) setLimit(24)
-			const res = await axios.get(`${Server}/products/getproducts?search=${searchCtx.search ? searchCtx.search : ""}&category=${category ? category : ""}&page=${pageIn ? pageIn : 1}&limit=${limit}`);
+			let search = searchCtx.search
+			if (category) {search = ""}
+			const res = await axios.get(`${Server}/products/getproducts?search=${search ? search : ""}&category=${category ? category : ""}&page=${pageIn ? pageIn : 1}&limit=${limit}`);
 			// console.log(res.data.data);
 			if (res.data.statusCode === 200 ){
 				if (products.length === 0) setProducts(res.data.data);
-				else if (products.length > 0) setProducts(prev => [...prev, ...res.data.data])
+				else if (products.length > 0) {
+					setProducts(prev => [...prev, ...res.data.data])
+					if ((res.data.data.length === 0) && !searchCtx.search) alertCtx.setToast("info", "No more Products available!")
+				}
 				if ((res.data.data.length === 0) && (searchCtx.search) ) setNotfound(true)
 				if (cookies.accessToken){
 					try {
@@ -131,7 +136,7 @@ function HomePage() {
 					{(!notfound)&&<div className="flex flex-wrap m-2 xl:m-2 justify-center items-center md:justify-start">
 						{products.length > 0 ?
 						( products.map((product)=>(
-							 <div key={product._id} className="p-2 w-full md:w-1/2 xl:w-1/4 h-full">
+							 <div key={product._id} className="p-2 my-1 md:my-0 w-11/12 md:w-1/2 xl:w-1/4 h-full">
 								<div className="min-w-full bg-gray-100 dark:bg-[#252525] rounded-2xl lg:rounded-lg overflow-hidden shadow-lg p-3 lg:p-2">
 									<img className="max-h-72  w-full lg:h-56 object-cover object-center rounded-md" src={`${product.thumbNail}`} alt="" />
 									
@@ -164,7 +169,7 @@ function HomePage() {
 
 						(!notfound && ( dummy.map(item => 
 						<div key={item} role="status" className="p-2 md:w-1/2 mb-6 lg:mb-0 lg:w-1/4 h-full w-5/6 animate-pulse mt-4">
-							<div className="flex items-center justify-center h-48 mb-4 bg-gray-300 rounded-xl dark:bg-gray-700">
+							<div className="flex items-center justify-center h-64 md:h-48 mb-4 bg-gray-300 rounded-xl dark:bg-gray-700">
 								<svg className="w-10 h-10 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
 									<path d="M14.066 0H7v5a2 2 0 0 1-2 2H0v11a1.97 1.97 0 0 0 1.934 2h12.132A1.97 1.97 0 0 0 16 18V2a1.97 1.97 0 0 0-1.934-2ZM10.5 6a1.5 1.5 0 1 1 0 2.999A1.5 1.5 0 0 1 10.5 6Zm2.221 10.515a1 1 0 0 1-.858.485h-8a1 1 0 0 1-.9-1.43L5.6 10.039a.978.978 0 0 1 .936-.57 1 1 0 0 1 .9.632l1.181 2.981.541-1a.945.945 0 0 1 .883-.522 1 1 0 0 1 .879.529l1.832 3.438a1 1 0 0 1-.031.988Z"/>
 									<path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z"/>

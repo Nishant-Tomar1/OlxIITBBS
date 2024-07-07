@@ -42,9 +42,9 @@ function Navbar() {
             // setDrop(false)
             await axios.post(`${Server}/users/logout`,{},{withCredentials:true})
             loginCtx.logout();
+            Navigate("/")
             alertCtx.setToast("success", "User Logged Out Successfully")
             loadingCtx.setLoading(false);
-            Navigate("/")
         },800)
     }
 

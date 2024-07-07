@@ -58,10 +58,10 @@ function Chatpage() {
                         Messages
                     </h1>            
                 </div>}
-               {((!loadingCtx.loading) && (chats.length > 0)) && <div className="flex flex-col gap-1 w-full min-h-[80vh] overflow-y-auto">
+               {((!loadingCtx.loading) && (chats.length > 0)) && <div className="flex flex-col w-full min-h-[80vh] overflow-y-auto">
                     {chats?.map((chat, index) => (
                         <div key={chat._id} onClick={()=>{Navigate(`/chats/${loginCtx.userId}/${chat._id}`)}} className="cursor-pointer w-full">
-                        <div className="h-full flex items-center border-gray-600 dark:border-gray-200 border-b p-2 ">
+                        <div className="h-full flex items-center border-gray-600 dark:border-gray-200 border-t p-2 ">
                             <img
                                 alt="team"
                                 className="w-10 h-10 md:w-12 md:h-12 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4"
