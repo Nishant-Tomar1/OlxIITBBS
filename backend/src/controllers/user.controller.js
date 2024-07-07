@@ -395,7 +395,7 @@ const getUserById = asyncHandler(
                     updatedAt : 0,
                     cart : 0,
                     email : 0,
-                    wishList : 0
+                    wishList : 0,
                 }
             }
         ])
@@ -487,10 +487,17 @@ const getCurrentUserChats = asyncHandler(
             {
                 $project : {
                     sender :1,
-                    receiver:1
+                    receiver:1,
+                    content : 1
+                }
+            },
+            {
+                $sort : {
+                    timeStamp : -1
                 }
             }
         ])
+        // console.log(chats);
 
         const users = []
         chats.map((chat) => {
@@ -505,16 +512,41 @@ const getCurrentUserChats = asyncHandler(
                 };
             }
         })
-        let data = []
+
+        let data = [], lastMessages = [];
         const userPromises = users.map(async (user) => {
             return await User.findById(user).select("fullName profilePicture");
         });
         
         data = await Promise.all(userPromises);
+        
+        const messagePromise = data.map(async (user) => {
+            // console.log(user);
+            return await Message.aggregate([
+                {
+                    $match : {
+                        $or : [
+                            {sender : req.user._id, receiver : new mongoose.Types.ObjectId(user._id) },
+                            {receiver : req.user._id, sender : new mongoose.Types.ObjectId(user._id) }
+                        ]
+                    }
+                },
+                {
+                    $sort : {
+                        timeStamp : -1
+                    }
+                }
+            ]).limit(1)
+        })
+
+        lastMessages = await Promise.all(messagePromise)
+
+        // console.log(lastMessages);
+
         return res
         .status(200)
         .json(
-            new ApiResponse (200,data, "Chats fetched successfully")
+            new ApiResponse (200,{data : data, lastMessages : lastMessages}, "Chats fetched successfully")
         )
     }
 )

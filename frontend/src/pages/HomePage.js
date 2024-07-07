@@ -95,29 +95,29 @@ function HomePage() {
 					<div className="flex w-full h-full">
 						<div onClick={()=>{Navigate("/products/categories/Electronics and Appliances")}} className="cursor-pointer flex flex-col justify-center items-center w-1/3 p-3">
 							<img className="w-10 h-10 rounded-full" src={imageList[0]} alt="" />
-							<div className="text-sm lg:text-md mt-2 font-medium text-gray-700 dark:text-gray-100 text-center">Electronics & Appliances</div>
+							<div className="text-xs lg:text-md mt-2 font-medium text-gray-700 dark:text-gray-100 text-center">Electronics & Appliances</div>
 						</div>
 						<div onClick={()=>{Navigate("/products/categories/Vehicles")}} className="cursor-pointer flex flex-col justify-center items-center w-1/3 p-3">
 							<img className="w-10 h-10 rounded-full" src={imageList[1]} alt="" />
-							<div className="text-sm lg:text-md mt-2 font-medium text-gray-700 dark:text-gray-100 text-center">Vehicles</div>
+							<div className="text-xs lg:text-md mt-2 font-medium text-gray-700 dark:text-gray-100 text-center">Vehicles</div>
 						</div>
 						<div onClick={()=>{Navigate("/products/categories/Home and Furniture")}} className="cursor-pointer flex flex-col justify-center items-center w-1/3 p-3">
 							<img className="w-10 h-10 rounded-full" src={imageList[2]} alt="" />
-							<div className="text-sm lg:text-md mt-2 font-medium text-gray-700 dark:text-gray-100 text-center">Home & Furniture</div>
+							<div className="text-xs lg:text-md mt-2 font-medium text-gray-700 dark:text-gray-100 text-center">Home & Furniture</div>
 						</div>
 					</div>
 					<div className="flex w-full h-full">	
 						<div onClick={()=>{Navigate("/products/categories/Fashion and Beauty")}} className="cursor-pointer flex flex-col justify-center items-center w-1/3 p-3">
 							<img className="w-10 h-10 rounded-full" src={imageList[3]} alt="" />
-							<div className="text-sm lg:text-md mt-2 font-medium text-gray-700 dark:text-gray-100 text-center">Fashion and Beauty</div>
+							<div className="text-xs lg:text-md mt-2 font-medium text-gray-700 dark:text-gray-100 text-center">Fashion and Beauty</div>
 						</div>
 						<div onClick={()=>{Navigate("/products/categories/Sports and Hobbies")}} className="cursor-pointer flex flex-col justify-center items-center w-1/3 p-3">
 							<img className="w-10 h-10 rounded-full" src={imageList[4]} alt="" />
-							<div className="text-sm lg:text-md mt-2 font-medium text-gray-700 dark:text-gray-100 text-center">Sports and Hobbies</div>
+							<div className="text-xs lg:text-md mt-2 font-medium text-gray-700 dark:text-gray-100 text-center">Sports and Hobbies</div>
 						</div>
 						<div onClick={()=>{Navigate("/products/categories/Stationary")}} className="cursor-pointer flex flex-col justify-center items-center w-1/3 p-3">
 							<img className="w-10 h-10 rounded-full" src={imageList[5]} alt="" />
-							<div className="text-sm lg:text-md mt-2 font-medium text-gray-700 dark:text-gray-100 text-center">Stationary</div>
+							<div className="text-xs lg:text-md mt-2 font-medium text-gray-700 dark:text-gray-100 text-center">Stationary</div>
 						</div>
 
 					</div>
@@ -142,7 +142,7 @@ function HomePage() {
 												<h1 className="title-font
 												text-lg lg:text-lg font-extrabold text-green-400 mb-1 tracking-wide">₹ {Math.abs(product.price)}</h1>
 											</div>
-											<p className="mb-3 lg:text-sm font-normal h-14 overflow-y-auto">{product.description.length > 65 ? (product.description.substr(0,65)+"...") : (product.description) }  </p>
+											<p className="mb-3 text-sm lg:text-sm font-light md:font-normal h-14 overflow-y-auto">{product.description.length > 65 ? (product.description.substr(0,65)+"...") : (product.description) }  </p>
 										</div>
 										<div className="flex items-center justify-between">
 											<Link to={`/products/${product._id}`} className="text-teal-400 hover:text-teal-500 font-medium inline-flex items-center md:mb-2 lg:mb-0 " >Show More
@@ -183,7 +183,7 @@ function HomePage() {
 					</div>}
 				</div>
 
-				{(!searchCtx.search && (products.length>0)) && <div className="flex justify-center items-center font-semibold text-gray-700 dark:text-white pb-8">
+				{ (products.length>0) && <div className="flex justify-center items-center font-semibold text-gray-700 dark:text-white pb-8">
 					<button onClick={handleShowMore}> {  "Show More..."}</button>
 				</div>}
 

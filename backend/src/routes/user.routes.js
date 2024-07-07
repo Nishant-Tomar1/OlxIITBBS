@@ -46,7 +46,7 @@ router.route("/verify-refresh-token").get(verifyRefreshToken);
 
 router.route("/change-password-bycode").post(changePasswordByCode);
 
-router.route("/getuser/username/:id").get(getUserById);
+router.route("/getuserbyId/:id").get(getUserById);
 
 
 //secured routes

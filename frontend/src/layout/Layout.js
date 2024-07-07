@@ -10,7 +10,7 @@ function Layout() {
   const {theme} = useTheme()
   return (
     <div className={`${theme}`}>
-      <div className=' bg-gray-100 dark:bg-[#191919] min-h-[100vh]'>
+      <div className=' bg-gray-100 dark:bg-[#191919] min-h-[100vh] w-full'>
       <Navbar />
       {/* <Alert /> */}
       <Toast />

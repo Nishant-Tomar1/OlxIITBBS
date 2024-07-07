@@ -69,9 +69,9 @@ function WishList() {
                     <div className="flex flex-wrap m-2 xl:m-2 justify-center items-center w-full ">
                     { !isWishListEmpty ? ((wishList.length > 0) ?
 						( wishList?.map((product)=>(
-							<div  key={product?._id} className="p-2 md:w-1/2 xl:w-1/4 h-full">
-								<div className="w-full bg-gray-100 dark:bg-[#252525] rounded-2xl lg:rounded-lg overflow-hidden shadow-lg p-3 lg:p-2">
-									<img className="w-full md:h-40 lg:h-56  object-cover object-center rounded-md" src={`${product?.thumbNail}`} alt="" />
+							<div  key={product?._id} className="p-2 w-full md:w-1/2 xl:w-1/4 h-full">
+								<div className="min-w-full bg-gray-100 dark:bg-[#252525] rounded-2xl lg:rounded-lg overflow-hidden shadow-lg p-3 lg:p-2">
+									<img className="max-h-72  w-full lg:h-56 object-cover object-center rounded-md" src={`${product?.thumbNail}`} alt="" />
 									
 									<div className="py-2 lg:px-2 flex flex-col justify-between h-1/2 w-full">
 										<div className="flex flex-col">

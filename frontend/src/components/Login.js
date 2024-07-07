@@ -77,7 +77,7 @@ function Login() {
         <>
         
         <div  className="flex flex-col w-full items-center pt-6 bg-gray-100 dark:bg-[#191919] dark:text-white min-h-[90vh]">
-            <h1 className="text-3xl lg:text-4xl font-bold font-[Raleway] pb-5">{loginCtx.isLoggedIn ? "Login Another Account" : "Login"}</h1>
+            <h1 className="text-xl lg:text-4xl font-bold font-[Raleway] pb-5">{loginCtx.isLoggedIn ? "Login Another Account" : "Login"}</h1>
         <form className=" mx-auto w-11/12 md:w-1/2 lg:w-1/3" onSubmit={handleLogin}>
         <div className="mb-5">
             <label name="username" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">Username</label>
@@ -90,7 +90,7 @@ function Login() {
         </div>
         <div className="mb-2">
             <label name="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">Password</label>
-            <div className="flex rounded-lg ">
+            <div className="flex">
             <input type={showpassword ? "text" : "password"} autoComplete="off" name="password" className="w-10/12 shadow-md bg-gray-50 border border-gray-300 border-r-0 text-gray-900 text-md rounded-l-lg focus:ring-0 focus:border-gray-400 block p-2.5 dark:bg-[#202020] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white  "  placeholder="Enter Password" value={user.password} onChange={handleUserChange}/>
             <div onClick={()=>{setShowPassword(!showpassword)}} target="none" className="flex w-1/6 text-xl items-center justify-center bg-gray-50 border border-gray-300 rounded-r-lg shadow-md  border-l-0 shadow-l-0 text-gray-800 dark:bg-[#202020] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white ">{showpassword ?<FaEye/> : <FaEyeSlash/>  }</div>
             </div>

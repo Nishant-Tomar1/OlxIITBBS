@@ -82,7 +82,7 @@ function SignUp() {
 
       }
     } catch (error) {
-      console.log(error.response.data.message);     
+      // console.log(error.response.data.message);     
         loadingCtx.setLoading(false)
         alertCtx.setToast("error", "User with this email or username already exists")
     }
