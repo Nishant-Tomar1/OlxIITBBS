@@ -153,7 +153,7 @@ function Product() {
                                 </div>
                             </div>
                             {(data.owner._id !== loginCtx.userId) && <div className="flex gap-2 ">
-                                <div title='Seller Profile' className='flex items-center justify-center pe-2 text-xl text-blue-500 cursor-pointer dark:text-gray-200'><FaUserAlt/></div>
+                                <div title='Seller Profile' onClick={()=>{Navigate(`/users/${data.owner._id}`)}} className='flex items-center justify-center pe-2 text-xl text-blue-500 cursor-pointer dark:text-gray-200'><FaUserAlt/></div>
                                 <div onClick={() => { if(loginCtx.userId){Navigate(`/chats/${data.owner._id}/${loginCtx.userId}`)} else{alertCtx.setToast("info","You are not logged in")}}} title='Chat with seller' className='flex items-center justify-center pe-2 text-xl text-blue-500 cursor-pointer dark:text-gray-200'><FaMessage/></div>
                                 {/* <div title='Call Owner' className='flex items-center justify-center pe-1 text-xl text-blue-500 cursor-pointer dark:text-gray-200'><FaPhone/></div> */}
                             </div>}

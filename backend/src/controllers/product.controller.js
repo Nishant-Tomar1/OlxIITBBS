@@ -123,14 +123,13 @@ const getProducts = asyncHandler(
         const query = {};
 
         if(search){
-            query.title = { $regex: new RegExp(search, "i") }
+            // query.title = { $regex: new RegExp(search, "i") }
+            query.description = {$regex: new RegExp(search, "i")}
         }
         if(category){
             query.category = String(category)
         }
         query.status = "active"
-        // console.log("hii",query);
-        // const query = category ? {$match : {status : "active", category : String(category)}}  : {$match:{status:"active"}};
 
         const products = await Product.aggregate([
                 {

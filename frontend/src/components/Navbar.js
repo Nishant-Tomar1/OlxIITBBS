@@ -77,7 +77,7 @@ function Navbar() {
                             )}
                         </button>
                         <button 
-                            onClick={()=>{window.scrollTo(0,0);Navigate("/")}}
+                            onClick={()=>{window.scrollTo(0,0);Navigate("/");searchCtx.clearSearch()}}
                             className="flex self-center text-2xl lg:text-3xl font-bold dark:text-white font-[Montserrat]"
                         >
                             OlxIITBBS

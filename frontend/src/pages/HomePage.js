@@ -18,7 +18,7 @@ function HomePage() {
 	const [products, setProducts] = useState([])
 	const [userWishList, setUserWishList] = useState([])
 	const imageList = images.keys().map((key)=> images(key))
-	const limit = 8;
+	const [limit, setLimit] = useState(8);
 
 	const Navigate = useNavigate(); 
 	const loginCtx = useLogin();
@@ -39,12 +39,13 @@ function HomePage() {
 
 	const fetchData = async (pageIn) => {
 		try {
+			if(searchCtx.search) setLimit(24)
 			const res = await axios.get(`${Server}/products/getproducts?search=${searchCtx.search ? searchCtx.search : ""}&category=${category ? category : ""}&page=${pageIn ? pageIn : 1}&limit=${limit}`);
 			// console.log(res.data.data);
 			if (res.data.statusCode === 200 ){
 				if (products.length === 0) setProducts(res.data.data);
 				else if (products.length > 0) setProducts(prev => [...prev, ...res.data.data])
-				// if (res.data.data.length === 0) setNotfound(true)
+				if ((res.data.data.length === 0) && (searchCtx.search) ) setNotfound(true)
 				if (cookies.accessToken){
 					try {
 						const res2 = await axios.get(`${Server}/users/currentuser-wishlist`, {withCredentials : true});
@@ -127,7 +128,7 @@ function HomePage() {
 				{/* Products */}
 				<div className="container">
 					{(notfound && searchCtx.search) && (<div className="flex flex-col lg:flex-row justify-center items-center w-full p-10 min-h-[60vh] text-2xl lg:text-5xl gap-2"><span className="text-5xl"> <FaHeartCrack/></span> No Products found!</div>)}
-					{<div className="flex flex-wrap m-2 xl:m-2 justify-center items-center md:justify-start">
+					{(!notfound)&&<div className="flex flex-wrap m-2 xl:m-2 justify-center items-center md:justify-start">
 						{products.length > 0 ?
 						( products.map((product)=>(
 							 <div key={product._id} className="p-2 w-full md:w-1/2 xl:w-1/4 h-full">
@@ -160,7 +161,8 @@ function HomePage() {
 							</div>
 						)))
 							:
-						( dummy.map(item => 
+
+						(!notfound && ( dummy.map(item => 
 						<div key={item} role="status" className="p-2 md:w-1/2 mb-6 lg:mb-0 lg:w-1/4 h-full w-5/6 animate-pulse mt-4">
 							<div className="flex items-center justify-center h-48 mb-4 bg-gray-300 rounded-xl dark:bg-gray-700">
 								<svg className="w-10 h-10 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
@@ -178,12 +180,12 @@ function HomePage() {
 									<div className="w-48 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
 								</div>
 							</div>
-						</div>))}
+						</div>)))}
 
 					</div>}
 				</div>
 
-				{ (products.length>0) && <div className="flex justify-center items-center font-semibold text-gray-700 dark:text-white pb-8">
+				{ (products.length>0) &&(!searchCtx.search)&& <div className="flex justify-center items-center font-semibold text-gray-700 dark:text-white pb-8">
 					<button onClick={handleShowMore}> {  "Show More..."}</button>
 				</div>}
 

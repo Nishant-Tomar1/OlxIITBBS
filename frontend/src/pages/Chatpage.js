@@ -46,6 +46,7 @@ function Chatpage() {
             return Navigate("/")
         }
         fetchChats()
+        // console.log(chats.length);
     },[loginCtx.userId])
 
 
@@ -57,7 +58,7 @@ function Chatpage() {
                         Messages
                     </h1>            
                 </div>}
-                <div className="flex flex-col gap-1 w-full min-h-[70vh] overflow-y-auto">
+               {((!loadingCtx.loading) && (chats.length > 0)) && <div className="flex flex-col gap-1 w-full min-h-[80vh] overflow-y-auto">
                     {chats?.map((chat, index) => (
                         <div key={chat._id} onClick={()=>{Navigate(`/chats/${loginCtx.userId}/${chat._id}`)}} className="cursor-pointer w-full">
                         <div className="h-full flex items-center border-gray-600 dark:border-gray-200 border-b p-2 ">
@@ -77,13 +78,15 @@ function Chatpage() {
                             </div>
                         </div>
                         </div>
-                    ))}
-                    <div className="flex w-full min-h-40 justify-center items-center p-6">
+                    ))}              
+                </div>}
+                {(loadingCtx.loading) && <div className="flex w-full min-h-[80vh] justify-center items-center p-6">
                        { <BtnLoader/>}
                         {(!loadingCtx.loading &&(chats.length === 0)) && "No Messages !"}
-                       </div>
-                    
-                </div>
+                </div>}
+                { (!loadingCtx.loading && (chats.length===0)) && <div className="flex w-full min-h-[80vh] justify-center items-center p-6 text-gray-700 dark:text-gray-200">
+                        No Messages !
+                </div>}
             </div>
         </div>
     );

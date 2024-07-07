@@ -485,13 +485,6 @@ const getCurrentUserChats = asyncHandler(
                 }
             },
             {
-                $project : {
-                    sender :1,
-                    receiver:1,
-                    content : 1
-                }
-            },
-            {
                 $sort : {
                     timeStamp : -1
                 }
