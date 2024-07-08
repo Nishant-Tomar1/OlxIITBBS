@@ -11,12 +11,13 @@ dotenv.config({
 
 const server = http.createServer(app)
 
-const io = new socketIo(server, {
-    cors : {
-        origin : process.env.CORS_ORIGIN,
-        methods : ["GET","POST"]
-    }
-})
+const io = new socketIo(server)
+// , {
+//     cors : {
+//         origin : process.env.CORS_ORIGIN,
+//         methods : ["GET","POST"]
+//     }
+// })
 
 io.on("connection", (socket) => {
 
