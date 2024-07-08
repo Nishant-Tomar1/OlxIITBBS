@@ -58,7 +58,7 @@ function Navbar() {
     return (
         <>
             <nav className="bg-white border-gray-200 dark:bg-[#111112] dark:border-gray-400 lg:dark:border-b w-full lg:sticky top-0 lg:border-b shadow-md z-20">
-                {(location.pathname.split("/")[1]!=="chats") && <div  className="flex justify-center items-center fixed bottom-4 right-3 rounded-full bg-gray-200 dark:bg-red-500 dark:text-white shadow-md text-md lg:text-xl p-2 lg:p-3 " onClick={() => window.scrollTo(0,0)}>  <button > <FaArrowUp /> </button></div>}
+                {(location.pathname.split("/")[1]!=="chats") && <div  className="flex justify-center items-center fixed bottom-4 right-3 rounded-full bg-gray-200 dark:bg-red-500 dark:text-white shadow-md text-md lg:text-xl p-3 " onClick={() => window.scrollTo(0,0)}>  <button > <FaArrowUp /> </button></div>}
                 
                 <div className="mx-2 lg:mx-[3vw] flex flex-wrap items-center justify-between py-3 px-2 md:py-3 z-20">
                     <div className="flex items-center space-x-3 rtl:space-x-reverse">

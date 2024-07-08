@@ -20,13 +20,13 @@ function Footer() {
                         <h2 className="mb-4 text-sm font-semibold text-gray-900 uppercase dark:text-white">Categories</h2>
                         <ul className="text-gray-500 dark:text-gray-400 font-medium ">
                             <li className="mb-4">
-                                <div className="">Electronics and Appliances</div>
+                                <div className="text-sm">Electronics and Appliances</div>
                             </li>
                             <li className="mb-4">
-                                <div className="">Fashion and Beauty</div>
+                                <div className="text-sm">Fashion and Beauty</div>
                             </li>
                             <li>
-                                <div className="">Home and Furniture</div>
+                                <div className="text-sm">Home and Furniture</div>
                             </li>
                         </ul>
                     </div>
@@ -34,13 +34,13 @@ function Footer() {
                         <h2 className="mb-4 text-sm font-semibold text-gray-900 uppercase dark:text-white min-h-5"></h2>
                         <ul className="text-gray-500 dark:text-gray-400 font-medium ">
                             <li className="mb-4">
-                                <div className="">Home and Furniture</div>
+                                <div className="text-sm">Home and Furniture</div>
                             </li>
                             <li className="mb-4">
-                                <div className=" ">Vehicles</div>
+                                <div className="text-sm ">Vehicles</div>
                             </li>
                             <li>
-                                <div className="">Stationary</div>
+                                <div className="text-sm">Stationary</div>
                             </li>
                         </ul>
                     </div>

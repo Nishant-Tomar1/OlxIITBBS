@@ -284,10 +284,10 @@ function Profile() {
                 <div className="flex flex-col w-full items-center bg-gray-100 dark:bg-[#191919] dark:text-white pb-4">
                 <div className="container ">
                 {!isProductListEmpty && <div className="w-full text-center font-bold font-[Raleway] text-2xl lg:text-3xl pt-5">Products Owned</div>}
-                        <div className="flex flex-wrap m-2 xl:m-2 justify-center items-center  w-full ">
+                        <div className="flex flex-wrap my-2 justify-center items-center  w-full ">
                         { !isProductListEmpty ? ((productList.length > 0) ?
                             ( productList.map((product)=>(
-                                <div  key={product._id} className="p-2 my-1 md:my-0 w-11/12  md:w-1/2 xl:w-1/4 h-full">
+                                <div  key={product._id} className="p-2 my-1 md:my-0 w-11/12 md:w-1/2 xl:w-1/4 h-full">
                                     <div className="min-w-full bg-gray-100 dark:bg-[#252525] rounded-xl overflow-hidden shadow-lg p-3 lg:p-2">
                                         <img className="max-h-72  w-full lg:h-56 object-cover object-center rounded-lg" src={`${product.thumbNail}`} alt="" />
                                         
