@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Server } from '../Constants'
 import axios from 'axios'
-import { AiFillEdit } from "react-icons/ai";
+// import { AiFillEdit } from "react-icons/ai";
 import BtnLoader from '../components/loaders/BtnLoader'
 import { useCookies } from 'react-cookie'
 import { useNavigate, Link } from 'react-router-dom'
@@ -281,7 +281,7 @@ function Profile() {
                         </form>
                     </div>
                 </div>
-                <div className="flex flex-col w-full items-center bg-gray-50 dark:bg-[#191919] dark:text-white pb-4">
+                <div className="flex flex-col w-full items-center bg-gray-100 dark:bg-[#191919] dark:text-white pb-4">
                 <div className="container ">
                 {!isProductListEmpty && <div className="w-full text-center font-bold font-[Raleway] text-2xl lg:text-3xl pt-5">Products Owned</div>}
                         <div className="flex flex-wrap m-2 xl:m-2 justify-center items-center  w-full ">

@@ -11,13 +11,21 @@ dotenv.config({
 
 const server = http.createServer(app)
 
-const io = new socketIo(server)
-// , {
-//     cors : {
-//         origin : process.env.CORS_ORIGIN,
-//         methods : ["GET","POST"]
-//     }
-// })
+const io = new socketIo(server,{
+    cors : {
+        origin : process.env.CORS_ORIGIN,
+        credentials : true
+    }
+}
+)
+
+process.on("uncaughtException", (err) => {
+    console.log("UNCAUGHT EXCEPTION! 💥 Shutting down...");
+    console.log(err.name, err.message);
+    process.exit(1);
+  });
+
+const port = process.env.PORT || 4000;
 
 io.on("connection", (socket) => {
 
@@ -44,19 +52,30 @@ io.on("connection", (socket) => {
     socket.on('disconnect', () => {})
 })
 
-server.listen( 5000, () => {
-    console.log(`Socket server listening on port 5000`);
-})
-
-const port = process.env.PORT || 4000;
 connectDB()
 .then(()=>{
-    app.listen(port, ()=>{
-        console.log(`App listening on port : ${port}`);
+    server.listen(port, ()=>{
+        console.log(`Server listening on port : ${port}`);
     })
 })
 .catch((err)=> {
     console.log("Database Connection Failed !!!",err);
 })
+
+
+// server.listen( 8000, () => {
+//     console.log(`Socket server listening on port ${port}`);
+// })
+
+process.on("unhandledRejection", (err) => {
+    console.log("UNHANDLED REJECTION! 💥 Shutting down...");
+    console.log(err.name, err.message);
+    server.close(() => {
+      process.exit(1);
+    });
+  });
+
+
+
 
 

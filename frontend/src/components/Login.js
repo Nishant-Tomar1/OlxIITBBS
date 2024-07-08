@@ -61,7 +61,7 @@ function Login() {
             if (response.data.success) {
                 loadingCtx.setLoading(false);
                 alertCtx.setToast("success", `${response.data.message} `);
-                Navigate("/")
+                Navigate("/" )
                 window.scrollTo(0,0)
             }
         } catch (error) {
@@ -77,7 +77,7 @@ function Login() {
     return (
         <>
         
-        <div  className="flex flex-col w-full items-center pt-6 bg-gray-100 dark:bg-[#191919] dark:text-white min-h-[90vh]">
+        <div  className="flex flex-col w-full items-center py-6 bg-gray-100 dark:bg-[#191919] dark:text-white min-h-[60vh]">
             <h1 className="text-xl lg:text-3xl font-bold font-[Raleway] pb-5">
                 {loginCtx.isLoggedIn ? "Login Another Account" : "Login"}
                 </h1>

@@ -76,7 +76,7 @@ function UserProfile() {
 }, [Navigate, alertCtx]);
 
   return (
-    <div className="flex w-full flex-col ">
+    
     <div>
         <div className="bg-gray-100 dark:bg-[#191919] shadow-md flex flex-col w-full lg:flex-row justify-center lg:pt-3">
             <div className="flex flex-col items-center justify-center p-4 lg:pr-4 lg:w-1/3 py-3 lg:items-center ps-[10%]">
@@ -209,13 +209,13 @@ function UserProfile() {
         </div>
         
         <div className="flex flex-col w-full items-center bg-gray-50 dark:bg-[#191919] dark:text-white pb-4">
-            <div className="container ">
+            <div className="">
                 {!isProductListEmpty && (
                     <div className="w-full text-center font-bold font-[Raleway] text-2xl lg:text-3xl pt-5">
                         Products Owned
                     </div>
                 )}
-                <div className="flex flex-wrap m-2 xl:m-2 justify-center items-center  w-full ">
+                <div className="flex flex-wrap my-2 justify-center items-center w-full ">
                     {!isProductListEmpty ? (
                         productList?.length > 0 ? (
                             productList.map((product) => (
@@ -235,15 +235,15 @@ function UserProfile() {
                                                 <h2 className=" text-xs font-[Outfit] text-gray-400">
                                                     {product.category}
                                                 </h2>
-                                                <div className="flex justify-between ">
-                                                    <h1 className="title-font text-lg lg:text-lg font-bold  font-[Montserrat] text-gray-700 dark:text-gray-100 mb-1">
+                                                <div className="flex justify-between">
+                                                    <h1 className="title-font text-lg lg:text-lg font-bold  font-[Montserrat] text-gray-700 dark:text-gray-100 mb-1 overflow-auto">
                                                         {product.title}
                                                     </h1>
                                                     <h1
                                                         className={`title-font
                                               text-lg lg:text-lg font-bold ${product.status === "active" ? "text-green-500" : "text-gray-400 dark:text-red-900"} mb-1`}
                                                     >
-                                                      {product.status === "active" ? `₹ ${Math.abs(product.price)}.00` : "Sold"}
+                                                      {product.status === "active" ? `₹ ${Math.abs(product.price)}` : "Sold"}
                                                     </h1>
                                                 </div>
                                                 <p className="mb-3 lg:text-sm font-normal h-14 overflow-y-auto">
@@ -348,7 +348,7 @@ function UserProfile() {
             </div>
         </div>
     </div>
-</div>
+
   );
 }
 
