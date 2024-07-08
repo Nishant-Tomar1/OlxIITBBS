@@ -95,7 +95,7 @@ const verifyRefreshToken = asyncHandler(
             const {accessToken : newAccessToken ,refreshToken : newRefreshToken} = await generateAccessAndRefreshTokens(user._id);
 
             const options = {
-                httpOnly : true,
+                // httpOnly : true,
                 secure : true
             }
             // console.log(newUser, newAccessToken, newRefreshToken);
@@ -273,7 +273,7 @@ const loginUser = asyncHandler(
         const loggedInUser = await User.findById(user._id).select("-password -refreshToken");
 
         const options = {
-            httpOnly : true,
+            // httpOnly : true,
             secure : true
         }
 
@@ -311,7 +311,7 @@ const logoutUser = asyncHandler(
         // console.log(user);
 
         const options = {
-            httpOnly : true,
+            // httpOnly : true,
             secure : true
         }
 
@@ -713,7 +713,7 @@ const deleteUser = asyncHandler(
         }
 
         const options = {
-            httpOnly : true,
+            // httpOnly : true,
             secure : true
         }
 
