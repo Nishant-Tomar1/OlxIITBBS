@@ -4,6 +4,7 @@ import connectDB from './db/index.js'
 import { app } from './app.js'
 import { Server as socketIo } from 'socket.io';
 import { Message } from './models/message.model.js';
+import cron from "node-cron"
 
 dotenv.config({
     path : '/.env'
@@ -18,6 +19,23 @@ const io = new socketIo(server,{
     }
 }
 )
+
+const backendUrl = "https://olxiitbbs.onrender.com/api/v1/products/getproducts?page=1&limit=1";
+cron.schedule("*/14 * * * *", function () {
+  console.log("Restarting server");
+
+  http
+    .get(backendUrl, (res) => {
+      if (res.statusCode === 200) {
+        console.log("Restarted");
+      } else {
+        console.error(`failed to restart with status code: ${res.statusCode}`);
+      }
+    })
+    .on("error", (err) => {
+      console.error("Error ", err.message);
+    });
+});
 
 process.on("uncaughtException", (err) => {
     console.log("UNCAUGHT EXCEPTION! 💥 Shutting down...");
