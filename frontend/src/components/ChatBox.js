@@ -116,7 +116,7 @@ function ChatBox() {
                         </div>
                         <div className="flex gap-3 items-center">
                             <Link
-                                to={`tel:91${chatUser.contactNumber}`}
+                                to={`tel:+91${chatUser.contactNumber}`}
                                 title="Call User"
                                 className="flex items-center justify-center pe-2 text-xl text-gray-500 cursor-pointer dark:text-gray-200"
                             >

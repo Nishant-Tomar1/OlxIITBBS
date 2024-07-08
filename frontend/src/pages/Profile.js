@@ -235,7 +235,7 @@ function Profile() {
                     </div>
 
                     <div  className="flex flex-col lg:w-2/3 pt-5 pb-12 items-center justify-center dark:bg-[#191919] dark:text-white">
-                        <h1 className="text-2xl lg:text-4xl font-bold font-[Raleway] pb-2">User Profile</h1>
+                        <h1 className="text-2xl lg:text-4xl font-bold font-[Raleway] pb-2">My Profile</h1>
                         <form className=" mx-auto w-11/12 md:w-5/6 lg:w-2/3" onSubmit={handleProfileUpdate}>
                             <div className="mb-3">
                                 <label name="username" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">Username</label>
@@ -288,8 +288,8 @@ function Profile() {
                         { !isProductListEmpty ? ((productList.length > 0) ?
                             ( productList.map((product)=>(
                                 <div  key={product._id} className="p-2 my-1 md:my-0 w-11/12  md:w-1/2 xl:w-1/4 h-full">
-                                    <div className="min-w-full bg-gray-100 dark:bg-[#252525] rounded-2xl lg:rounded-lg overflow-hidden shadow-lg p-3 lg:p-2">
-                                        <img className="max-h-72  w-full lg:h-56 object-cover object-center rounded-md" src={`${product.thumbNail}`} alt="" />
+                                    <div className="min-w-full bg-gray-100 dark:bg-[#252525] rounded-xl overflow-hidden shadow-lg p-3 lg:p-2">
+                                        <img className="max-h-72  w-full lg:h-56 object-cover object-center rounded-lg" src={`${product.thumbNail}`} alt="" />
                                         
                                         <div className="py-2 lg:px-2 flex flex-col justify-between h-1/2 w-full">
                                             <div className="flex flex-col">

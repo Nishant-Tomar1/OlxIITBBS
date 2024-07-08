@@ -198,7 +198,7 @@ function Navbar() {
                                                 onClick ={()=>{setDrop(false);Navigate("/addproduct")}}
                                                 className="text-center w-full block px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#282828] dark:hover:text-white"
                                             >
-                                                Add Product
+                                                Sell Product
                                             </button>
                                         </li>
                                         <li>
@@ -234,7 +234,7 @@ function Navbar() {
                     value={search}
                     onChange={(e)=>setSearch(e.target.value)}
                     placeholder="Search for Products"
-                    className=" shadow-md px-4 md:px-6 bg-gray-100 dark:bg-gray-100 w-5/6 md:w-11/12 rounded-l-full h-10 xs:h-11  focus:outline-none focus:border focus:border-gray-700 dark:focus:border-white"
+                    className=" shadow-md px-4 md:px-6 bg-gray-100 dark:bg-[#252525] w-5/6 md:w-11/12 rounded-l-full h-10 xs:h-11  dark:text-white focus:outline-none focus:border focus:border-gray-700 dark:focus:border-white"
                 />
                 <button type="submit" className="shadow-md flex justify-center items-center w-1/6 md:w-1/12 bg-red-500 hover:bg-red-600 h-10 xs:h-11 text-2xl text-white rounded-r-full">
                     {" "}

@@ -55,8 +55,8 @@ function SignUp() {
     try {  
       loadingCtx.setLoading(true)
       const formData = new FormData();
-      formData.append('username', newUser.username)
-      formData.append('email', newUser.email)
+      formData.append('username', newUser.username.toLowerCase())
+      formData.append('email', newUser.email.toLowerCase())
       formData.append('fullName', newUser.firstName+" "+newUser.lastName)
       formData.append('password', newUser.password)
       formData.append('contactNumber', newUser.contactNumber)
