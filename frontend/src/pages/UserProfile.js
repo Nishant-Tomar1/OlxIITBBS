@@ -97,7 +97,7 @@ function UserProfile() {
 
             <div className="flex flex-col lg:w-2/3 pt-5 pb-12 items-center justify-center dark:bg-[#191919] dark:text-white">
                 <h1 className="text-2xl lg:text-4xl font-bold font-[Raleway] pb-2">
-                    User Profile
+                    {user.firstName + " "+user.lastName}
                 </h1>
                 <div
                     className=" mx-auto w-11/12 md:w-5/6 lg:w-2/3"
@@ -208,11 +208,11 @@ function UserProfile() {
             </div>
         </div>
         
-        <div className="flex flex-col w-full items-center bg-gray-50 dark:bg-[#191919] dark:text-white pb-4">
+        <div className="flex flex-col w-full items-center bg-gray-100 dark:bg-[#191919] dark:text-white pb-4">
             <div className="">
                 {!isProductListEmpty && (
-                    <div className="w-full text-center font-bold font-[Raleway] text-2xl lg:text-3xl pt-5">
-                        Products Owned
+                    <div className="w-full text-center font-bold font-[Raleway] text-2xl lg:text-3xl ">
+                        Products Owned by {user.firstName}
                     </div>
                 )}
                 <div className="flex flex-wrap my-2 justify-center items-center w-full ">

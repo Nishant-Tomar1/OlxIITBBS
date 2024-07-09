@@ -63,9 +63,9 @@ function WishList() {
 
     return( 
         
-        <div className="flex bg-gray-50 dark:bg-[#191919] dark:text-white w-full items-center justify-center pb-10">
+        <div className="flex bg-gray-50 dark:bg-[#191919] dark:text-white w-full items-center justify-center pb-16 pt-6">
             <div className="container">
-               {!isWishListEmpty && <div className="w-full text-center font-bold font-[Raleway] text-2xl lg:text-3xl pt-5">User WishList</div>}
+               {!isWishListEmpty && <div className="w-full text-center font-bold font-[Raleway] text-2xl lg:text-3xl pt-5">My WishList</div>}
                     <div className="flex flex-wrap my-2 justify-center items-center w-full ">
                     { !isWishListEmpty ? ((wishList.length > 0) ?
 						( wishList?.map((product)=>(

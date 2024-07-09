@@ -99,30 +99,30 @@ function HomePage() {
 				{/* Categories */}
 				<div className="flex flex-col lg:flex-row w-full items-center py-3 shadow">
 					<div className="flex w-full h-full">
-						<div onClick={()=>{Navigate("/products/categories/Electronics and Appliances")}} className="cursor-pointer flex flex-col justify-center items-center w-1/3 p-3">
-							<img className="w-10 h-10 rounded-full" src={imageList[0]} alt="" />
+						<div onClick={()=>{Navigate("/products/categories/Electronics and Appliances")}} className=" cursor-pointer flex flex-col justify-center items-center w-1/3 p-3">
+							<img className="w-8 h-8 md:w-10 md:h-10 rounded-full" src={imageList[0]} alt="" />
 							<div className="text-xs lg:text-md mt-2 font-medium text-gray-700 dark:text-gray-100 text-center">Electronics & Appliances</div>
 						</div>
 						<div onClick={()=>{Navigate("/products/categories/Vehicles")}} className="cursor-pointer flex flex-col justify-center items-center w-1/3 p-3">
-							<img className="w-10 h-10 rounded-full" src={imageList[1]} alt="" />
+							<img className="w-8 h-8 md:w-10 md:h-10 rounded-full" src={imageList[1]} alt="" />
 							<div className="text-xs lg:text-md mt-2 font-medium text-gray-700 dark:text-gray-100 text-center">Vehicles</div>
 						</div>
 						<div onClick={()=>{Navigate("/products/categories/Home and Furniture")}} className="cursor-pointer flex flex-col justify-center items-center w-1/3 p-3">
-							<img className="w-10 h-10 rounded-full" src={imageList[2]} alt="" />
+							<img className="w-8 h-8 md:w-10 md:h-10 rounded-full" src={imageList[2]} alt="" />
 							<div className="text-xs lg:text-md mt-2 font-medium text-gray-700 dark:text-gray-100 text-center">Home & Furniture</div>
 						</div>
 					</div>
 					<div className="flex w-full h-full">	
 						<div onClick={()=>{Navigate("/products/categories/Fashion and Beauty")}} className="cursor-pointer flex flex-col justify-center items-center w-1/3 p-3">
-							<img className="w-10 h-10 rounded-full" src={imageList[3]} alt="" />
+							<img className="w-8 h-8 md:w-10 md:h-10 rounded-full" src={imageList[3]} alt="" />
 							<div className="text-xs lg:text-md mt-2 font-medium text-gray-700 dark:text-gray-100 text-center">Fashion and Beauty</div>
 						</div>
 						<div onClick={()=>{Navigate("/products/categories/Sports and Hobbies")}} className="cursor-pointer flex flex-col justify-center items-center w-1/3 p-3">
-							<img className="w-10 h-10 rounded-full" src={imageList[4]} alt="" />
+							<img className="w-8 h-8 md:w-10 md:h-10 rounded-full" src={imageList[4]} alt="" />
 							<div className="text-xs lg:text-md mt-2 font-medium text-gray-700 dark:text-gray-100 text-center">Sports and Hobbies</div>
 						</div>
 						<div onClick={()=>{Navigate("/products/categories/Stationary")}} className="cursor-pointer flex flex-col justify-center items-center w-1/3 p-3">
-							<img className="w-10 h-10 rounded-full" src={imageList[5]} alt="" />
+							<img className="w-8 h-8 md:w-10 md:h-10 rounded-full" src={imageList[5]} alt="" />
 							<div className="text-xs lg:text-md mt-2 font-medium text-gray-700 dark:text-gray-100 text-center">Stationary</div>
 						</div>
 

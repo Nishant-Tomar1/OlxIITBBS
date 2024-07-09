@@ -118,14 +118,16 @@ const deleteProduct = asyncHandler(
 const getProducts = asyncHandler(
     async ( req , res) => {
         const { category, search, page, limit} = req.query;
-        // console.log(category, page,limit);
+        // console.log(category, page,limit,"search :",search);
         const skip = (page-1)*limit;
         const query = {};
 
         if(search){
+            query.$or = [{title : { $regex: new RegExp(search, "i") }},{description : {$regex: new RegExp(search, "i")}}]
             // query.title = { $regex: new RegExp(search, "i") }
-            query.description = {$regex: new RegExp(search, "i")}
+            // query.description = {$regex: new RegExp(search, "i")}
         }
+
         if(category){
             query.category = String(category)
         }

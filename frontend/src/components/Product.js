@@ -147,8 +147,8 @@ function Product() {
                                     {/* <p className="text-xs text-gray-500 dark:text-gray-400">
                                         seller
                                     </p> */}
-                                    <p className="text-md lg:text-lg font-extrabold font-[Raleway] text-gray-900 dark:text-white">
-                                        {data.owner.fullName} (Seller)
+                                    <p className="text-md lg:text-lg font-bold font-[Raleway] text-gray-900 dark:text-white">
+                                        <Link className='font-bold font-[Raleway]' to={`/users/${data.owner._id}`}>{data.owner.fullName}</Link> (Seller{(data.owner._id === loginCtx.userId) && "-You"})
                                     </p>
                                 </div>
                             </div>
@@ -164,7 +164,7 @@ function Product() {
                 : //skeleton
                 <div className='flex w-full justify-center'>
                 <div role="status" className="space-y-8 animate-pulse md:space-y-0 md:space-x-8 rtl:space-x-reverse md:flex md:items-center w-4/5 lg:w-3/4">
-                    <div className="flex items-center justify-center w-48 h-48 lg:h-96 lg:min-w-[580px] bg-gray-300 rounded-xl dark:bg-gray-700">
+                    <div className="flex items-center justify-center w-full lg:h-96 h-64 sm:h-80 object-cover object-center rounded-xl z-0 shadow-lg dark:bg-gray-700">
                         <svg className="w-10 h-10 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
                             <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z"/>
                         </svg>
