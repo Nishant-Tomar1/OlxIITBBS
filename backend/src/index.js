@@ -1,5 +1,6 @@
 import dotenv from 'dotenv'
 import http from 'http'
+import https from "https"
 import connectDB from './db/index.js'
 import { app } from './app.js'
 import { Server as socketIo } from 'socket.io';
@@ -21,10 +22,10 @@ const io = new socketIo(server,{
 )
 
 const backendUrl = "https://olxiitbbs.onrender.com/api/v1/products/getproducts?page=1&limit=1";
-cron.schedule("*/14 * * * *", function () {
+cron.schedule("*/10 * * * *", function () {
   console.log("Restarting server");
 
-  http
+  https
     .get(backendUrl, (res) => {
       if (res.statusCode === 200) {
         console.log("Restarted");

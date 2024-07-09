@@ -6,11 +6,13 @@ Welcome to OlxIITBBS, your one-stop solution for buying and selling pre-owned it
 
 ## Features
 
-- Secure user authentication and email verification.
+- Secure user authentication.
+- Session storage implemention to ensure that users don't need to login each time they visit.
+- Password Reset through OTP verification on email.
 - Seamlessly buy and sell old items.
 - Add products to your wishlist and purchase them later.
 - Communicate directly with the seller through live messaging (Using web sockets).
-- Easily search and filter products by category, price, and usage time.
+- Easily search and filter products by category as per your requirements.
 - Easily Toggle between light and dark themes according to your convenience.
 <!-- - Advertise and feature your product for a minimal fee. -->
 
