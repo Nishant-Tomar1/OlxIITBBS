@@ -225,7 +225,8 @@ function UserProfile() {
                                 >
                                     <div className="w-full bg-gray-100 dark:bg-[#252525] rounded-xl overflow-hidden shadow-lg p-3 lg:p-2">
                                         <img
-                                            className="w-full md:h-40 lg:h-56  object-cover object-center rounded-lg"
+                                            onClick={() => {Navigate(`/products/${product._id}`)}}
+                                            className="cursor-pointer w-full md:h-40 lg:h-56  object-cover object-center rounded-lg"
                                             src={`${product.thumbNail}`}
                                             alt=""
                                         />

@@ -14,6 +14,7 @@ import { useLoading } from "../store/contexts/LoadingContextProvider";
 import { useSearch } from "../store/contexts/SearchContextProvider"
 import BtnLoader from "./loaders/BtnLoader";
 import { Server } from "../Constants";
+import logo from "../assets/images/logos/logo.png"
 import axios from "axios";
 
 function Navbar() {
@@ -58,29 +59,29 @@ function Navbar() {
     return (
         <>
             <nav className="bg-white border-gray-200 dark:bg-[#111112] dark:border-gray-400 lg:dark:border-b w-full lg:sticky top-0 lg:border-b shadow-md z-20">
-                {(location.pathname.split("/")[1]!=="chats") && <div  className="flex justify-center items-center fixed bottom-4 right-3 rounded-full bg-gray-200 dark:bg-red-500 dark:text-white shadow-md text-md lg:text-xl p-3 " onClick={() => window.scrollTo(0,0)}>  <button > <FaArrowUp /> </button></div>}
+                {<div  className="flex justify-center items-center fixed bottom-4 right-3 rounded-full  bg-red-500 text-white shadow-md text-md lg:text-xl p-3 " onClick={() => window.scrollTo(0,0)}>  <button > <FaArrowUp /> </button></div>}
                 
-                <div className="mx-2 lg:mx-[3vw] flex flex-wrap items-center justify-between py-3 px-2 md:py-3 z-20">
+                <div className="mx-2 lg:mx-[3vw] flex flex-wrap items-center justify-between pt-3 px-2 lg:py-3 z-20">
                     <div className="flex items-center space-x-3 rtl:space-x-reverse">
-                        <button
-                        title="Toggle Theme"
-                            onClick={() => {
-                                themeCtx.toggleTheme();
-                               
-                            }}
-                            className="text-2xl font-bold block py-2 px-1 md:border-0 md:p-0 dark:text-white"
-                        >
-                            {themeCtx.theme === "light" ? (
-                                <TbSunHigh />
-                            ) : (
-                                <TbMoonFilled />
-                            )}
-                        </button>
+                            {/* <button
+                            title="Toggle Theme"
+                                onClick={() => {
+                                    themeCtx.toggleTheme();
+                                
+                                }}
+                                className="text-2xl font-bold block py-2 px-1 md:border-0 md:p-0 dark:text-white"
+                            >
+                                {themeCtx.theme === "light" ? (
+                                    <TbSunHigh />
+                                ) : (
+                                    <TbMoonFilled />
+                                )}
+                            </button> */}
                         <button 
                             onClick={()=>{window.scrollTo(0,0);Navigate("/");searchCtx.clearSearch()}}
-                            className="flex self-center text-2xl lg:text-3xl font-bold dark:text-white font-[Montserrat]"
+                            className="flex self-center items-center gap-2 text-2xl xl:text-3xl font-bold dark:text-white font-[Montserrat]"
                         >
-                            OlxIITBBS
+                           <img src={logo} alt="" className="h-6"/> OlxIITBBS
                         </button>
                     </div>
 
@@ -97,25 +98,46 @@ function Navbar() {
                         </button>
                     </form>
 
+                    <div className="flex ">
                     <button
-                        onClick={() => {
-                            nav === "hidden" ? setNav("") : setNav("hidden");
-                        }}
-                        className="inline-flex items-center p-2  w-14 h-10 justify-center text-sm text-gray-600 dark:text-white rounded-xl lg:hidden transition duration-300 ease-in-out"
-                    >
-                        {nav === "hidden" ? (
-                            <div className="transition duration-300 ease-in-out text-4xl font-bold">
-                                <BsList />
-                            </div>
+                        title="Toggle Theme"
+                            onClick={() => {
+                                themeCtx.toggleTheme();
+                               
+                            }}
+                            className="text-2xl flex font-extrabold justify-center items-center gap-2 px-1 md:border-0 md:p-0 dark:text-white"
+                        >   <span className="hidden 2xl:block text-[1rem] font-semibold font-[Montserrat]"> {themeCtx.theme === "light" ? (
+                            "Light" 
                         ) : (
-                            <div className="transition duration-300 ease-in-out text-4xl font-bold">
-                                <VscListSelection />
-                            </div>
-                        )}
-                    </button>
+                            "Dark"
+                        ) } </span>
+                            {themeCtx.theme === "light" ? (
+                                <TbSunHigh /> 
+                            ) : (
+                                <TbMoonFilled />
+                            ) } 
+                        </button>
+                        <div
+                            onClick={() => {
+                                nav === "hidden" ? setNav("") : setNav("hidden");
+                                nav === "hidden" ? setDrop(true) : setDrop(false)
+                            }}
+                            className="inline-flex items-center p-2  w-14 h-10 justify-center text-sm text-gray-600 dark:text-white rounded-xl lg:hidden transition duration-300 ease-in-out"
+                        >
+                            {nav === "hidden" ? (
+                                <div className="transition duration-300 ease-in-out text-4xl font-bold">
+                                    <BsList />
+                                </div>
+                            ) : (
+                                <div className="transition duration-300 ease-in-out text-4xl font-bold">
+                                    <VscListSelection />
+                                </div>
+                            )}
+                        </div>
+                    </div>
 
                     <div className={`w-full ${nav} lg:flex lg:w-auto `}>
-                        <ul className="flex gap-1 items-center flex-col font-medium p-4 lg:p-0 mt-2  rounded-2xl bg-gray-100 md:space-x-8 rtl:space-x-reverse lg:flex-row lg:mt-0 lg:bg-white dark:bg-[#111112] dark:rounded-none dark:border-t lg:dark:border-none dark:border-white">
+                        <ul className="flex gap-1 items-center flex-col font-medium p-4 lg:p-0 mt-2 mb-1 rounded-2xl bg-gray-100 md:space-x-8 rtl:space-x-reverse lg:flex-row lg:mt-0 lg:bg-white dark:bg-[#111112] dark:rounded-none dark:border-t lg:dark:border-none dark:border-white">
                             <div
                                 onClick={() => {
                                     setDrop(!drop);
@@ -134,7 +156,7 @@ function Navbar() {
                                         )}
                                         {loginCtx.fullName.split(" ")[0]
                                             .length > 10
-                                            ? "Welcome"
+                                            ? String(loginCtx.fullName.split(" ")).substring(0,10) + ".."
                                             : loginCtx.fullName.split(" ")[0]}
                                         {drop ? (
                                             <MdOutlineKeyboardArrowUp />
@@ -171,15 +193,15 @@ function Navbar() {
                             {(drop && loginCtx.isLoggedIn) && (
                                 <div
                                     id="dropdownDivider"
-                                    className="z-1000 w-4/5 mt-2 text-center lg:absolute lg:rounded-md right-10 top-12 lg:border bg-gray-50 divide-y divide-gray-100 rounded-xl shadow-xl lg:rouded-lg lg:w-40 md:w-1/2 dark:bg-[#151515] dark:border-gray-600 dark:border "
+                                    className="z-20 w-4/5 mt-2 text-center lg:absolute lg:rounded-md lg:right-6 2xl:right-10 top-12 lg:border bg-gray-100 divide-y divide-gray-100 rounded-xl shadow-xl lg:rouded-lg lg:w-40 md:w-1/2 dark:bg-[#151515] dark:border-gray-600 dark:border "
                                 >
                                     <ul
-                                        className="py-2 text-md font-medium text-gray-700 dark:text-gray-200"
+                                        className="pt-1 text-md font-medium text-gray-700 dark:text-gray-200"
                                         aria-labelledby="dropdownDividerButton"
                                     >
                                         <li>
                                             <button
-                                                onClick ={()=>{setDrop(false);Navigate("/myprofile")}}
+                                                onClick ={()=>{setDrop(false);setNav("hidden");Navigate("/myprofile")}}
                                                 className="text-center w-full block px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#282828] dark:hover:text-white"
                                             >
                                                 My Profile
@@ -187,7 +209,7 @@ function Navbar() {
                                         </li>
                                         <li>
                                         <button
-                                                onClick ={()=>{setDrop(false);Navigate("/wishlist")}}
+                                                onClick ={()=>{setDrop(false);setNav("hidden");Navigate("/wishlist")}}
                                                 className="text-center w-full block px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#282828] dark:hover:text-white"
                                             >
                                                 WishList
@@ -195,7 +217,7 @@ function Navbar() {
                                         </li>
                                         <li>
                                             <button
-                                                onClick ={()=>{setDrop(false);Navigate("/addproduct")}}
+                                                onClick ={()=>{setDrop(false);setNav("hidden");Navigate("/addproduct")}}
                                                 className="text-center w-full block px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#282828] dark:hover:text-white"
                                             >
                                                 Sell Product
@@ -203,16 +225,16 @@ function Navbar() {
                                         </li>
                                         <li>
                                         <button
-                                                onClick ={()=>{setDrop(false);Navigate("/chats")}}
-                                                className="text-center w-full block px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#282828] dark:hover:text-white"
+                                                onClick ={()=>{setDrop(false);setNav("hidden");Navigate("/chats")}}
+                                                className="text-center w-full block px-4 py-2 pb-4 hover:bg-gray-100 dark:hover:bg-[#282828] dark:hover:text-white"
                                             >
                                                 My Chats
                                             </button>
                                         </li>
                                     </ul>
-                                    <div className=" bg-red-600 rounded-b-md">
+                                    <div className=" bg-red-600 rounded-b-xl lg:rounded-b-md">
                                         <button
-                                            className="text-center px-4 py-2 text-md font-semibold text-white  dark:text-gray-200 dark:hover:text-white"
+                                            className="w-full text-center px-4 py-2 text-md font-semibold font-[Montserrat] text-white  dark:text-gray-200 dark:hover:text-white"
                                             onClick={handleLogout}
                                         >
                                             {loadingCtx.loading ? (
@@ -222,6 +244,7 @@ function Navbar() {
                                             )}
                                         </button>
                                     </div>
+                                    
                                 </div>
                             ) }
                         </ul>

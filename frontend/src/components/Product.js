@@ -225,13 +225,13 @@ function Product() {
             {/* other products by owner */}
             <div className="container mt-10">
                {(data.owner?.productsAdded?.length > 1) &&(<div className="w-full text-center font-bold font-[Raleway] text-2xl lg:text-3xl pt-5">Other Products by this Seller</div>)}
-                    <div className="flex flex-wrap m-2 xl:m-2 justify-center items-center w-full ">
+                    <div className="flex flex-wrap justify-center items-center w-full ">
                     { (data.owner.productsAdded) ?
 						( data.owner.productsAdded.map((product)=>(
                             
 							(product._id !== data.product._id)&& (<div  key={product._id} className="p-2 w-full md:w-1/2 xl:w-1/4 h-full">
-								<div className="min-w-full bg-gray-100 dark:bg-[#252525] rounded-2xl lg:rounded-lg overflow-hidden shadow-lg p-3 lg:p-2">
-									<img className="max-h-72  w-full lg:h-56 object-cover object-center rounded-md " src={`${product.thumbNail}`} alt="" />
+								<div className="min-w-full bg-gray-100 dark:bg-[#252525] rounded-xl overflow-hidden shadow-lg p-3 lg:p-2">
+									<img onClick={() => {Navigate(`/products/${product._id}`)}} className="cursor-pointer max-h-72 w-full lg:h-56 object-cover object-center rounded-lg " src={`${product.thumbNail}`} alt="" />
 									
 									<div className="py-2 lg:px-2 flex flex-col justify-between h-1/2 w-full">
 										<div className="flex flex-col">

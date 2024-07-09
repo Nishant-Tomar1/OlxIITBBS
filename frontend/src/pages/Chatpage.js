@@ -45,6 +45,7 @@ function Chatpage() {
         if(!cookies.accessToken){
             return Navigate("/")
         }
+        window.scrollTo(0,0)
         fetchChats()
         // console.log(chats.length);
     },[loginCtx.userId])
@@ -71,8 +72,8 @@ function Chatpage() {
                                 <h2 className="text-gray-700 dark:text-white text-md lg:text-xl font-semibold font-[Montserrat]">
                                     {chat.fullName}
                                 </h2>
-                                <div className= {`flex justify-between items-center ${String(lastMessages[index][0].receiver) === chat._id ? "text-gray-500" : "text-gray-500"}`}>
-                                    <p><span className='font-semibold'> {String(lastMessages[index][0].receiver) === chat._id ? "You" : chat.fullName.split(" ")[0]}{" : "}</span>{String(lastMessages[index][0].content).substring(0,25)}{String(lastMessages[index][0].content).length > 25 ? " ..." : ""}</p>
+                                <div className= {`flex justify-between items-center ${String(lastMessages[index][0].receiver) === chat._id ? "text-gray-500" : "text-black dark:text-gray-300"}`}>
+                                    <p><span className='font-semibold'> {String(lastMessages[index][0].receiver) === chat._id ? "You" : chat.fullName.split(" ")[0]}{" : "}</span>{String(lastMessages[index][0].content).substring(0,10)}{String(lastMessages[index][0].content).length > 10 ? " ..." : ""}</p>
                                     <p className='text-xs min-w-1/3'>{new Date(lastMessages[index][0].timeStamp).toLocaleString('en-IN', options)}</p>
                                 </div>
                             </div>

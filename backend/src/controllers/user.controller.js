@@ -574,6 +574,11 @@ const getCurrentUserWishlist = asyncHandler(
                 }
             },
             {
+                $sort : {
+                    createdAt : -1
+                }
+            },
+            {
                 $project : {
                     product:1
                 }

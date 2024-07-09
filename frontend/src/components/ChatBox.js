@@ -9,6 +9,7 @@ import { FaPhone } from "react-icons/fa6";
 import { FaUserAlt } from "react-icons/fa";
 import BtnLoader from "./loaders/BtnLoader";
 import { useLoading } from "../store/contexts/LoadingContextProvider";
+import { IoSend } from "react-icons/io5";
 
 const socket = io.connect(ServerBase);
 
@@ -79,6 +80,7 @@ function ChatBox() {
     const sendMessage = (e) => {
         e.preventDefault();
 
+        if (content){
         const message = {
             sender: loginCtx.userId,
             receiver: loginCtx.userId === user1 ? user2 : user1,
@@ -87,6 +89,7 @@ function ChatBox() {
         };
         socket.emit("sendMessage", message);
         setContent("");
+        }
     };
 
     return (
@@ -109,7 +112,7 @@ function ChatBox() {
                                 src={`${chatUser.profilePicture}`}
                             />
                             <div className="flex-grow">
-                                <h2 className="text-gray-700 dark:text-white text-lg lg:text-2xl font-medium">
+                                <h2 className="text-gray-700 dark:text-white text-lg lg:text-xl font-medium">
                                     {chatUser.fullName}
                                 </h2>
                             </div>
@@ -151,7 +154,7 @@ function ChatBox() {
                                     className={`flex flex-col mb-2 max-w-[80%] md:max-w-[66%] p-2 rounded-xl ${
                                         message.sender === loginCtx.userId
                                             ? "bg-cyan-500 dark:bg-teal-500 text-white rounded-tr-none pr-4"
-                                            : "bg-gray-200 dark:bg-[#202020] dark:text-white text-left rounded-tl-none pr-4"
+                                            : "bg-gray-200 dark:bg-[#282828] dark:text-white text-left rounded-tl-none pr-4"
                                     }`}
                                 >
                                     <div className="flex items-center justify-center">
@@ -183,9 +186,9 @@ function ChatBox() {
                         />
                         <button
                             type="submit"
-                            className="px-1 mg:px-4 w-1/5 lg:w-[12.5%] bg-cyan-500 dark:bg-teal-500 dark:hover:bg-teal-600 text-white rounded-r-full hover:bg-cyan-600 "
+                            className="w-1/5 lg:w-[12.5%] bg-cyan-500 dark:bg-teal-500 dark:hover:bg-teal-600 text-white items-center justify-center flex text-xl font-bold rounded-r-full hover:bg-cyan-600 "
                         >
-                            Send
+                            <IoSend/>
                         </button>
                     </form>
                 </div>
