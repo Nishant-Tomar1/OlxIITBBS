@@ -46,7 +46,7 @@ function UpdatePassword() {
     }
 
     return (
-        <div  className="flex flex-col w-full items-center bg-gray-100 dark:bg-[#191919] dark:text-white py-36">
+        <div  className="flex flex-col w-full items-center bg-gray-100 dark:bg-[#191919] dark:text-white justify-center min-h-[70vh]">
             <div className='flex flex-col w-full items-center justify-center '>
                 <h1 className='text-xl lg:text-2xl font-semibold mb-5 text-gray-700 dark:text-white'>Update Password</h1>
                 <form action="" className=" mx-auto w-5/6 md:w-1/2 lg:w-1/3" onSubmit={handlePasswordUpdate}>

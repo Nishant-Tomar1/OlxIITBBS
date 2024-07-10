@@ -81,7 +81,7 @@ function Login() {
         <>
         
         <div  className="flex flex-col w-full items-center py-6 bg-gray-100 dark:bg-[#191919] dark:text-white min-h-[70vh]">
-            <h1 className="text-xl lg:text-3xl font-bold font-[Raleway] pb-5">
+            <h1 className="text-2xl lg:text-3xl font-bold font-[Raleway] pb-5">
                 {loginCtx.isLoggedIn ? "Login Another Account" : "Login"}
                 </h1>
         <form className=" mx-auto w-11/12 md:w-1/2 lg:w-1/3" onSubmit={handleLogin}>

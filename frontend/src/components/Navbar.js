@@ -9,6 +9,7 @@ import { IoSearchSharp } from "react-icons/io5";
 import { useTheme } from "../store/contexts/ThemeContextProvider";
 import { useLogin } from "../store/contexts/LoginContextProvider";
 import { useAlert } from "../store/contexts/AlertContextProvider"
+import { IoMdExit } from "react-icons/io";
 import { MdOutlineKeyboardArrowDown, MdOutlineKeyboardArrowUp } from "react-icons/md";
 import { useLoading } from "../store/contexts/LoadingContextProvider";
 import { useSearch } from "../store/contexts/SearchContextProvider"
@@ -167,44 +168,52 @@ function Navbar() {
                                 </div>
                                     
                                 ) : (
-                                    <Link
-                                        to="/login"
-                                        className="flex gap-2 justify-center font-medium items-center text-xl text-gray-700  dark:text-white"
+                                    <button
+                                        onClick={()=>{setDrop(false);setNav("hidden");Navigate("/login")}}
+                                        className="flex my-3 lg:my-0 gap-2 justify-center font-medium items-center text-xl text-gray-700  dark:text-white"
                                     >
                                         {" "}
                                         <FaUserLarge />
                                         Login{" "}
-                                    </Link>
+                                    </button>
                                 )}
                             </div>
-                            {(drop && loginCtx.isLoggedIn) && (
+                            { (drop && loginCtx.isLoggedIn) && (
                                 <div
                                     id="dropdownDivider"
                                     className="lg:z-20 w-full text-center lg:absolute lg:rounded-md lg:right-6 2xl:right-10 lg:top-14 lg:border bg-gray-100 dark:bg-[#191919] lg:bg-tansparent divide-gray-100 lg:shadow-xl lg:rouded-lg lg:w-40 md:w-1/2 lg:dark:border-gray-600 lg:dark:border"
                                 >
                                     <ul
-                                        className=" items-center text-lg lg:text-sm text-gray-700 dark:text-gray-200"
+                                        className=" items-center text-lg lg:text-sm text-gray-700 dark:text-white"
                                     >
                                          <li>
                                             <button
-                                                onClick ={()=>{setDrop(false);setNav("hidden");Navigate("/")}}
-                                                className="text-center w-full font-[Montserrat] flex justify-center font-semibold hover:font-bold gap-2 items-center px-4 pb-1 pt-2 lg:rounded-t-md hover:bg-gray-300 dark:hover:bg-[#282828] dark:hover:text-white"
+                                                onClick ={()=>{setDrop(false);setNav("hidden");Navigate("/myprofile")}}
+                                                className="text-center w-full flex justify-center font-medium hover:font-semibold gap-2 items-center px-4 pb-1 pt-2 lg:rounded-t-md hover:bg-gray-300 dark:hover:bg-[#282828] dark:hover:text-white"
                                             >
-                                               Home
+                                                {loginCtx.profilePicture ? (
+                                                <img
+                                                    className="lg:hidden w-6 h-6 rounded-full object-cover object-center"
+                                                    src={`${loginCtx.profilePicture}`}
+                                                    alt="avatar"
+                                                />
+                                            ) : (
+                                                <FaUserCircle />
+                                            )} My Profile
                                             </button>
                                         </li>
                                         <li>
                                             <button
-                                                onClick ={()=>{setDrop(false);setNav("hidden");Navigate("/myprofile")}}
-                                                className="text-center w-full font-[Montserrat] flex justify-center gap-2 items-center px-4 py-1 font-semibold hover:font-bold hover:bg-gray-300 dark:hover:bg-[#282828] dark:hover:text-white"
+                                                onClick ={()=>{setDrop(false);setNav("hidden");Navigate("/")}}
+                                                className="text-center w-full flex justify-center gap-2 items-center px-4 py-1 font-medium hover:font-semibold hover:bg-gray-300 dark:hover:bg-[#282828] dark:hover:text-white"
                                             >
-                                                 My Profile
+                                                HomePage 
                                             </button>
                                         </li>
                                         <li>
                                         <button
                                                 onClick ={()=>{setDrop(false);setNav("hidden");Navigate("/wishlist")}}
-                                                className="text-center w-full font-[Montserrat] flex justify-center gap-2 items-center px-4 py-1 font-semibold hover:font-bold hover:bg-gray-300 dark:hover:bg-[#282828] dark:hover:text-white"
+                                                className="text-center w-full flex justify-center gap-2 items-center px-4 py-1 font-medium hover:font-semibold hover:bg-gray-300 dark:hover:bg-[#282828] dark:hover:text-white"
                                             >
                                                  WishList
                                             </button>
@@ -212,7 +221,7 @@ function Navbar() {
                                         <li>
                                             <button
                                                 onClick ={()=>{setDrop(false);setNav("hidden");Navigate("/addproduct")}}
-                                                className="text-center w-full font-[Montserrat] flex justify-center gap-2 items-center px-4 py-1 font-semibold hover:font-bold hover:bg-gray-300 dark:hover:bg-[#282828] dark:hover:text-white"
+                                                className="text-center w-full flex justify-center gap-2 items-center px-4 py-1 font-medium hover:font-semibold hover:bg-gray-300 dark:hover:bg-[#282828] dark:hover:text-white"
                                             >
                                                 Sell Product
                                             </button>
@@ -220,7 +229,7 @@ function Navbar() {
                                         <li>
                                         <button
                                                 onClick ={()=>{setDrop(false);setNav("hidden");Navigate("/chats")}}
-                                                className="text-center w-full font-[Montserrat] flex justify-center gap-2 items-center px-4 py-1 font-semibold hover:font-bold hover:bg-gray-300 dark:hover:bg-[#282828] dark:hover:text-white"
+                                                className="text-center w-full flex justify-center gap-2 items-center px-4 py-1 lg:pb-2 font-medium hover:font-semibold hover:bg-gray-300 dark:hover:bg-[#282828] dark:hover:text-white"
                                             >
                                                 My Chats
                                             </button>
@@ -229,14 +238,15 @@ function Navbar() {
 
                                      <div className="lg:bg-red-600 lg:hover:bg-red-700 lg:rounded-b-md pb-2 lg:pb-0 border-t-1">
                                         <button
-                                            className="w-1/2 lg:w-full text-center px-4 py-1 lg:text-sm font-bold text-lg font-[Montserrat] text-red-500 lg:text-white lg:dark:text-gray-200"
+                                            className="w-4/5 lg:w-full text-center px-4 lg:text-sm font-bold font-[Montserrat] text-red-500 lg:text-white lg:dark:text-gray-200"
                                             onClick={handleLogout}
                                         >
                                             {loadingCtx.loading ? (
                                                 <BtnLoader />
-                                            ) : (
-                                                "Logout"
-                                            )}
+                                            ) : <div className="flex gap-2 w-full items-center py-1 justify-center font-semibold text-xl lg:text-[1rem]">
+                                                Logout <IoMdExit/> 
+                                                </div>
+                                            }
                                         </button>
                                     </div>
                                     
