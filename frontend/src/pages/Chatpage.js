@@ -73,7 +73,7 @@ function Chatpage() {
                                     {chat.fullName}
                                 </h2>
                                 <div className= {`flex justify-between items-center ${String(lastMessages[index][0].receiver) === chat._id ? "text-gray-500" : "text-black dark:text-gray-300"}`}>
-                                    <p><span className='font-semibold'> {String(lastMessages[index][0].receiver) === chat._id ? "You" : chat.fullName.split(" ")[0]}{" : "}</span>{String(lastMessages[index][0].content).substring(0,10)}{String(lastMessages[index][0].content).length > 10 ? " ..." : ""}</p>
+                                    <p><span className='font-semibold'> {String(lastMessages[index][0].receiver) === chat._id ? "You" : chat.fullName.split(" ")[0]}{" : "}</span>{String(lastMessages[index][0].content).substring(0,13)}{String(lastMessages[index][0].content).length > 13 ? " ..." : ""}</p>
                                     <p className='text-xs min-w-1/3'>{new Date(lastMessages[index][0].timeStamp).toLocaleString('en-IN', options)}</p>
                                 </div>
                             </div>

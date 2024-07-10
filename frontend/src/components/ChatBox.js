@@ -182,11 +182,11 @@ function ChatBox() {
                             value={content}
                             onChange={(e) => setContent(e.target.value)}
                             placeholder="Type a message"
-                            className="flex p-2 w-4/5 lg:w-[87.5%] dark:bg-[#191919] border-gray-300 dark:border-gray-400 dark:text-white focus:border-gray-300 dark:focus:border-gray-400 rounded-l-full focus:ring-0 focus:border-2  ps-4"
+                            className="flex w-[82%] p-2 md:w-[88%] dark:bg-[#191919] border-gray-300 dark:border-gray-400 dark:text-white focus:border-gray-300 dark:focus:border-gray-400 rounded-l-full focus:ring-0 focus:border-2  ps-4"
                         />
                         <button
                             type="submit"
-                            className="w-1/5 lg:w-[12.5%] bg-cyan-500 dark:bg-teal-500 dark:hover:bg-teal-600 text-white items-center justify-center flex text-xl font-bold rounded-r-full hover:bg-cyan-600 "
+                            className="w-[18%] md:w-[12%] bg-cyan-500 dark:bg-teal-500 dark:hover:bg-teal-600 text-white items-center justify-center flex text-xl font-bold rounded-r-full hover:bg-cyan-600 "
                         >
                             <IoSend/>
                         </button>

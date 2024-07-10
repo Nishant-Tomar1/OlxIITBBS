@@ -189,6 +189,7 @@ function Profile() {
             "Do You really want to delete the product? All the product data will be removed"
         );
         if (!confirm) return;
+        alertCtx.setToast("info","Loading...")
         try {
             // alert(`${id}`)
             const res = await axios.delete(
@@ -206,7 +207,10 @@ function Profile() {
         } catch (error) {
             alertCtx.setToast("error", "Product could not be deleted!!");
             console.log(error);
-        }
+        } 
+
+            
+       
     };
 
     useEffect(() => {
@@ -217,7 +221,7 @@ function Profile() {
         // alert("hiii")
         fetchData();
         window.scrollTo(0, 0);
-    }, [cookies.accessToken, Navigate, alertCtx]);
+    }, [cookies.accessToken, Navigate]);
 
     return (
         <div className="flex w-full flex-col ">

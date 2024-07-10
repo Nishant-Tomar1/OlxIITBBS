@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useLogin } from "../store/contexts/LoginContextProvider";
 import { useLoading } from "../store/contexts/LoadingContextProvider";
@@ -20,6 +20,9 @@ function Login() {
     const loginCtx = useLogin()
     const alertCtx = useAlert();
     const loadingCtx = useLoading();
+
+    useEffect(()=>{
+    },[Navigate])
 
     const handleUserChange = (e) => {
         const { name, value } = e.target;
@@ -77,7 +80,7 @@ function Login() {
     return (
         <>
         
-        <div  className="flex flex-col w-full items-center py-6 bg-gray-100 dark:bg-[#191919] dark:text-white min-h-[60vh]">
+        <div  className="flex flex-col w-full items-center py-6 bg-gray-100 dark:bg-[#191919] dark:text-white min-h-[70vh]">
             <h1 className="text-xl lg:text-3xl font-bold font-[Raleway] pb-5">
                 {loginCtx.isLoggedIn ? "Login Another Account" : "Login"}
                 </h1>

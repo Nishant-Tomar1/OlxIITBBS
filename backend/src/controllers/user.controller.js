@@ -429,6 +429,11 @@ const getCurrentUser = asyncHandler(
                     as : "productsAdded",
                     pipeline : [
                         {
+                            $sort : {
+                                createdAt : -1
+                            }
+                        },
+                        {
                             $project : {
                                 id : 1,
                                 title : 1,

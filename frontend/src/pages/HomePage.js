@@ -9,10 +9,12 @@ import { useLogin } from "../store/contexts/LoginContextProvider";
 import { useAlert } from "../store/contexts/AlertContextProvider";
 import { useCookies } from "react-cookie";
 import { useSearch } from "../store/contexts/SearchContextProvider";
+import BtnLoader from "../components/loaders/BtnLoader";
 const images = require.context("../assets/images",true);
 
 
 function HomePage() {
+	const [loading, setLoading] = useState(false)
 	const [notfound, setNotfound] = useState(false)
 	const [page, setPage] = useState(1);
 	const [products, setProducts] = useState([])
@@ -42,9 +44,11 @@ function HomePage() {
 			if(searchCtx.search) setLimit(24)
 			let search = searchCtx.search
 			if (category) {search = ""}
+			setLoading(true)
 			const res = await axios.get(`${Server}/products/getproducts?search=${search ? search : ""}&category=${category ? category : ""}&page=${pageIn ? pageIn : 1}&limit=${limit}`);
 			// console.log(res.data.data);
 			if (res.data.statusCode === 200 ){
+				setLoading(false)
 				if (products.length === 0) setProducts(res.data.data);
 				else if (products.length > 0) {
 					setProducts(prev => [...prev, ...res.data.data])
@@ -63,6 +67,7 @@ function HomePage() {
 				else setUserWishList([])
 			}
 		} catch (error) {
+			setLoading(false)
 			console.log(error);
 		}
 	}
@@ -99,31 +104,31 @@ function HomePage() {
 				{/* Categories */}
 				<div className="flex flex-col lg:flex-row w-full items-center py-3 shadow">
 					<div className="flex w-full h-full">
-						<div onClick={()=>{Navigate("/products/categories/Electronics and Appliances")}} className=" cursor-pointer flex flex-col justify-center items-center w-1/3 p-3">
-							<img className="w-8 h-8 md:w-10 md:h-10 rounded-full" src={imageList[0]} alt="" />
-							<div className="text-xs lg:text-md mt-2 font-medium text-gray-700 dark:text-gray-100 text-center">Electronics & Appliances</div>
+						<div  className=" flex flex-col justify-center items-center w-1/3 p-3">
+							<img onClick={()=>{Navigate("/products/categories/Electronics and Appliances")}} className="cursor-pointer w-8 h-8 md:w-10 md:h-10 rounded-full" src={imageList[0]} alt="" />
+							<div onClick={()=>{Navigate("/products/categories/Electronics and Appliances")}} className="cursor-pointer text-xs lg:text-md mt-2 font-medium text-gray-700 dark:text-gray-100 text-center">Electronics & Appliances</div>
 						</div>
-						<div onClick={()=>{Navigate("/products/categories/Vehicles")}} className="cursor-pointer flex flex-col justify-center items-center w-1/3 p-3">
-							<img className="w-8 h-8 md:w-10 md:h-10 rounded-full" src={imageList[1]} alt="" />
-							<div className="text-xs lg:text-md mt-2 font-medium text-gray-700 dark:text-gray-100 text-center">Vehicles</div>
+						<div className="flex flex-col justify-center items-center w-1/3 p-3">
+							<img onClick={()=>{Navigate("/products/categories/Vehicles")}} className="cursor-pointer w-8 h-8 md:w-10 md:h-10 rounded-full" src={imageList[1]} alt="" />
+							<div onClick={()=>{Navigate("/products/categories/Vehicles")}} className="cursor-pointer text-xs lg:text-md mt-2 font-medium text-gray-700 dark:text-gray-100 text-center">Vehicles</div>
 						</div>
-						<div onClick={()=>{Navigate("/products/categories/Home and Furniture")}} className="cursor-pointer flex flex-col justify-center items-center w-1/3 p-3">
-							<img className="w-8 h-8 md:w-10 md:h-10 rounded-full" src={imageList[2]} alt="" />
-							<div className="text-xs lg:text-md mt-2 font-medium text-gray-700 dark:text-gray-100 text-center">Home & Furniture</div>
+						<div className="flex flex-col justify-center items-center w-1/3 p-3">
+							<img onClick={()=>{Navigate("/products/categories/Home and Furniture")}} className="cursor-pointer w-8 h-8 md:w-10 md:h-10 rounded-full" src={imageList[2]} alt="" />
+							<div onClick={()=>{Navigate("/products/categories/Home and Furniture")}} className="cursor-pointer text-xs lg:text-md mt-2 font-medium text-gray-700 dark:text-gray-100 text-center">Home & Furniture</div>
 						</div>
 					</div>
 					<div className="flex w-full h-full">	
-						<div onClick={()=>{Navigate("/products/categories/Fashion and Beauty")}} className="cursor-pointer flex flex-col justify-center items-center w-1/3 p-3">
-							<img className="w-8 h-8 md:w-10 md:h-10 rounded-full" src={imageList[3]} alt="" />
-							<div className="text-xs lg:text-md mt-2 font-medium text-gray-700 dark:text-gray-100 text-center">Fashion and Beauty</div>
+						<div className="flex flex-col justify-center items-center w-1/3 p-3">
+							<img onClick={()=>{Navigate("/products/categories/Fashion and Beauty")}} className="cursor-pointer w-8 h-8 md:w-10 md:h-10 rounded-full" src={imageList[3]} alt="" />
+							<div onClick={()=>{Navigate("/products/categories/Fashion and Beauty")}} className="cursor-pointer text-xs lg:text-md mt-2 font-medium text-gray-700 dark:text-gray-100 text-center">Fashion and Beauty</div>
 						</div>
-						<div onClick={()=>{Navigate("/products/categories/Sports and Hobbies")}} className="cursor-pointer flex flex-col justify-center items-center w-1/3 p-3">
-							<img className="w-8 h-8 md:w-10 md:h-10 rounded-full" src={imageList[4]} alt="" />
-							<div className="text-xs lg:text-md mt-2 font-medium text-gray-700 dark:text-gray-100 text-center">Sports and Hobbies</div>
+						<div className="flex flex-col justify-center items-center w-1/3 p-3">
+							<img onClick={()=>{Navigate("/products/categories/Sports and Hobbies")}} className="cursor-pointer w-8 h-8 md:w-10 md:h-10 rounded-full" src={imageList[4]} alt="" />
+							<div onClick={()=>{Navigate("/products/categories/Sports and Hobbies")}} className="cursor-pointer text-xs lg:text-md mt-2 font-medium text-gray-700 dark:text-gray-100 text-center">Sports and Hobbies</div>
 						</div>
-						<div onClick={()=>{Navigate("/products/categories/Stationary")}} className="cursor-pointer flex flex-col justify-center items-center w-1/3 p-3">
-							<img className="w-8 h-8 md:w-10 md:h-10 rounded-full" src={imageList[5]} alt="" />
-							<div className="text-xs lg:text-md mt-2 font-medium text-gray-700 dark:text-gray-100 text-center">Stationary</div>
+						<div className="flex flex-col justify-center items-center w-1/3 p-3">
+							<img onClick={()=>{Navigate("/products/categories/Vehicles")}} className="cursor-pointer w-8 h-8 md:w-10 md:h-10 rounded-full" src={imageList[5]} alt="" />
+							<div onClick={()=>{Navigate("/products/categories/Vehicles")}} className="cursor-pointer text-xs lg:text-md mt-2 font-medium text-gray-700 dark:text-gray-100 text-center">Stationary</div>
 						</div>
 
 					</div>
@@ -190,8 +195,8 @@ function HomePage() {
 					</div>}
 				</div>
 
-				{ (products.length>0) &&(!searchCtx.search)&& <div className="flex justify-center items-center font-semibold text-gray-700 dark:text-white pb-8">
-					<button onClick={handleShowMore}> {  "Show More..."}</button>
+				{ (products.length>0) &&(!searchCtx.search)&& <div className="flex justify-center items-center font-semibold text-gray-700 dark:text-white pt-2 pb-6">
+					<button onClick={handleShowMore}> { loading ? "Loading...":"Show More Products..."}</button>
 				</div>}
 
 		</div>

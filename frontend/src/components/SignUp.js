@@ -91,7 +91,7 @@ function SignUp() {
   
   
   return (
-    <div  className="flex flex-col w-full pt-5 pb-12 items-center justify-center bg-gray-100 dark:bg-[#191919] dark:text-white">
+    <div  className="flex flex-col w-full pt-5 pb-12 items-center justify-center min-h-[70vh] bg-gray-100 dark:bg-[#191919] dark:text-white">
             <h1 className="text-2xl lg:text-4xl font-bold font-[Raleway] pb-2">SignUp</h1>
         <form className=" mx-auto w-11/12 md:w-7/12 lg:w-4/12" onSubmit={handleSubmit}>
         <div className="mb-3">

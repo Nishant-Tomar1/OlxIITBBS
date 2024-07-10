@@ -1,19 +1,20 @@
 import React from 'react'
 import logo from "../assets/images/logos/logo.png"
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { FaGithub, FaInstagram, FaLinkedin, FaPhone} from "react-icons/fa";
 import { BiLogoGmail } from "react-icons/bi";
 
 function Footer() {
+    const Navigate = useNavigate()
   return (
       <footer className="shadow bg-gray-200  dark:bg-[#151515] dark:text-white border-t">       
           <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
               <div className="md:flex md:justify-between">
                 <div className="mb-6 md:mb-0">
-                    <Link to="/" className="flex items-center justify-center">
-                        <img src={logo} className="h-8 me-3" alt="OlxIITBBS Logo" />
-                        <span className="self-center text-md dark:text-white"> <span className='font-bold text-xl font-[Montserrat]'>OlxIITBBS </span ><span className='hidden lg:block text-sm text-gray-500 dark:text-gray-400'> Your online solution for buying and selling thing at IIT Bhubaneswar.</span> </span>
-                    </Link>
+                    <div onClick={()=>{Navigate("/");window.scrollTo(0,0)}} className="flex items-center justify-center">
+                        <img src={logo} className="h-6 lg:h-10 me-3" alt="OlxIITBBS Logo" />
+                        <span className="self-center text-md dark:text-gray-200 "> <span className='font-bold text-xl font-[Montserrat]'>OlxIITBBS </span ><span className='hidden lg:block text-sm text-gray-500 dark:text-gray-400'> Your online solution for buying and selling thing at IIT Bhubaneswar.</span> </span>
+                    </div>
                 </div>
                 <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-2">
                     <div>
@@ -50,7 +51,7 @@ function Footer() {
             <hr className=" border-gray-700 sm:mx-auto dark:border-gray-500 my-4" />
 
             <div className="sm:flex sm:items-center sm:justify-between">
-                <div className="text-sm w-full text-gray-500 text-center md:text-start dark:text-gray-400 lg:ms-5">© 2024 <span className="hover:underline">OlxIITBBS</span>. All Rights Reserved.
+                <div className="text-xs w-full text-gray-500 text-center md:text-start dark:text-gray-400 lg:ms-5">© 2024 <span className="hover:underline">OlxIITBBS</span>. All Rights Reserved.
                 </div>
                 <div className="flex mt-4 justify-center items-center sm:mt-0">
                     <Link to="https://github.com/nishant-tomar1" className="text-gray-500 hover:text-gray-900 dark:hover:text-white ">

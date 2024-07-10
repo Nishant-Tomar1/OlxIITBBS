@@ -9,7 +9,7 @@ import { IoSearchSharp } from "react-icons/io5";
 import { useTheme } from "../store/contexts/ThemeContextProvider";
 import { useLogin } from "../store/contexts/LoginContextProvider";
 import { useAlert } from "../store/contexts/AlertContextProvider"
-import { MdOutlineKeyboardArrowUp } from "react-icons/md";
+import { MdOutlineKeyboardArrowDown, MdOutlineKeyboardArrowUp } from "react-icons/md";
 import { useLoading } from "../store/contexts/LoadingContextProvider";
 import { useSearch } from "../store/contexts/SearchContextProvider"
 import BtnLoader from "./loaders/BtnLoader";
@@ -32,6 +32,7 @@ function Navbar() {
 
     useEffect(()=>{
         setDrop(false)
+        setNav("hidden")
     },[loginCtx])
 
     const handleLogout = async (e) => {
@@ -122,7 +123,7 @@ function Navbar() {
                                 nav === "hidden" ? setNav("") : setNav("hidden");
                                 nav === "hidden" ? setDrop(true) : setDrop(false)
                             }}
-                            className="inline-flex items-center p-2  w-14 h-10 justify-center text-sm text-gray-600 dark:text-white rounded-xl lg:hidden transition duration-300 ease-in-out"
+                            className="inline-flex items-center p-2 w-14 h-10 justify-center text-sm text-gray-600 dark:text-white rounded-xl lg:hidden transition duration-300 ease-in-out"
                         >
                             {nav === "hidden" ? (
                                 <div className="transition duration-300 ease-in-out text-4xl font-bold">
@@ -136,48 +137,34 @@ function Navbar() {
                         </div>
                     </div>
 
-                    <div className={`w-full ${nav} lg:flex lg:w-auto `}>
-                        <ul className="flex gap-1 items-center flex-col font-medium p-4 lg:p-0 mt-2 mb-1 rounded-2xl bg-gray-100 md:space-x-8 rtl:space-x-reverse lg:flex-row lg:mt-0 lg:bg-white dark:bg-[#111112] dark:rounded-none dark:border-t lg:dark:border-none dark:border-white">
-                            <div
-                                onClick={() => {
-                                    setDrop(!drop);
-                                }}
-                            >
+                    <div className={`w-full ${nav} lg:flex lg:w-auto`}>
+                        <ul className="flex gap-1 items-center flex-col font-medium px-4 lg:p-0 my-1 rounded-2xl bg-gray-100 md:space-x-8 rtl:space-x-reverse lg:flex-row dark:bg-[#191919] lg:dark:bg-transparent lg:bg-transparent">
+                            <div>
                                 {loginCtx.isLoggedIn ? (
-                                    <button className="flex gap-2 justify-center items-center text-xl text-black dark:text-white">
-                                        {loginCtx.profilePicture ? (
-                                            <img
-                                                className="w-8 h-8 rounded-full object-cover object-center"
-                                                src={`${loginCtx.profilePicture}`}
-                                                alt="avatar"
-                                            />
-                                        ) : (
-                                            <FaUserCircle />
-                                        )}
-                                        {loginCtx.fullName.split(" ")[0]
-                                            .length > 10
-                                            ? String(loginCtx.fullName.split(" ")).substring(0,10) + ".."
-                                            : loginCtx.fullName.split(" ")[0]}
-                                        {drop ? (
-                                            <MdOutlineKeyboardArrowUp />
-                                        ) : (
-                                            <svg
-                                                className="w-2.5 h-2.5 me-1 ms-2"
-                                                aria-hidden="true"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                fill="none"
-                                                viewBox="0 0 10 6"
-                                            >
-                                                <path
-                                                    stroke="currentColor"
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    strokeWidth="2"
-                                                    d="m1 1 4 4 4-4"
+                                    <div>
+                                        <button  onClick={() => {
+                                    setDrop(!drop);
+                                }} className="hidden lg:flex gap-2 justify-center items-center text-xl text-black dark:text-white">
+                                            {loginCtx.profilePicture ? (
+                                                <img
+                                                    className="w-8 h-8 rounded-full object-cover object-center"
+                                                    src={`${loginCtx.profilePicture}`}
+                                                    alt="avatar"
                                                 />
-                                            </svg>
-                                        )}
-                                    </button>
+                                            ) : (
+                                                <FaUserCircle />
+                                            )}
+                                            {loginCtx.fullName.split(" ")[0]
+                                                .length > 10
+                                                ? String(loginCtx.fullName.split(" ")).substring(0,10) + ".."
+                                                : loginCtx.fullName.split(" ")[0]}
+                                            {drop ? (
+                                                <MdOutlineKeyboardArrowUp />
+                                            ) : (
+                                                <MdOutlineKeyboardArrowDown />
+                                            )}
+                                        </button>
+                                </div>
                                     
                                 ) : (
                                     <Link
@@ -193,32 +180,39 @@ function Navbar() {
                             {(drop && loginCtx.isLoggedIn) && (
                                 <div
                                     id="dropdownDivider"
-                                    className="z-20 w-4/5 mt-2 text-center lg:absolute lg:rounded-md lg:right-6 2xl:right-10 top-12 lg:border bg-gray-100 divide-y divide-gray-100 rounded-xl shadow-xl lg:rouded-lg lg:w-40 md:w-1/2 dark:bg-[#151515] dark:border-gray-600 dark:border "
+                                    className="lg:z-20 w-full text-center lg:absolute lg:rounded-md lg:right-6 2xl:right-10 lg:top-14 lg:border bg-gray-100 dark:bg-[#191919] lg:bg-tansparent divide-gray-100 lg:shadow-xl lg:rouded-lg lg:w-40 md:w-1/2 lg:dark:border-gray-600 lg:dark:border"
                                 >
                                     <ul
-                                        className="pt-1 text-md font-medium text-gray-700 dark:text-gray-200"
-                                        aria-labelledby="dropdownDividerButton"
+                                        className=" items-center text-lg lg:text-sm text-gray-700 dark:text-gray-200"
                                     >
+                                         <li>
+                                            <button
+                                                onClick ={()=>{setDrop(false);setNav("hidden");Navigate("/")}}
+                                                className="text-center w-full font-[Montserrat] flex justify-center font-semibold hover:font-bold gap-2 items-center px-4 pb-1 pt-2 lg:rounded-t-md hover:bg-gray-300 dark:hover:bg-[#282828] dark:hover:text-white"
+                                            >
+                                               Home
+                                            </button>
+                                        </li>
                                         <li>
                                             <button
                                                 onClick ={()=>{setDrop(false);setNav("hidden");Navigate("/myprofile")}}
-                                                className="text-center w-full block px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#282828] dark:hover:text-white"
+                                                className="text-center w-full font-[Montserrat] flex justify-center gap-2 items-center px-4 py-1 font-semibold hover:font-bold hover:bg-gray-300 dark:hover:bg-[#282828] dark:hover:text-white"
                                             >
-                                                My Profile
+                                                 My Profile
                                             </button>
                                         </li>
                                         <li>
                                         <button
                                                 onClick ={()=>{setDrop(false);setNav("hidden");Navigate("/wishlist")}}
-                                                className="text-center w-full block px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#282828] dark:hover:text-white"
+                                                className="text-center w-full font-[Montserrat] flex justify-center gap-2 items-center px-4 py-1 font-semibold hover:font-bold hover:bg-gray-300 dark:hover:bg-[#282828] dark:hover:text-white"
                                             >
-                                                WishList
+                                                 WishList
                                             </button>
                                         </li>
                                         <li>
                                             <button
                                                 onClick ={()=>{setDrop(false);setNav("hidden");Navigate("/addproduct")}}
-                                                className="text-center w-full block px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#282828] dark:hover:text-white"
+                                                className="text-center w-full font-[Montserrat] flex justify-center gap-2 items-center px-4 py-1 font-semibold hover:font-bold hover:bg-gray-300 dark:hover:bg-[#282828] dark:hover:text-white"
                                             >
                                                 Sell Product
                                             </button>
@@ -226,15 +220,16 @@ function Navbar() {
                                         <li>
                                         <button
                                                 onClick ={()=>{setDrop(false);setNav("hidden");Navigate("/chats")}}
-                                                className="text-center w-full block px-4 py-2 pb-4 hover:bg-gray-100 dark:hover:bg-[#282828] dark:hover:text-white"
+                                                className="text-center w-full font-[Montserrat] flex justify-center gap-2 items-center px-4 py-1 font-semibold hover:font-bold hover:bg-gray-300 dark:hover:bg-[#282828] dark:hover:text-white"
                                             >
                                                 My Chats
                                             </button>
                                         </li>
                                     </ul>
-                                    <div className=" bg-red-600 rounded-b-xl lg:rounded-b-md">
+
+                                     <div className="lg:bg-red-600 lg:hover:bg-red-700 lg:rounded-b-md pb-2 lg:pb-0 border-t-1">
                                         <button
-                                            className="w-full text-center px-4 py-2 text-md font-semibold font-[Montserrat] text-white  dark:text-gray-200 dark:hover:text-white"
+                                            className="w-1/2 lg:w-full text-center px-4 py-1 lg:text-sm font-bold text-lg font-[Montserrat] text-red-500 lg:text-white lg:dark:text-gray-200"
                                             onClick={handleLogout}
                                         >
                                             {loadingCtx.loading ? (
