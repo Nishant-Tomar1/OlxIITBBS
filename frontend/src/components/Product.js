@@ -105,8 +105,8 @@ function Product() {
                     </p>
                     </div>
                     <div className='my-1'> 
-                    <span className="title-font font-extrabold text-3xl lg:text-5xl text-blue-500 tracking-wider ">
-                            ₹ {Math.abs(data.product.price)}.00
+                    <span className={`title-font font-extrabold text-3xl lg:text-5xl text-blue-500 tracking-wider `}>
+                            <span className={`${data.product.status === "sold" ? "line-through opacity-50" : ""} font-extrabold`}> ₹ {Math.abs(data.product.price)}.00</span> {data.product.status === "sold" && <span className='font-bold text-gray-400 dark:text-red-900'>Sold</span>}
                         </span>
                     </div>
                     
@@ -239,7 +239,7 @@ function Product() {
 											<div className="flex justify-between ">
 												<h1 className="title-font text-lg lg:text-lg font-bold  font-[Montserrat] text-gray-700 dark:text-gray-100 mb-1">{product.title}</h1>
 												<h1 className="title-font
-												text-lg lg:text-lg font-bold text-green-500 mb-1">₹ {product.price}</h1>
+												text-lg lg:text-lg font-bold text-green-500 mb-1">{ product.status === "active" ? ("₹" + product.price) : (<span className="font-medium text-gray-400 dark:text-red-900">Sold</span>)}</h1>
 											</div>
 											<p className="mb-3 lg:text-sm font-normal h-14 overflow-y-auto">{product.description.length > 65 ? (product.description.substr(0,65)+"...") : (product.description) }  </p>
 										</div>

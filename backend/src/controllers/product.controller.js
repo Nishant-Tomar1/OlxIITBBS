@@ -91,21 +91,21 @@ const deleteProduct = asyncHandler(
             throw new ApiError(500,"User is not authorized to delete this product")
         }
 
-        // const wishListDeletion = await Wish.deleteMany({
-        //     product : productId
-        // })
+        const wishListDeletion = await Wish.deleteMany({
+            product : productId
+        })
 
-        // if(!wishListDeletion){
-        //     throw new ApiError(500,"Something went wrong while deleting the product wishes")
-        // }
+        if(!wishListDeletion){
+            throw new ApiError(500,"Something went wrong while deleting the product wishes")
+        }
 
-        // await deleteFileFromCloudinary(product.thumbNail);
+        await deleteFileFromCloudinary(product.thumbNail);
 
-        // if(product.extraImage){
-        //     await deleteFileFromCloudinary(product.extraImage)
-        // }
+        if(product.extraImage){
+            await deleteFileFromCloudinary(product.extraImage)
+        }
 
-        // await Product.findByIdAndDelete(product._id);
+        await Product.findByIdAndDelete(product._id);
 
         res
         .status(200)

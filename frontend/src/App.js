@@ -3,6 +3,7 @@ import {
   Route,
   RouterProvider,
   createHashRouter,
+  createBrowserRouter,
   createRoutesFromElements
 } from 'react-router-dom'
 

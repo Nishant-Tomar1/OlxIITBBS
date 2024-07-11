@@ -79,7 +79,7 @@ function WishList() {
 											<div className="flex justify-between ">
 												<h1 className="title-font text-lg lg:text-lg font-bold  font-[Montserrat] text-gray-700 dark:text-gray-100 mb-1">{product.title}</h1>
 												<h1 className="title-font
-												text-lg lg:text-lg font-bold text-green-500 mb-1">₹ {product.price}</h1>
+												text-lg lg:text-lg font-bold text-green-500 mb-1">{ product.status === "active" ? ("₹" + product.price) : (<span className="font-medium text-gray-400 dark:text-red-900">Sold</span>)}</h1>
 											</div>
 											<p className="mb-3 lg:text-sm font-normal h-14 overflow-y-auto">{product.description.length > 65 ? (product.description.substr(0,65)+"...") : (product.description) }  </p>
 										</div>
