@@ -47,7 +47,9 @@ function Login() {
             loadingCtx.setLoading(true);
             const response = await axios.post(
                 `${Server}/users/login`,
-                user
+               {username : user.username.toLowerCase(), 
+                email : user.email.toLowerCase(), 
+                password : user.password}
             );
             const user2 = response.data.data.user;
 

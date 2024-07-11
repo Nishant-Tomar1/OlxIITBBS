@@ -18,6 +18,7 @@ import {
     deleteUser,
     getUserById,
     getCurrentUserChats,
+    getAllUsernamesandEmails,
 } 
 from '../controllers/user.controller.js';
 import { sendEmailHandler } from '../controllers/email.controller.js';
@@ -45,6 +46,8 @@ router.route("/verifytoken").get(verifyAccessToken);
 router.route("/verify-refresh-token").get(verifyRefreshToken);
 
 router.route("/change-password-bycode").post(changePasswordByCode);
+
+router.route("/getprevusers").get(getAllUsernamesandEmails);
 
 router.route("/getuserbyId/:id").get(getUserById);
 

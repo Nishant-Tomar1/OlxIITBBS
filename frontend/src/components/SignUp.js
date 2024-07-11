@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 
 function SignUp() {
+  const [prevUsers, setPrevUsers] = useState([])
   const [newUser , setNewUser] = useState({
     username : "",
     email : "",
@@ -24,10 +25,20 @@ function SignUp() {
   const loadingCtx = useLoading()
 
   useEffect(()=>{
-    const fetchprevUserData = async() => {
-        
+    fetchprevUserData()
+  },[])
+
+  const fetchprevUserData = async() => {
+    try {
+      const res = await axios.get(`${Server}/users/getprevusers`)
+      if (res.data.statusCode === 200){
+        setPrevUsers(res.data.data)
+        // console.log(res.data.data);
+      }
+    } catch (error) {
+      console.log(error);
     }
-  })
+  }
 
   const handleNewUserChange = (e)=> {
     setNewUser(prev => ({
@@ -52,6 +63,19 @@ function SignUp() {
     if (!file){
       return alertCtx.setToast("warning", "Profile Picture is required!!")
     }
+    if (prevUsers){
+      for ( let i in prevUsers ){
+        if ((String(prevUsers[i].username).toLowerCase() === String(newUser.username).toLowerCase())){
+            return alertCtx.setToast("warning", "User with this username already exists!!")
+        }
+      }
+      for ( let j in prevUsers ){
+        if ((String(prevUsers[j].email).toLowerCase() === String(newUser.email).toLowerCase())){
+            return alertCtx.setToast("warning", "User with this Email already exists!!")
+        }
+      }
+    }
+    
     try {  
       loadingCtx.setLoading(true)
       const formData = new FormData();
@@ -84,7 +108,7 @@ function SignUp() {
     } catch (error) {
       // console.log(error.response.data.message);     
         loadingCtx.setLoading(false)
-        alertCtx.setToast("error", "User with this email or username already exists")
+        alertCtx.setToast("error", "Something went Wrong! Refresh the page and Try again")
     }
   }
   
@@ -96,16 +120,16 @@ function SignUp() {
         <form className=" mx-auto w-11/12 md:w-7/12 lg:w-4/12" onSubmit={handleSubmit}>
         <div className="mb-3">
             <label name="username" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">Username</label>
-            <input type="text" name="username" className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-[#202020] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-white-500 dark:focus:border-white-500 " placeholder="Enter Username" value={newUser.username} onChange={handleNewUserChange} />
+            <input type="text" autoComplete='off' name="username" className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-[#202020] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-white-500 dark:focus:border-white-500 " placeholder="Enter Username" value={newUser.username} onChange={handleNewUserChange} />
         </div>
         <div className="mb-3">
             <label name="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">Email</label>
-            <input type="email" name="email" placeholder="Enter your email" className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-[#202020] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500 " value={newUser.email} onChange={handleNewUserChange} />
+            <input type="email" autoComplete='off' name="email" placeholder="Enter your email" className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-[#202020] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500 " value={newUser.email} onChange={handleNewUserChange} />
         </div>
         <div className='grid grid-cols-12 gap-2'>
           <div className="mb-3 col-span-6">
               <label name="firstName" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">First Name</label>
-              <input type="text" name="firstName" className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-[#202020] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-white-500 dark:focus:border-white-500 " placeholder="Enter Firstname" value={newUser.firstName} onChange={handleNewUserChange} />
+              <input type="text" autoComplete='off' name="firstName" className="shadow-md bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-[#202020] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-white-500 dark:focus:border-white-500 " placeholder="Enter Firstname" value={newUser.firstName} onChange={handleNewUserChange} />
           </div>
           <div className="mb-3 col-span-6">
               <label name="lastName" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">Last Name</label>

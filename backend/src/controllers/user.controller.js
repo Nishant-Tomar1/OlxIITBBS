@@ -356,6 +356,32 @@ const changeCurrentUserPassword = asyncHandler(
     }
 )
 
+const getAllUsernamesandEmails =  asyncHandler(
+    async(req,res) => {
+        const prevUsers = await User.aggregate([
+            {
+                $match : {}
+            },
+            {
+                $project : {
+                    username : 1,
+                    email : 1,
+                }
+            }
+        ])
+
+        if (!prevUsers){
+            throw new ApiError(500, "Could not fetch Previous Users data!")
+        }
+
+        return res
+        .status(200)
+        .json(
+            new ApiResponse(200, prevUsers, "Fetched Successfully")
+        )
+    }
+)
+
 const getUserById = asyncHandler(
     async(req, res) => {
         const {id :userId} = req.params;
@@ -673,7 +699,7 @@ const updateUserProfilePicture = asyncHandler(
             {new:true}
         )
         
-        deleteFileFromCloudinary(req.user.profilePicture); //delete the old profilePicture
+        await deleteFileFromCloudinary(req.user.profilePicture); //delete the old profilePicture
 
         const user = await User.findById(req.user._id).select("-password")
         
@@ -744,6 +770,7 @@ export {
     verifyEmail,
     changePasswordByCode,
     changeCurrentUserPassword,
+    getAllUsernamesandEmails,
     getUserById,
     getCurrentUser,
     getCurrentUserChats,

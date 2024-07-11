@@ -14,7 +14,7 @@ const uploadOnCloudinary = async (localFilePath) => {
     try {
         if (!localFilePath) return null
         // upload the file on cloudinary
-        const response = await cloudinary.uploader.upload(localFilePath, {
+        const response = await cloudinary.uploader.upload( localFilePath, {
           resource_type : 'auto'
         })
         // console.log(response);
@@ -43,7 +43,7 @@ const deleteFileFromCloudinary = async (url) => {
     try {
         const publicId = extractPublicId(url);
         
-        const result = await cloudinary.uploader.destroy(publicId);
+        await cloudinary.uploader.destroy(publicId);
 
     } catch (error) {
       console.error('Error deleting file:', error);
