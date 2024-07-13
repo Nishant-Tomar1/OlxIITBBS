@@ -148,10 +148,10 @@ function HomePage() {
 									<div className="py-2 lg:px-2 flex flex-col justify-between h-1/2 w-full">
 										<div className="flex flex-col">
 											<h2 className=" text-xs font-[Outfit] text-gray-400">{product.category}</h2>
-											<div className="flex justify-between ">
-												<h1 onClick={()=>{Navigate(`/products/${product._id}`)}} className="cursor-pointer title-font text-lg lg:text-lg font-bold  font-[Montserrat] text-gray-700 dark:text-gray-100 mb-1">{product.title}</h1>
+											<div className="flex justify-between max-h-8 overflow-y-auto">
+												<h1 onClick={()=>{Navigate(`/products/${product._id}`)}} className="cursor-pointer title-font text-xl lg:text-lg  font-bold  font-[Montserrat] text-gray-700 dark:text-gray-100 mb-1">{product.title}</h1>
 												<h1 className="title-font
-												text-lg lg:text-lg font-extrabold text-green-400 mb-1 tracking-wide">₹ {Math.abs(product.price)}</h1>
+												text-lg lg:text-lg font-bold text-green-500 mb-1">{ product.status === "sold" ? (<span className="font-medium text-gray-400 dark:text-red-900">Sold</span>) : ("₹" + product.price) }</h1>
 											</div>
 											<p className="mb-3 text-sm lg:text-sm font-light md:font-normal h-14 overflow-y-auto">{product.description.length > 65 ? (product.description.substr(0,65)+"...") : (product.description) }  </p>
 										</div>

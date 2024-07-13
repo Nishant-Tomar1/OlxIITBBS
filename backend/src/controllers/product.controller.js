@@ -158,7 +158,6 @@ const getProducts = asyncHandler(
                     updatedAt : 0,
                     owner : 0,
                     extraImage : 0,
-                    status : 0,
                     __v : 0
                   }  
                 },
