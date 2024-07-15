@@ -22,7 +22,8 @@ function Login() {
     const loadingCtx = useLoading();
 
     useEffect(()=>{
-    },[Navigate])
+        // console.log("hello");
+    },[loginCtx.userId])
 
     const handleUserChange = (e) => {
         const { name, value } = e.target;
@@ -53,7 +54,7 @@ function Login() {
             );
             const user2 = response.data.data.user;
 
-            if (user2) {
+            if (user2 && response.data.success) {
                 loginCtx.login(
                     response.data.data.accessToken,
                     response.data.data.refreshToken,
@@ -61,15 +62,20 @@ function Login() {
                     user2.fullName,
                     user2.profilePicture
                 );
-            }
-
-            if (response.data.success) {
                 loadingCtx.setLoading(false);
                 alertCtx.setToast("success", `${response.data.message} `);
-                Navigate("/" )
+                SetUser( prev => ({
+                    ...prev,
+                    username : "",
+                    email : "",
+                    password :""
+                }))
+                Navigate("/")
                 window.scrollTo(0,0)
             }
+
         } catch (error) {
+            console.log(error);
             loadingCtx.setLoading(false);
             alertCtx.setToast(
                 "error",

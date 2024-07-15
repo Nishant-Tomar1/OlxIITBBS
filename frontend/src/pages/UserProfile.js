@@ -77,7 +77,7 @@ function UserProfile() {
 
   return (
     
-    <div>
+    <>
         <div className="bg-gray-100 dark:bg-[#191919] shadow-md flex flex-col w-full lg:flex-row justify-center lg:pt-3">
             <div className="flex flex-col items-center justify-center p-4 lg:pr-4 lg:w-1/3 py-3 lg:items-center ps-[10%]">
                 {user.profilePicture && (
@@ -209,7 +209,7 @@ function UserProfile() {
         </div>
         
         <div className="flex flex-col w-full items-center bg-gray-100 dark:bg-[#191919] dark:text-white pb-4">
-            <div className="">
+            <div className="w-full">
                 {!isProductListEmpty && (
                     <div className="w-full text-center font-bold font-[Raleway] text-2xl lg:text-3xl ">
                         Products Owned by {user.firstName}
@@ -231,76 +231,28 @@ function UserProfile() {
                                             alt=""
                                         />
 
-                                        <div className="py-2 lg:px-2 flex flex-col justify-between h-1/2 w-full">
-                                            <div className="flex flex-col">
-                                                <h2 className=" text-xs font-[Outfit] text-gray-400">
-                                                    {product.category}
-                                                </h2>
-                                                <div className="flex justify-between">
-                                                    <h1 className="title-font text-lg lg:text-lg font-bold  font-[Montserrat] text-gray-700 dark:text-gray-100 mb-1 overflow-auto">
-                                                        {product.title}
-                                                    </h1>
-                                                    <h1
-                                                        className={`title-font
-                                              text-lg lg:text-lg font-bold ${product.status === "active" ? "text-green-500" : "text-gray-400 dark:text-red-900"} mb-1`}
-                                                    >
-                                                      {product.status === "active" ? `₹ ${Math.abs(product.price)}` : "Sold"}
-                                                    </h1>
-                                                </div>
-                                                <p className="mb-3 lg:text-sm font-normal h-14 overflow-y-auto">
-                                                    {product?.description
-                                                        .length > 65
-                                                        ? product.description.substr(
-                                                              0,
-                                                              65
-                                                          ) + "..."
-                                                        : product.description}{" "}
-                                                </p>
-                                            </div>
-                                            <div className="flex items-center justify-between">
-                                                <Link
-                                                    to={`/products/${product._id}`}
-                                                    className="text-teal-400 hover:text-teal-500 font-medium inline-flex items-center md:mb-2 lg:mb-0 "
-                                                >
-                                                    Show More
-                                                    <svg
-                                                        className="w-4 h-4 ml-2"
-                                                        viewBox="0 0 24 24"
-                                                        stroke="currentColor"
-                                                        strokeWidth="2"
-                                                        fill="none"
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                    >
-                                                        <path d="M5 12h14"></path>
-                                                        <path d="M12 5l7 7-7 7"></path>
-                                                    </svg>
-                                                </Link>
-                                                <button
-                                                    title={
-                                                        userWishList.includes(
-                                                            product._id
-                                                        )
-                                                            ? "Remove from wishlist"
-                                                            : "Add to WishList"
-                                                    }
-                                                    onClick={() => {
-                                                        handleWishChange(
-                                                            product._id
-                                                        );
-                                                    }}
-                                                    className="rounded-3xl flex justify-center text-red-500 hover:text-red-600 items-center text-2xl "
-                                                >
-                                                    {userWishList.includes(
-                                                        product._id
-                                                    ) ? (
-                                                        <FaHeart />
-                                                    ) : (
-                                                        <FaRegHeart />
-                                                    )}
-                                                </button>
-                                            </div>
-                                        </div>
+                                    <div className="py-2 lg:px-2 flex flex-col justify-between h-1/2 w-full">
+										<div className="flex flex-col">
+											<h2 className=" text-xs font-[Outfit] text-gray-400">{product.category}</h2>
+											<div className="flex justify-between max-h-8 overflow-y-auto">
+												<h1 onClick={()=>{Navigate(`/products/${product._id}`)}} className="cursor-pointer title-font text-xl lg:text-lg  font-bold  font-[Montserrat] text-gray-700 dark:text-gray-100 mb-1">{product.title}</h1>
+												<h1 className="title-font
+												text-lg lg:text-lg font-bold text-green-500 mb-1">{ product.status === "sold" ? (<span className="font-medium text-gray-400 dark:text-red-900">Sold</span>) : ("₹" + product.price) }</h1>
+											</div>
+											<p className="mb-3 text-sm lg:text-sm font-light md:font-normal h-14 overflow-y-auto">{product.description.length > 65 ? (product.description.substr(0,65)+"...") : (product.description) }  </p>
+										</div>
+										<div className="flex items-center justify-between">
+											<Link to={`/products/${product._id}`} className="text-teal-400 hover:text-teal-500 font-medium inline-flex items-center md:mb-2 lg:mb-0 " >Show More
+												<svg className="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+												<path d="M5 12h14"></path>
+												<path d="M12 5l7 7-7 7"></path>
+												</svg>
+											</Link>
+												<button title={userWishList.includes(product._id) ?  "Remove from wishlist" : "Add to WishList"} onClick={()=>{handleWishChange(product._id)}} className="rounded-3xl flex justify-center text-red-500 hover:text-red-600 items-center text-2xl ">
+                                                	{userWishList.includes(product._id) ? <FaHeart/> : <FaRegHeart />}
+                                            	</button>
+										</div>
+									</div>
                                     </div>
                                 </div>
                             ))
@@ -348,7 +300,7 @@ function UserProfile() {
                 </div>
             </div>
         </div>
-    </div>
+    </>
 
   );
 }
