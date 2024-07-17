@@ -127,8 +127,8 @@ function HomePage() {
 							<div onClick={()=>{Navigate("/products/categories/Sports and Hobbies")}} className="cursor-pointer text-xs lg:text-md mt-2 font-medium text-gray-700 dark:text-gray-100 text-center">Sports and Hobbies</div>
 						</div>
 						<div className="flex flex-col justify-center items-center w-1/3 p-3">
-							<img onClick={()=>{Navigate("/products/categories/Vehicles")}} className="cursor-pointer w-8 h-8 md:w-10 md:h-10 rounded-full" src={imageList[5]} alt="" />
-							<div onClick={()=>{Navigate("/products/categories/Vehicles")}} className="cursor-pointer text-xs lg:text-md mt-2 font-medium text-gray-700 dark:text-gray-100 text-center">Stationary</div>
+							<img onClick={()=>{Navigate("/products/categories/Stationary")}} className="cursor-pointer w-8 h-8 md:w-10 md:h-10 rounded-full" src={imageList[5]} alt="" />
+							<div onClick={()=>{Navigate("/products/categories/Stationary")}} className="cursor-pointer text-xs lg:text-md mt-2 font-medium text-gray-700 dark:text-gray-100 text-center">Stationary</div>
 						</div>
 
 					</div>
