@@ -57,8 +57,8 @@ function App() {
     }
 
     Verify(cookies.accessToken, cookies.refreshToken);
-    
-  },[loginCtx])
+  
+  },[loginCtx.isLoggedIn])
 
   const router = createHashRouter(
     createRoutesFromElements(   

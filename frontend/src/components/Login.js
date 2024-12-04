@@ -16,7 +16,7 @@ function Login() {
         password: "",
     });
     const [showpassword, setShowPassword]  = useState(false)
-    const Navigate = useNavigate();
+    const navigate = useNavigate();
     const loginCtx = useLogin()
     const alertCtx = useAlert();
     const loadingCtx = useLoading();
@@ -71,7 +71,7 @@ function Login() {
                     email : "",
                     password :""
                 }))
-                Navigate("/")
+                navigate("/")
                 window.scrollTo(0,0)
             }
 
