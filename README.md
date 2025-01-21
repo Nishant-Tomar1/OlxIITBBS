@@ -1,5 +1,5 @@
 
-# OlxIITBBS - [@Link](https://olxiitbbs.onrender.com)
+# OlxIITBBS - [@Link](https://olxiitbbs.netlify.app)
 
 Welcome to OlxIITBBS, your one-stop solution for buying and selling pre-owned items within the IIT BBS community.
 
