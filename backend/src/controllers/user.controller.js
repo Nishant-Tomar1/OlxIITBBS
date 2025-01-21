@@ -48,7 +48,7 @@ const verifyAccessToken = asyncHandler(
         if (!user){
             throw new ApiError(500, "No user with this accesstoken exists")
         }
-        
+          
         return res
         .status(200)
         .json(
@@ -251,7 +251,7 @@ const loginUser = asyncHandler(
         const {username,email,password} = req.body;
 
         if (!username && !email){
-            throw new ApiError(400, "Username or Email is required");
+            throw new ApiError(400, "Username or Email is required",);
         }
 
         const user = await User.findOne({

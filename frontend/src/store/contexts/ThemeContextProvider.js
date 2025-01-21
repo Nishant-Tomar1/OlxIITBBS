@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 const themeContext = createContext({
     theme : "dark",
-    toggleTheme : ()=> {}
+    toggleTheme : () => {}
 })
 
 function ThemeContextProvider({children}){

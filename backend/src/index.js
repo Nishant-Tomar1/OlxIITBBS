@@ -13,7 +13,7 @@ dotenv.config({
 
 const server = http.createServer(app)
 
-const io = new socketIo(server,{
+const io = new socketIo( server , {
     cors : {
         origin : process.env.CORS_ORIGIN,
         credentials : true
