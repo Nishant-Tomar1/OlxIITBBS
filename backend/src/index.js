@@ -22,7 +22,7 @@ const io = new socketIo( server , {
 )
 
 const backendUrl = "https://olxiitbbs.onrender.com/api/v1/products/getproducts?page=1&limit=1";
-cron.schedule("*/10 * * * *", function () {
+cron.schedule("*/1 * * * *", function () {
   console.log("Restarting server");
 
   https
