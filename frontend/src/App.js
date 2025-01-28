@@ -2,8 +2,8 @@ import React, { useEffect } from "react"
 import {
   Route,
   RouterProvider,
-  // createHashRouter,
-  createBrowserRouter,
+  createHashRouter,
+  // createBrowserRouter,
   createRoutesFromElements
 } from 'react-router-dom'
 
@@ -60,7 +60,7 @@ function App() {
   
   },[loginCtx.isLoggedIn])
 
-  const router = createBrowserRouter(
+  const router = createHashRouter(
     createRoutesFromElements(   
       <Route path="/" element={<Layout />}>
         <Route path="/" element={<HomePage />} />
